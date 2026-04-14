@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Hidden pages — advisory only, not enforceable
+Disallow: /2026-04-15/
