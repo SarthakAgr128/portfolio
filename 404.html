@@ -4,17 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 — Page Not Found</title>
-  <meta name="theme-color" content="#0a0a0f">
+  <meta name="theme-color" content="#050510">
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <!-- Favicon -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -22,17 +18,26 @@
   <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
+  <div class="gradient-mesh" aria-hidden="true">
+    <div class="blob blob--1"></div>
+    <div class="blob blob--2"></div>
+    <div class="blob blob--3"></div>
+  </div>
+
   <div class="error-page">
     <div class="error-page__terminal">
       <p class="error-page__line">
-        <span class="prompt">$</span> cat /page
+        <span class="prompt">$</span> curl -I /page
       </p>
       <p class="error-page__line">
-        <span class="error">cat: /page: No such file or directory</span>
+        <span class="err">HTTP/1.1 404 Not Found</span>
       </p>
-      <div class="error-page__code">404</div>
-      <p class="error-page__msg">The packet got lost in transit.</p>
-      <a href="/" class="btn btn--primary">&larr; Back to Home</a>
+      <p class="error-page__line">
+        <span class="prompt">$</span> echo "well, this is awkward"
+      </p>
+      <div class="error-page__code gradient-text">404</div>
+      <p class="error-page__msg">The packet got lost in transit. It happens to the best of us.</p>
+      <a href="./" class="btn btn--primary">take me home</a>
     </div>
   </div>
 </body>

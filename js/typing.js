@@ -2,44 +2,69 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = document.querySelector('.typing-text');
   if (!el) return;
 
+  const phrases = (el.dataset.phrases || '').split('|').filter(Boolean);
+  if (!phrases.length) return;
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    el.textContent = el.dataset.phrases?.split('|')[0] || '';
+    el.textContent = phrases[0];
     return;
   }
 
-  const phrases = (el.dataset.phrases || '').split('|');
-  if (!phrases.length) return;
-
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$&*';
   let phraseIdx = 0;
-  let charIdx = 0;
-  let isDeleting = false;
 
-  const TYPING_SPEED = 55;
-  const DELETING_SPEED = 30;
-  const PAUSE_AFTER_TYPING = 2200;
-  const PAUSE_AFTER_DELETING = 400;
+  function decodePhrase(text, cb) {
+    const len = text.length;
+    const duration = Math.min(len * 35, 800);
+    const steps = 18;
+    const stepMs = duration / steps;
+    let step = 0;
 
-  function tick() {
-    const currentPhrase = phrases[phraseIdx];
-    const displayed = currentPhrase.substring(0, charIdx);
-    el.textContent = displayed;
-
-    if (!isDeleting && charIdx === currentPhrase.length) {
-      setTimeout(() => { isDeleting = true; tick(); }, PAUSE_AFTER_TYPING);
-      return;
-    }
-
-    if (isDeleting && charIdx === 0) {
-      isDeleting = false;
-      phraseIdx = (phraseIdx + 1) % phrases.length;
-      setTimeout(tick, PAUSE_AFTER_DELETING);
-      return;
-    }
-
-    charIdx += isDeleting ? -1 : 1;
-    const speed = isDeleting ? DELETING_SPEED : TYPING_SPEED;
-    setTimeout(tick, speed);
+    const interval = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        if (text[i] === ' ') {
+          out += ' ';
+        } else if (i < len * progress) {
+          out += text[i];
+        } else {
+          out += chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+      el.textContent = out;
+      if (step >= steps) {
+        clearInterval(interval);
+        el.textContent = text;
+        cb();
+      }
+    }, stepMs);
   }
 
-  setTimeout(tick, 800);
+  function erasePhrase(text, cb) {
+    let i = text.length;
+    const interval = setInterval(() => {
+      i--;
+      el.textContent = text.substring(0, i);
+      if (i <= 0) {
+        clearInterval(interval);
+        cb();
+      }
+    }, 25);
+  }
+
+  function cycle() {
+    const phrase = phrases[phraseIdx];
+    decodePhrase(phrase, () => {
+      setTimeout(() => {
+        erasePhrase(phrase, () => {
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+          setTimeout(cycle, 300);
+        });
+      }, 2500);
+    });
+  }
+
+  setTimeout(cycle, 600);
 });
