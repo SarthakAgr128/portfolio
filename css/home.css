@@ -773,6 +773,22 @@ body::before {
 .currently__detail { font-size: 0.8rem; color: var(--text-tertiary); margin-top: 4px; }
 
 /* =========================
+   INTERACTIVE BACKGROUND
+   ========================= */
+
+.cursor-aura {
+  position: fixed;
+  top: 0; left: 0;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.12) 0%, rgba(255, 107, 107, 0.04) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: multiply;
+}
+
+/* =========================
    SKILL BADGES
    ========================= */
 

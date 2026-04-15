@@ -14,7 +14,43 @@
     initHorizontalScroll();
     initSmoothScroll();
     initMagneticButtons();
+    initInteractiveBackground();
   });
+
+  function initInteractiveBackground() {
+    // Create an aura element
+    const aura = document.createElement('div');
+    aura.className = 'cursor-aura';
+    document.body.appendChild(aura);
+
+    window.addEventListener('mousemove', (e) => {
+      // Aura follows mouse
+      gsap.to(aura, {
+        x: e.clientX,
+        y: e.clientY,
+        duration: 0.8,
+        ease: 'power3.out',
+        overwrite: 'auto'
+      });
+
+      // Blobs repel from mouse
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) * 0.05;
+      const dy = (e.clientY - cy) * 0.05;
+      
+      blobs.forEach((blob, i) => {
+        const factor = (i + 1) * 0.5;
+        gsap.to(blob, {
+          x: -dx * factor,
+          y: -dy * factor,
+          duration: 2,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        });
+      });
+    });
+  }
 
   function initHeroAnimation() {
     const tl = gsap.timeline();
@@ -26,17 +62,6 @@
       .fromTo('.home-hero__cta .btn', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'back.out(1.7)' }, '-=0.6')
       .fromTo('.home-hero__photo-frame', { opacity: 0, scale: 0.8, rotate: -5 }, { opacity: 1, scale: 1, rotate: 0, duration: 1.5, ease: 'power4.out' }, '-=1.2')
       .fromTo('.home-hero__float', { opacity: 0, scale: 0, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1, stagger: 0.2, ease: 'back.out(2)' }, '-=1');
-
-    gsap.to('.rotating-macbook', {
-      rotation: 360,
-      y: 100,
-      scrollTrigger: {
-        trigger: '.home-hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1
-      }
-    });
   }
 
   function initScrollReveals() {
