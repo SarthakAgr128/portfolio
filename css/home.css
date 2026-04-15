@@ -1010,3 +1010,12 @@ body::before {
   [data-parallax] { transform: none !important; }
   .memory-card { transform: none !important; opacity: 1 !important; }
 }
+
+.rotating-macbook {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  font-size: 80px;
+  z-index: 10;
+}
+

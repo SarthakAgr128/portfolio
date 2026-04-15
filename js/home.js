@@ -52,6 +52,12 @@
               el.style.transform = `translateY(${scrollY * speed}px)`;
             }
           });
+          
+          const macbook = document.querySelector('.rotating-macbook');
+          if (macbook) {
+            macbook.style.transform = `rotate(${scrollY * 0.2}deg)`;
+          }
+
           ticking = false;
         });
         ticking = true;
