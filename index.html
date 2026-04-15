@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sarthak Agrawal</title>
-  <meta name="description" content="Hey — I'm Sarthak. Puzzle solver, coffee snob, board game tactician, and someone who builds things for the internet.">
-  <meta name="theme-color" content="#050510">
+  <meta name="description" content="Puzzle solver, coffee snob, board game tactician, and someone who builds useful things for the internet.">
+  <meta name="theme-color" content="#FBF8F3">
 
   <meta property="og:title" content="Sarthak Agrawal">
   <meta property="og:description" content="Puzzle solver, coffee snob, and builder of things.">
@@ -20,8 +20,6 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/theme.css">
   <link rel="stylesheet" href="css/home.css">
-  <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -32,7 +30,7 @@
     <div class="cursor__ring"></div>
   </div>
 
-  <!-- Background -->
+  <!-- Soft gradient blobs -->
   <div class="gradient-mesh" aria-hidden="true">
     <div class="blob blob--1"></div>
     <div class="blob blob--2"></div>
@@ -47,6 +45,7 @@
         <a href="#about" class="home-nav__link">about</a>
         <a href="#gallery" class="home-nav__link">photos</a>
         <a href="#interests" class="home-nav__link">interests</a>
+        <a href="#contact" class="home-nav__link">contact</a>
         <a href="workprofile/" class="home-nav__link home-nav__link--accent magnetic">work</a>
       </div>
     </div>
@@ -60,8 +59,7 @@
         <div class="home-hero__text">
           <span class="home-hero__wave">hey there 👋</span>
           <h1 class="home-hero__name">
-            I'm <span class="gradient-text scramble-text">Sarthak</span><br>
-            <span class="scramble-text">Agrawal</span>
+            I'm <span class="accent">Sarthak</span><br>Agrawal
           </h1>
           <p class="home-hero__desc">
             Puzzle solver, coffee snob, board game tactician, and someone who
@@ -72,11 +70,14 @@
             <span>☕ Pour-over loyalist</span>
             <span>🎲 Board game night regular</span>
           </div>
+          <div class="home-hero__cta">
+            <a href="#about" class="btn btn--primary magnetic">get to know me</a>
+            <a href="workprofile/" class="btn btn--outline magnetic">see my work →</a>
+          </div>
         </div>
 
-        <div class="home-hero__photo">
-          <div class="home-hero__photo-frame tilt-card">
-            <div class="tilt-card__shine"></div>
+        <div class="home-hero__photo" data-parallax="-0.06">
+          <div class="home-hero__photo-frame">
             <img
               src="assets/avatar.webp"
               alt="Sarthak Agrawal"
@@ -85,11 +86,20 @@
               loading="eager"
             >
           </div>
-          <div class="home-hero__photo-float home-hero__photo-float--top">
-            ☕ 4th cup today
-          </div>
-          <div class="home-hero__photo-float home-hero__photo-float--bottom">
-            🎵 lo-fi & chill
+          <div class="home-hero__float home-hero__float--top">☕ 4th cup today</div>
+          <div class="home-hero__float home-hero__float--bottom">🎵 lo-fi & chill</div>
+
+          <!-- Rotating scroll badge -->
+          <div class="rotating-badge" aria-hidden="true">
+            <svg class="rotating-badge__text" viewBox="0 0 100 100">
+              <defs>
+                <path id="circle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/>
+              </defs>
+              <text font-size="9.5" font-family="Inter, sans-serif" font-weight="600" fill="#1A1A2E" letter-spacing="3">
+                <textPath href="#circle">SCROLL · EXPLORE · DISCOVER · </textPath>
+              </text>
+            </svg>
+            <span class="rotating-badge__icon">↓</span>
           </div>
         </div>
       </div>
@@ -109,16 +119,13 @@
         <span class="home-marquee__item">board game nerd <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">sci-fi reader <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">amateur chef <span class="home-marquee__dot"></span></span>
-        <span class="home-marquee__item">music lover <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">night owl <span class="home-marquee__dot"></span></span>
-        <!-- duplicate -->
         <span class="home-marquee__item">traveler <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">puzzle solver <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">coffee enthusiast <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">board game nerd <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">sci-fi reader <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">amateur chef <span class="home-marquee__dot"></span></span>
-        <span class="home-marquee__item">music lover <span class="home-marquee__dot"></span></span>
         <span class="home-marquee__item">night owl <span class="home-marquee__dot"></span></span>
       </div>
     </div>
@@ -151,38 +158,63 @@
           </div>
 
           <div class="home-about__sidebar stagger">
-            <div class="home-about__card tilt-card reveal">
-              <div class="tilt-card__shine"></div>
-              <div class="home-about__card-emoji">📍</div>
-              <div class="home-about__card-label">Based in</div>
-              <div class="home-about__card-value">India</div>
+            <div class="about-card reveal">
+              <div class="about-card__emoji">📍</div>
+              <div class="about-card__label">Based in</div>
+              <div class="about-card__value">India</div>
             </div>
-
-            <div class="home-about__card tilt-card reveal">
-              <div class="tilt-card__shine"></div>
-              <div class="home-about__card-emoji">🎵</div>
-              <div class="home-about__card-label">Listening to</div>
-              <div class="home-about__card-value">
+            <div class="about-card reveal">
+              <div class="about-card__emoji">🎵</div>
+              <div class="about-card__label">Listening to</div>
+              <div class="about-card__value">
                 <span class="music-bars" aria-hidden="true">
                   <span></span><span></span><span></span><span></span>
                 </span>
                 lo-fi beats to exist to
               </div>
             </div>
-
-            <div class="home-about__card tilt-card reveal">
-              <div class="tilt-card__shine"></div>
-              <div class="home-about__card-emoji">☕</div>
-              <div class="home-about__card-label">Coffee today</div>
-              <div class="home-about__card-value" style="font-family: var(--font-mono); color: var(--accent-amber);">████░ 4/5</div>
+            <div class="about-card reveal">
+              <div class="about-card__emoji">☕</div>
+              <div class="about-card__label">Coffee today</div>
+              <div class="about-card__value" style="font-family:var(--font-mono);color:var(--accent-amber)">████░ 4/5</div>
             </div>
-
-            <div class="home-about__card tilt-card reveal">
-              <div class="tilt-card__shine"></div>
-              <div class="home-about__card-emoji">🧠</div>
-              <div class="home-about__card-label">Personality type</div>
-              <div class="home-about__card-value">INTJ who pretends to be an ENFP at parties</div>
+            <div class="about-card reveal">
+              <div class="about-card__emoji">🧠</div>
+              <div class="about-card__label">Personality</div>
+              <div class="about-card__value">INTJ who pretends to be an ENFP at parties</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== MEMORY CARD STACK (scroll-driven) ===== -->
+    <section class="memories">
+      <div class="memories__sticky">
+        <div class="memories__heading">
+          <p class="home-section__label">scroll through</p>
+          <h2 class="home-section__title" style="margin-bottom:1.5rem">Moments &amp; Memories</h2>
+        </div>
+        <div class="memories__stack">
+          <div class="memory-card">
+            <div class="memory-card__photo">your photo here</div>
+            <p class="memory-card__caption">"That time the sunset was ridiculous"</p>
+          </div>
+          <div class="memory-card">
+            <div class="memory-card__photo">travel snap</div>
+            <p class="memory-card__caption">"Getting lost is just unplanned exploring"</p>
+          </div>
+          <div class="memory-card">
+            <div class="memory-card__photo">with friends</div>
+            <p class="memory-card__caption">"Board game night. I won. Obviously."</p>
+          </div>
+          <div class="memory-card">
+            <div class="memory-card__photo">cooking moment</div>
+            <p class="memory-card__caption">"It tasted better than it looked, I promise"</p>
+          </div>
+          <div class="memory-card">
+            <div class="memory-card__photo">adventure</div>
+            <p class="memory-card__caption">"Every good story starts with 'so anyway…'"</p>
           </div>
         </div>
       </div>
@@ -191,25 +223,14 @@
     <!-- ===== PHOTO GALLERY ===== -->
     <section id="gallery" class="home-section">
       <div class="container">
-        <p class="home-section__label reveal">some moments</p>
+        <p class="home-section__label reveal">snapshots</p>
         <h2 class="home-section__title reveal">Gallery</h2>
-
         <div class="gallery__grid stagger">
-          <div class="gallery__item gallery__item--tall reveal">
-            <div class="gallery__item-inner">your photo here</div>
-          </div>
-          <div class="gallery__item reveal">
-            <div class="gallery__item-inner">travel snap</div>
-          </div>
-          <div class="gallery__item reveal">
-            <div class="gallery__item-inner">with friends</div>
-          </div>
-          <div class="gallery__item reveal">
-            <div class="gallery__item-inner">hobby moment</div>
-          </div>
-          <div class="gallery__item reveal">
-            <div class="gallery__item-inner">adventure</div>
-          </div>
+          <div class="gallery__item gallery__item--tall reveal"><div class="gallery__item-inner">your photo</div></div>
+          <div class="gallery__item reveal"><div class="gallery__item-inner">travel</div></div>
+          <div class="gallery__item reveal"><div class="gallery__item-inner">friends</div></div>
+          <div class="gallery__item reveal"><div class="gallery__item-inner">hobby</div></div>
+          <div class="gallery__item reveal"><div class="gallery__item-inner">adventure</div></div>
         </div>
       </div>
     </section>
@@ -218,60 +239,48 @@
     <section id="interests" class="home-section">
       <div class="container">
         <p class="home-section__label reveal">what makes me tick</p>
-        <h2 class="home-section__title reveal">Interests & Hobbies</h2>
-
+        <h2 class="home-section__title reveal">Interests &amp; Hobbies</h2>
         <div class="interests__grid stagger">
-          <div class="interest-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="interest-card reveal">
             <div class="interest-card__emoji">🎲</div>
             <div>
               <div class="interest-card__title">Board Games</div>
-              <div class="interest-card__desc">Strategy games with deception mechanics are my weakness. If you've played Coup or Secret Hitler, we'll get along.</div>
+              <div class="interest-card__desc">Strategy games with deception mechanics are my weakness. Coup, Secret Hitler — you name it.</div>
             </div>
           </div>
-
-          <div class="interest-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="interest-card reveal">
             <div class="interest-card__emoji">☕</div>
             <div>
               <div class="interest-card__title">Coffee</div>
               <div class="interest-card__desc">Pour-over or we can't be friends. Currently obsessed with Ethiopian single-origin light roasts.</div>
             </div>
           </div>
-
-          <div class="interest-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="interest-card reveal">
             <div class="interest-card__emoji">🍳</div>
             <div>
               <div class="interest-card__title">Cooking</div>
               <div class="interest-card__desc">Kitchen experiments that are mostly successful. Only needed the fire extinguisher twice this year.</div>
             </div>
           </div>
-
-          <div class="interest-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="interest-card reveal">
             <div class="interest-card__emoji">📚</div>
             <div>
               <div class="interest-card__title">Reading</div>
-              <div class="interest-card__desc">Sci-fi and non-fiction in equal measure. Asimov, Ted Chiang, and anything about how the world actually works.</div>
+              <div class="interest-card__desc">Sci-fi and non-fiction in equal measure. Asimov, Ted Chiang, and anything about how the world works.</div>
             </div>
           </div>
-
-          <div class="interest-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="interest-card reveal">
             <div class="interest-card__emoji">🌏</div>
             <div>
               <div class="interest-card__title">Travel</div>
               <div class="interest-card__desc">Chasing good food and interesting history. The best trips are the ones where the plan falls apart.</div>
             </div>
           </div>
-
-          <div class="interest-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="interest-card reveal">
             <div class="interest-card__emoji">🧩</div>
             <div>
-              <div class="interest-card__title">Puzzles & CTFs</div>
-              <div class="interest-card__desc">I solve logic puzzles for fun. Yes, for fun. CTF competitions are just puzzles with bragging rights.</div>
+              <div class="interest-card__title">Puzzles</div>
+              <div class="interest-card__desc">I solve logic puzzles for fun. Yes, for fun. CTFs are just puzzles with bragging rights.</div>
             </div>
           </div>
         </div>
@@ -283,34 +292,26 @@
       <div class="container">
         <p class="home-section__label reveal">right now</p>
         <h2 class="home-section__title reveal">What I'm up to</h2>
-
         <div class="currently__grid stagger">
-          <div class="currently__item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="currently__item reveal">
             <div class="currently__icon">📖</div>
             <div class="currently__label">Reading</div>
             <div class="currently__value">Project Hail Mary</div>
             <div class="currently__detail">Andy Weir — 70% through, can't put it down</div>
           </div>
-
-          <div class="currently__item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="currently__item reveal">
             <div class="currently__icon">🎵</div>
             <div class="currently__label">Listening</div>
             <div class="currently__value">Lo-fi + post-rock</div>
             <div class="currently__detail">Godspeed You! Black Emperor on repeat</div>
           </div>
-
-          <div class="currently__item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="currently__item reveal">
             <div class="currently__icon">🎬</div>
             <div class="currently__label">Watching</div>
             <div class="currently__value">Severance S2</div>
             <div class="currently__detail">The vibes are immaculate and terrifying</div>
           </div>
-
-          <div class="currently__item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
+          <div class="currently__item reveal">
             <div class="currently__icon">🔨</div>
             <div class="currently__label">Building</div>
             <div class="currently__value">This website</div>
@@ -321,15 +322,17 @@
     </section>
 
     <!-- ===== WORK CTA ===== -->
-    <section class="work-cta">
-      <div class="container">
-        <p class="home-section__label reveal">the professional side</p>
-        <h2 class="work-cta__title reveal">Curious what I do for a living?</h2>
-        <p class="work-cta__desc reveal">
-          I'm a security engineer by profession — pentesting, tool building, CTF competing, and
-          making the internet slightly less broken. Check out the full story.
-        </p>
-        <a href="workprofile/" class="btn btn--primary magnetic reveal">see my work profile →</a>
+    <section class="home-section">
+      <div class="work-cta">
+        <div class="container">
+          <p class="home-section__label reveal">the professional side</p>
+          <h2 class="work-cta__title reveal">Curious what I do for a living?</h2>
+          <p class="work-cta__desc reveal">
+            I'm a security engineer by profession — pentesting, tool building, CTF competing,
+            and making the internet slightly less broken.
+          </p>
+          <a href="workprofile/" class="btn btn--primary magnetic reveal">see my work profile →</a>
+        </div>
       </div>
     </section>
 
@@ -338,7 +341,6 @@
       <div class="container">
         <h2 class="home-contact__title reveal">Let's be friends.</h2>
         <p class="home-contact__subtitle reveal">Or at least internet acquaintances.</p>
-
         <div class="home-contact__links reveal">
           <a href="mailto:hello@sarthak.dev" class="home-contact__link magnetic" data-copy="hello@sarthak.dev" aria-label="Copy email">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
@@ -368,13 +370,11 @@
 
   <footer class="home-footer">
     <div class="container">
-      <p class="home-footer__text">
-        &copy; 2026 Sarthak Agrawal &middot; made with curiosity and too much coffee
-      </p>
+      <p class="home-footer__text">&copy; 2026 Sarthak Agrawal · made with curiosity and too much coffee</p>
     </div>
   </footer>
 
   <script src="js/effects.js"></script>
-  <script src="js/animations.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>
