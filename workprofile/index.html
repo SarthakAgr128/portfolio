@@ -58,7 +58,7 @@
   <main id="main">
 
     <section class="hero">
-      <div class="container">
+      <div class="container hero__grid">
         <div class="hero__content">
           <div class="hero__badge"><span class="dot" aria-hidden="true"></span> open to opportunities</div>
           <h1 class="hero__name">
@@ -66,11 +66,44 @@
             <span class="gradient-text scramble-text">Agrawal</span>
           </h1>
           <p class="hero__subtitle">
-            I break into systems (with permission), build tools that catch bad guys, and occasionally write code that compiles on the first try.
+            I architect proactive attack surface reduction, build detection pipelines, and partner with incident response teams so they can focus on stopping adversaries instead of rewriting dashboards.
           </p>
           <div class="hero__cta">
             <a href="#projects" class="btn btn--primary magnetic">see what I've built</a>
             <a href="#contact" class="btn btn--glass magnetic">say hello</a>
+          </div>
+          <div class="hero__meta-grid">
+            <div class="hero__meta-card">
+              <span class="hero__meta-label">Avg response window</span>
+              <strong>48ms</strong>
+            </div>
+            <div class="hero__meta-card">
+              <span class="hero__meta-label">Programs led</span>
+              <strong>12</strong>
+            </div>
+            <div class="hero__meta-card">
+              <span class="hero__meta-label">Ops uptime</span>
+              <strong>99.97%</strong>
+            </div>
+          </div>
+        </div>
+        <div class="hero__panel">
+          <div class="console-panel" aria-live="polite">
+            <div class="console-panel__header">
+              <span>command feed</span>
+              <span class="console-panel__dot" aria-hidden="true"></span>
+            </div>
+            <div class="console-feed" id="console-feed">
+              <p class="console-line"><span class="prompt">[sys]</span> aligning telemetry…</p>
+              <p class="console-line"><span class="prompt">[sys]</span> scanning borderless infra</p>
+              <p class="console-line"><span class="prompt">[sys]</span> rules synced with blue team</p>
+            </div>
+          </div>
+          <div class="radar" aria-hidden="true">
+            <span class="radar__ring radar__ring--outer"></span>
+            <span class="radar__ring radar__ring--inner"></span>
+            <span class="radar__blip"></span>
+            <p class="radar__label">Threat radar — nominal</p>
           </div>
         </div>
       </div>
@@ -132,37 +165,29 @@
             <div class="bento__value"><span class="status-dot"></span> Available</div>
           </div>
 
-          <div class="bento-item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji" aria-hidden="true">☕</div>
-            <div class="bento__label">Coffee meter</div>
-            <div class="bento__meter">████░ 4/5</div>
-          </div>
+        <div class="bento-item tilt-card reveal">
+          <div class="tilt-card__shine"></div>
+          <div class="bento__emoji" aria-hidden="true">🛰️</div>
+          <div class="bento__label">Threat coverage</div>
+          <div class="bento__value">Cloud · Application · Supply chain · Endpoint</div>
+        </div>
 
-          <div class="bento-item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji" aria-hidden="true">🎵</div>
-            <div class="bento__label">Soundtrack</div>
-            <div class="bento__music">
-              <span class="bento__music-bars" aria-hidden="true">
-                <span class="bento__music-bar"></span>
-                <span class="bento__music-bar"></span>
-                <span class="bento__music-bar"></span>
-                <span class="bento__music-bar"></span>
-              </span>
-              <span class="bento__value" style="font-size: var(--fs-sm);">lo-fi &amp; metal — no in-between</span>
-            </div>
-          </div>
+        <div class="bento-item tilt-card reveal">
+          <div class="tilt-card__shine"></div>
+          <div class="bento__emoji" aria-hidden="true">💡</div>
+          <div class="bento__label">Battle rhythm</div>
+          <div class="bento__value">Daily red/blue sync · Weekly purple drills</div>
+        </div>
 
-          <div class="bento-item bento-item--wide tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji" aria-hidden="true">🧪</div>
-            <div class="bento__label">Currently</div>
-            <div class="bento__value">Shipping this portfolio, tuning a custom fuzzer in Rust, and politely asking APIs to stop leaking secrets.</div>
-          </div>
+        <div class="bento-item bento-item--wide tilt-card reveal">
+          <div class="tilt-card__shine"></div>
+          <div class="bento__emoji" aria-hidden="true">🧭</div>
+          <div class="bento__label">Mission focus</div>
+          <div class="bento__value">Reducing mean time to detection while automating evidence capture and narrative.</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <section id="skills" class="section">
       <div class="container">

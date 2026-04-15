@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSpy();
   initSmoothScroll();
   initProjectFilter();
+  initConsoleFeed();
 });
 
 function initNav() {
@@ -96,4 +97,43 @@ function initProjectFilter() {
       });
     });
   });
+}
+
+function initConsoleFeed() {
+  const feed = document.querySelector('#console-feed');
+  if (!feed) return;
+
+  const lines = [
+    '[sys] orchestrating purple drills…',
+    '[sys] rewriting detections for drift',
+    '[sys] stacking telemetry from edge sensors',
+    '[sys] benchmarking mean time to detect',
+    '[sys] syncing playbooks with response',
+    '[sys] capturing evidence + narrative'
+  ];
+
+  let index = 0;
+  const maxLines = 4;
+
+  function pushLine(text) {
+    const paragraph = document.createElement('p');
+    paragraph.className = 'console-line reveal';
+    paragraph.innerHTML = `<span class="prompt">[sys]</span> ${text.replace(/\[sys\]\s*/i, '')}`;
+    feed.appendChild(paragraph);
+
+    if (feed.children.length > maxLines) {
+      feed.removeChild(feed.firstElementChild);
+    }
+  }
+
+  // seed initial feed
+  for (let i = 0; i < maxLines; i += 1) {
+    pushLine(lines[index]);
+    index = (index + 1) % lines.length;
+  }
+
+  setInterval(() => {
+    pushLine(lines[index]);
+    index = (index + 1) % lines.length;
+  }, 2800);
 }
