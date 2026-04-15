@@ -894,14 +894,7 @@ body::before {
 
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
+  visibility: hidden;
 }
 
 .stagger > *:nth-child(1)  { transition-delay: 0ms; }
@@ -911,17 +904,10 @@ body::before {
 .stagger > *:nth-child(5)  { transition-delay: 320ms; }
 .stagger > *:nth-child(6)  { transition-delay: 400ms; }
 
-/* Hero entrance */
-.home-hero__wave    { animation: fade-in-up 0.7s ease 0.1s both; }
-.home-hero__name    { animation: fade-in-up 0.7s ease 0.25s both; }
-.home-hero__desc    { animation: fade-in-up 0.7s ease 0.4s both; }
-.home-hero__meta    { animation: fade-in-up 0.7s ease 0.5s both; }
-.home-hero__cta     { animation: fade-in-up 0.7s ease 0.6s both; }
-.home-hero__photo   { animation: fade-in-up 0.8s ease 0.3s both; }
-
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(32px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Hero entrance is now managed by GSAP */
+.home-hero__wave, .home-hero__name, .home-hero__desc, 
+.home-hero__meta, .home-hero__cta, .home-hero__photo {
+  opacity: 0;
 }
 
 /* =========================
