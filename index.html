@@ -244,57 +244,7 @@
       </div>
     </section>
 
-    <!-- ===== INTERESTS ===== -->
-    <section id="interests" class="home-section">
-      <div class="container">
-        <p class="home-section__label reveal">what makes me tick</p>
-        <h2 class="home-section__title reveal">Interests &amp; Hobbies</h2>
-        <div class="interests__grid stagger">
-          <div class="interest-card reveal">
-            <div class="interest-card__emoji">🎲</div>
-            <div>
-              <div class="interest-card__title">Board Games</div>
-              <div class="interest-card__desc">Strategy games with deception mechanics are my weakness. Coup, Secret Hitler — you name it.</div>
-            </div>
-          </div>
-          <div class="interest-card reveal">
-            <div class="interest-card__emoji">☕</div>
-            <div>
-              <div class="interest-card__title">Coffee</div>
-              <div class="interest-card__desc">Pour-over or we can't be friends. Currently obsessed with Ethiopian single-origin light roasts.</div>
-            </div>
-          </div>
-          <div class="interest-card reveal">
-            <div class="interest-card__emoji">🍳</div>
-            <div>
-              <div class="interest-card__title">Cooking</div>
-              <div class="interest-card__desc">Kitchen experiments that are mostly successful. Only needed the fire extinguisher twice this year.</div>
-            </div>
-          </div>
-          <div class="interest-card reveal">
-            <div class="interest-card__emoji">📚</div>
-            <div>
-              <div class="interest-card__title">Reading</div>
-              <div class="interest-card__desc">Sci-fi and non-fiction in equal measure. Asimov, Ted Chiang, and anything about how the world works.</div>
-            </div>
-          </div>
-          <div class="interest-card reveal">
-            <div class="interest-card__emoji">🌏</div>
-            <div>
-              <div class="interest-card__title">Travel</div>
-              <div class="interest-card__desc">Chasing good food and interesting history. The best trips are the ones where the plan falls apart.</div>
-            </div>
-          </div>
-          <div class="interest-card reveal">
-            <div class="interest-card__emoji">🧩</div>
-            <div>
-              <div class="interest-card__title">Puzzles</div>
-              <div class="interest-card__desc">I solve logic puzzles for fun. Yes, for fun. CTFs are just puzzles with bragging rights.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- ===== CURRENTLY ===== -->
     <section class="home-section">
@@ -330,43 +280,50 @@
       </div>
     </section>
 
-    <!-- ===== HORIZONTAL SCROLL SKILLS ===== -->
-    <section class="horizontal-scroll-section" style="overflow: hidden; background: var(--bg-surface-solid); padding: 5rem 0;">
+    <!-- ===== HORIZONTAL SCROLL INTERESTS ===== -->
+    <section id="interests" class="horizontal-scroll-section" style="overflow: hidden; background: var(--bg-surface-solid); padding: 5rem 0;">
       <div class="container" style="margin-bottom: 2rem;">
-        <p class="home-section__label reveal">my arsenal</p>
-        <h2 class="home-section__title reveal" style="margin-bottom: 0;">Technologies & Tools</h2>
+        <p class="home-section__label reveal">what makes me tick</p>
+        <h2 class="home-section__title reveal" style="margin-bottom: 0;">Interests & Hobbies</h2>
       </div>
       <div class="horizontal-scroll-container" style="display: flex; width: max-content; padding-left: clamp(1.25rem, 4vw, 2rem);">
-        <div class="horizontal-scroll-panel" style="flex: 0 0 auto; width: min(80vw, 500px); margin-right: 3rem; display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 1rem;">Frontend</h3>
-          <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 500px;">Crafting pixel-perfect, highly interactive user experiences using modern tools and frameworks. No detail is too small.</p>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
-            <span class="skill-badge">React</span>
-            <span class="skill-badge">TypeScript</span>
-            <span class="skill-badge">GSAP</span>
-            <span class="skill-badge">Tailwind</span>
-          </div>
+        
+        <div class="horizontal-scroll-panel glass-panel" style="flex: 0 0 auto; width: min(80vw, 400px); margin-right: 2rem; display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; border-radius: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;" class="liquid-bounce">🎲</div>
+          <h3 style="font-size: 2rem; font-family: var(--font-serif); margin-bottom: 1rem;">Board Games</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">Strategy games with deception mechanics are my weakness. Coup, Secret Hitler — you name it.</p>
         </div>
-        <div class="horizontal-scroll-panel" style="flex: 0 0 auto; width: min(80vw, 500px); margin-right: 3rem; display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 1rem;">Backend & Systems</h3>
-          <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 500px;">Building robust, scalable architectures that can handle heavy traffic without breaking a sweat.</p>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
-            <span class="skill-badge">Node.js</span>
-            <span class="skill-badge">Rust</span>
-            <span class="skill-badge">PostgreSQL</span>
-            <span class="skill-badge">Redis</span>
-          </div>
+
+        <div class="horizontal-scroll-panel glass-panel" style="flex: 0 0 auto; width: min(80vw, 400px); margin-right: 2rem; display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; border-radius: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;" class="liquid-bounce">☕</div>
+          <h3 style="font-size: 2rem; font-family: var(--font-serif); margin-bottom: 1rem;">Coffee</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">Pour-over or we can't be friends. Currently obsessed with Ethiopian single-origin light roasts.</p>
         </div>
-        <div class="horizontal-scroll-panel" style="flex: 0 0 auto; width: min(80vw, 500px); padding-right: clamp(1.25rem, 4vw, 2rem); display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 1rem;">Security & DevOps</h3>
-          <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 500px;">Ensuring things stay safe and deployed continuously. Breaking things professionally so others can't.</p>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
-            <span class="skill-badge">Docker</span>
-            <span class="skill-badge">AWS</span>
-            <span class="skill-badge">Pentesting</span>
-            <span class="skill-badge">CI/CD</span>
-          </div>
+
+        <div class="horizontal-scroll-panel glass-panel" style="flex: 0 0 auto; width: min(80vw, 400px); margin-right: 2rem; display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; border-radius: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;" class="liquid-bounce">🍳</div>
+          <h3 style="font-size: 2rem; font-family: var(--font-serif); margin-bottom: 1rem;">Cooking</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">Kitchen experiments that are mostly successful. Only needed the fire extinguisher twice this year.</p>
         </div>
+
+        <div class="horizontal-scroll-panel glass-panel" style="flex: 0 0 auto; width: min(80vw, 400px); margin-right: 2rem; display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; border-radius: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;" class="liquid-bounce">📚</div>
+          <h3 style="font-size: 2rem; font-family: var(--font-serif); margin-bottom: 1rem;">Reading</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">Sci-fi and non-fiction in equal measure. Asimov, Ted Chiang, and anything about how the world works.</p>
+        </div>
+
+        <div class="horizontal-scroll-panel glass-panel" style="flex: 0 0 auto; width: min(80vw, 400px); margin-right: 2rem; display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; border-radius: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;" class="liquid-bounce">🌏</div>
+          <h3 style="font-size: 2rem; font-family: var(--font-serif); margin-bottom: 1rem;">Travel</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">Chasing good food and interesting history. The best trips are the ones where the plan falls apart.</p>
+        </div>
+
+        <div class="horizontal-scroll-panel glass-panel" style="flex: 0 0 auto; width: min(80vw, 400px); padding-right: clamp(1.25rem, 4vw, 2rem); display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; border-radius: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;" class="liquid-bounce">🧩</div>
+          <h3 style="font-size: 2rem; font-family: var(--font-serif); margin-bottom: 1rem;">Puzzles</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6;">I solve logic puzzles for fun. Yes, for fun. CTFs are just puzzles with bragging rights.</p>
+        </div>
+
       </div>
     </section>
 
