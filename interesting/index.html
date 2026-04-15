@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber Theory // Sarthak Agrawal</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --text: #e0e0e0;
+      --accent: #00ff41;
+      --font-main: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+    .cursor.hover {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(0, 255, 65, 0.2);
+    }
+
+    /* Background Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      mix-blend-mode: difference;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-family: var(--font-main);
+      font-size: 1rem;
+      text-transform: uppercase;
+      cursor: none;
+    }
+
+    /* Main Content */
+    main {
+      padding: 8rem 2rem 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-text {
+      font-size: clamp(3rem, 8vw, 8rem);
+      font-weight: 700;
+      line-height: 1;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    /* Glitch Effect */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+    }
+    .glitch::before {
+      left: 2px;
+      text-shadow: -1px 0 red;
+      clip: rect(24px, 550px, 90px, 0);
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      left: -2px;
+      text-shadow: -1px 0 blue;
+      clip: rect(85px, 550px, 140px, 0);
+      animation: glitch-anim 2.5s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim {
+      0% { clip: rect(10px, 9999px, 30px, 0); }
+      20% { clip: rect(50px, 9999px, 80px, 0); }
+      40% { clip: rect(20px, 9999px, 40px, 0); }
+      60% { clip: rect(80px, 9999px, 100px, 0); }
+      80% { clip: rect(30px, 9999px, 60px, 0); }
+      100% { clip: rect(70px, 9999px, 90px, 0); }
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      max-width: 600px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    /* Projects Grid */
+    .projects {
+      margin-top: 6rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .project-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .project-card:hover::before {
+      left: 100%;
+    }
+
+    .project-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .project-meta {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    a {
+      cursor: none;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <header>
+    <a href="../" class="logo hoverable">Sarthak.</a>
+    <button class="nav-btn hoverable">Initialize</button>
+  </header>
+
+  <main>
+    <div class="hero-text">
+      <div class="glitch" data-text="CYBER">CYBER</div><br>
+      <div class="glitch" data-text="THEORY">THEORY</div>
+    </div>
+    <div class="subtitle">
+      Penetration testing, vulnerability research, and building resilient systems. 
+      Exploring the digital underground where code meets chaos.
+    </div>
+
+    <div class="projects">
+      <div class="project-card hoverable">
+        <div class="project-title">Project: Prometheus</div>
+        <div class="project-desc">A distributed network scanner designed for high-speed reconnaissance and evasion of standard IDS/IPS signatures.</div>
+        <div class="project-meta"><span>[ RECON ]</span><span>ACTIVE</span></div>
+      </div>
+      
+      <div class="project-card hoverable">
+        <div class="project-title">Zero-Day Fuzzer</div>
+        <div class="project-desc">Custom mutation-based fuzzer written in Rust targeting memory safety vulnerabilities in legacy C/C++ applications.</div>
+        <div class="project-meta"><span>[ EXPLOIT ]</span><span>ARCHIVED</span></div>
+      </div>
+
+      <div class="project-card hoverable">
+        <div class="project-title">Ghost Protocol</div>
+        <div class="project-desc">Encrypted peer-to-peer communication framework utilizing Tor hidden services and custom routing algorithms.</div>
+        <div class="project-meta"><span>[ STEALTH ]</span><span>ONGOING</span></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    const hoverables = document.querySelectorAll('.hoverable, .project-card, a');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    hoverables.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Matrix/Hacker Canvas Background
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+    const drops = [];
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#00ff41'; // Matrix green
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
