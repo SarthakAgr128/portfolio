@@ -291,6 +291,7 @@ main {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
+
 .console-feed {
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
@@ -300,11 +301,41 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  padding-right: 0.25rem;
+  min-height: 220px;
 }
 
 .console-line {
   overflow: hidden;
   position: relative;
+  opacity: 0;
+  animation: console-line-appear 0.45s ease forwards;
+}
+
+.console-line.command {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.console-line.analysis {
+  color: var(--accent-purple);
+  font-style: italic;
+}
+
+.console-line.output {
+  letter-spacing: 0.02em;
+}
+
+.console-line.safe {
+  color: var(--accent-green);
+}
+
+.console-line.warning {
+  color: var(--accent-amber);
+}
+
+.console-line.error {
+  color: var(--accent-pink);
 }
 
 .console-line::after {
@@ -321,31 +352,32 @@ main {
   margin-right: 0.25rem;
 }
 
-.radar {
-  margin-top: var(--space-lg);
-  position: relative;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.12) 25%, transparent 70%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+ .radar {
+   margin-top: var(--space-lg);
+   position: relative;
+   height: 160px;
+   border-radius: 50%;
+   background: radial-gradient(circle at center, rgba(0, 212, 255, 0.12) 25%, transparent 70%);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: background 0.4s ease;
+ }
 
-.radar__ring {
-  position: absolute;
-  border: 1px solid rgba(0, 212, 255, 0.25);
-  border-radius: 50%;
-  width: 85%;
-  height: 85%;
-  animation: radar-glow 4s ease-in-out infinite;
-}
+ .radar__ring {
+   position: absolute;
+   border: 1px solid rgba(0, 212, 255, 0.25);
+   border-radius: 50%;
+   width: 85%;
+   height: 85%;
+   animation: radar-glow 4s ease-in-out infinite, radar-spin 12s linear infinite;
+ }
 
-.radar__ring--inner {
+ .radar__ring--inner {
   width: 60%;
   height: 60%;
   animation-duration: 5s;
-}
+ }
 
 .radar__blip {
   width: 12px;
@@ -354,7 +386,7 @@ main {
   background: var(--accent-pink);
   box-shadow: 0 0 20px rgba(255, 51, 102, 0.8);
   animation: radar-blip 3.6s linear infinite;
-}
+ }
 
 .radar__label {
   position: absolute;
@@ -381,6 +413,74 @@ main {
   0% { transform: scale(0.6); }
   50% { transform: scale(1.1); }
   100% { transform: scale(0.6); }
+}
+
+.console-line.command {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.console-line.analysis {
+  color: var(--accent-purple);
+  font-style: italic;
+}
+
+.console-line.output {
+  letter-spacing: 0.02em;
+}
+
+.console-line.safe {
+  color: var(--accent-green);
+}
+
+.console-line.warning {
+  color: var(--accent-amber);
+}
+
+.console-line.error {
+  color: var(--accent-pink);
+}
+
+.radar--safe {
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.22) 32%, transparent 68%);
+}
+
+.radar--warning {
+  background: radial-gradient(circle at center, rgba(248, 113, 113, 0.28) 30%, transparent 65%);
+}
+
+.radar--error {
+  background: radial-gradient(circle at center, rgba(255, 51, 102, 0.3) 26%, transparent 60%);
+}
+
+.radar--safe .radar__ring {
+  border-color: rgba(34, 197, 94, 0.65);
+}
+
+.radar--warning .radar__ring {
+  border-color: rgba(248, 113, 113, 0.7);
+}
+
+.radar--error .radar__ring {
+  border-color: rgba(255, 51, 102, 0.8);
+}
+
+.radar--warning .radar__ring {
+  border-color: rgba(248, 113, 113, 0.6);
+}
+
+.radar--error .radar__ring {
+  border-color: rgba(255, 51, 102, 0.7);
+}
+
+@keyframes console-line-appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes radar-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 .hero__subtitle em {
   font-style: normal;
@@ -1182,4 +1282,155 @@ main {
   .certs-grid {
     grid-template-columns: 1fr;
   }
+}
+/* ===== Console + Radar overrides ===== */
+.console-feed {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-right: 0.25rem;
+  min-height: 220px;
+}
+
+.console-line {
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  animation: console-line-appear 0.45s ease forwards;
+}
+
+.console-line.command {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.console-line.analysis {
+  color: var(--accent-purple);
+  font-style: italic;
+}
+
+.console-line.output {
+  letter-spacing: 0.02em;
+}
+
+.console-line.safe {
+  color: var(--accent-green);
+}
+
+.console-line.warning {
+  color: var(--accent-amber);
+}
+
+.console-line.error {
+  color: var(--accent-pink);
+}
+
+.console-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  animation: console-scan 3s linear infinite;
+  pointer-events: none;
+}
+
+.console-line .prompt {
+  color: var(--accent-cyan);
+  margin-right: 0.25rem;
+}
+
+.radarshell {
+  margin-top: var(--space-lg);
+  position: relative;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.12) 25%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
+}
+
+.radar {
+  margin-top: var(--space-lg);
+  position: relative;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.12) 25%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
+}
+
+.radar__ring {
+  position: absolute;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 50%;
+  width: 85%;
+  height: 85%;
+  animation: radar-glow 4s ease-in-out infinite, radar-spin 12s linear infinite;
+}
+
+.radar__ring--inner {
+  width: 60%;
+  height: 60%;
+  animation-duration: 5s;
+}
+
+.radar__blip {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-pink);
+  box-shadow: 0 0 20px rgba(255, 51, 102, 0.9);
+  animation: radar-blip 3.6s linear infinite;
+}
+
+.radar__label {
+  position: absolute;
+  bottom: -1.5rem;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.radar--safe {
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.2) 35%, transparent 65%);
+}
+
+.radar--warning {
+  background: radial-gradient(circle at center, rgba(248, 113, 113, 0.25) 32%, transparent 63%);
+}
+
+.radar--error {
+  background: radial-gradient(circle at center, rgba(255, 51, 102, 0.3) 30%, transparent 60%);
+}
+
+.radar--safe .radar__ring {
+  border-color: rgba(34, 197, 94, 0.7);
+}
+
+.radar--warning .radar__ring {
+  border-color: rgba(248, 113, 113, 0.7);
+}
+
+.radar--error .radar__ring {
+  border-color: rgba(255, 51, 102, 0.9);
+}
+
+@keyframes console-line-appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes radar-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
