@@ -818,7 +818,8 @@ body::before {
 .work-cta {
   text-align: center;
   padding-block: clamp(4rem, 5vw, 7rem);
-  background: var(--bg-warm);
+  background: var(--text-primary);
+  color: var(--bg-primary);
   border-radius: 32px;
   margin: 2rem auto;
   max-width: 1120px;
@@ -827,19 +828,45 @@ body::before {
 .work-cta__title {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 1.5rem + 2vw, 2.8rem);
-  color: var(--text-primary);
+  color: var(--bg-primary);
   font-weight: 400;
   font-style: italic;
   margin-bottom: 0.75rem;
 }
 
 .work-cta__desc {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 1.05rem;
   max-width: 480px;
   margin-inline: auto;
   margin-bottom: 2rem;
   line-height: 1.6;
+}
+
+.work-cta .btn--primary {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.work-cta .btn--primary:hover {
+  background: var(--accent-indigo);
+  color: #fff;
+}
+
+/* =========================
+   BUTTON EXTENSIONS
+   ========================= */
+
+.red-pill-btn {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.red-pill-btn:hover {
+  background: #FF2A2A !important;
+  color: white !important;
+  border-radius: 50px !important;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-shadow: 0 10px 25px rgba(255, 42, 42, 0.4) !important;
+  transform: translateY(-2px) scale(1.05);
 }
 
 /* =========================

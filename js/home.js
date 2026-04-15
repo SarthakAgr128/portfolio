@@ -10,7 +10,6 @@
     initScrollReveals();
     initParallax();
     initCardStack();
-    initGalleryAnimations();
     initHorizontalScroll();
     initSmoothScroll();
     initMagneticButtons();
@@ -146,27 +145,6 @@
         { y: i * -15, rotate: gsap.utils.random(-5, 5), scale: 1, duration: 1, ease: 'power2.inOut' }
       );
     });
-  }
-
-  function initGalleryAnimations() {
-    const items = gsap.utils.toArray('.gallery__item');
-    if(!items.length) return;
-
-    gsap.fromTo(items, 
-      { opacity: 0, scale: 0.8, y: 100, rotateX: 45 },
-      { 
-        opacity: 1, scale: 1, y: 0, rotateX: 0,
-        duration: 1.5,
-        stagger: 0.1,
-        ease: 'expo.out',
-        scrollTrigger: {
-          trigger: '.gallery__grid',
-          start: 'top 85%',
-          end: 'bottom 20%',
-          scrub: 1
-        }
-      }
-    );
   }
 
   function initHorizontalScroll() {

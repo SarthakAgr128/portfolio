@@ -114,7 +114,7 @@
       <div class="container">
         <p class="home-section__label reveal">rabbit hole</p>
         <h2 class="home-section__title reveal" style="margin-bottom: 1rem;">Want to see something interesting?</h2>
-        <a href="interesting/" class="btn btn--primary magnetic reveal" style="background: var(--text-main); color: var(--bg-main);">take the red pill</a>
+        <a href="interesting/" class="btn btn--primary magnetic reveal red-pill-btn" style="background: var(--text-main); color: var(--bg-main);">take the red pill</a>
       </div>
     </section>
 
@@ -244,21 +244,6 @@
       </div>
     </section>
 
-    <!-- ===== PHOTO GALLERY ===== -->
-    <section id="gallery" class="home-section">
-      <div class="container">
-        <p class="home-section__label reveal">snapshots</p>
-        <h2 class="home-section__title reveal">Gallery</h2>
-        <div class="gallery__grid stagger">
-          <div class="gallery__item gallery__item--tall reveal"><div class="gallery__item-inner">your photo</div></div>
-          <div class="gallery__item reveal"><div class="gallery__item-inner">travel</div></div>
-          <div class="gallery__item reveal"><div class="gallery__item-inner">friends</div></div>
-          <div class="gallery__item reveal"><div class="gallery__item-inner">hobby</div></div>
-          <div class="gallery__item reveal"><div class="gallery__item-inner">adventure</div></div>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== INTERESTS ===== -->
     <section id="interests" class="home-section">
       <div class="container">
@@ -351,31 +336,31 @@
         <p class="home-section__label reveal">my arsenal</p>
         <h2 class="home-section__title reveal" style="margin-bottom: 0;">Technologies & Tools</h2>
       </div>
-      <div class="horizontal-scroll-container" style="display: flex; width: 300vw;">
-        <div class="horizontal-scroll-panel" style="width: 100vw; padding: 0 10vw; display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-size: 3rem; font-family: var(--font-serif); margin-bottom: 1rem;">Frontend</h3>
-          <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 500px;">Crafting pixel-perfect, highly interactive user experiences using modern tools and frameworks. No detail is too small.</p>
-          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+      <div class="horizontal-scroll-container" style="display: flex; width: max-content; padding-left: clamp(1.25rem, 4vw, 2rem);">
+        <div class="horizontal-scroll-panel" style="flex: 0 0 auto; width: min(80vw, 500px); margin-right: 3rem; display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 1rem;">Frontend</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 500px;">Crafting pixel-perfect, highly interactive user experiences using modern tools and frameworks. No detail is too small.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
             <span class="skill-badge">React</span>
             <span class="skill-badge">TypeScript</span>
             <span class="skill-badge">GSAP</span>
             <span class="skill-badge">Tailwind</span>
           </div>
         </div>
-        <div class="horizontal-scroll-panel" style="width: 100vw; padding: 0 10vw; display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-size: 3rem; font-family: var(--font-serif); margin-bottom: 1rem;">Backend & Systems</h3>
-          <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 500px;">Building robust, scalable architectures that can handle heavy traffic without breaking a sweat.</p>
-          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <div class="horizontal-scroll-panel" style="flex: 0 0 auto; width: min(80vw, 500px); margin-right: 3rem; display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 1rem;">Backend & Systems</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 500px;">Building robust, scalable architectures that can handle heavy traffic without breaking a sweat.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
             <span class="skill-badge">Node.js</span>
             <span class="skill-badge">Rust</span>
             <span class="skill-badge">PostgreSQL</span>
             <span class="skill-badge">Redis</span>
           </div>
         </div>
-        <div class="horizontal-scroll-panel" style="width: 100vw; padding: 0 10vw; display: flex; flex-direction: column; justify-content: center;">
-          <h3 style="font-size: 3rem; font-family: var(--font-serif); margin-bottom: 1rem;">Security & DevOps</h3>
-          <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 500px;">Ensuring things stay safe and deployed continuously. Breaking things professionally so others can't.</p>
-          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <div class="horizontal-scroll-panel" style="flex: 0 0 auto; width: min(80vw, 500px); padding-right: clamp(1.25rem, 4vw, 2rem); display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="font-size: 2.5rem; font-family: var(--font-serif); margin-bottom: 1rem;">Security & DevOps</h3>
+          <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 500px;">Ensuring things stay safe and deployed continuously. Breaking things professionally so others can't.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem;">
             <span class="skill-badge">Docker</span>
             <span class="skill-badge">AWS</span>
             <span class="skill-badge">Pentesting</span>
