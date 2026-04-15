@@ -233,7 +233,6 @@ main {
   backdrop-filter: blur(18px);
   position: relative;
   overflow: hidden;
-  min-height: 320px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
 }
 
@@ -259,6 +258,122 @@ main {
   font-family: var(--font-mono);
   font-size: var(--fs-lg);
   color: #fff;
+}
+
+.hero__panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-xl);
+}
+
+.console-panel {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: #070712;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  position: relative;
+  min-height: 220px;
+}
+
+.console-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+}
+
+.console-panel__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.console-feed {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: #e6f5ff;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 0.25rem;
+  min-height: 220px;
+}
+
+.console-line {
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  animation: console-line-appear 0.45s ease forwards;
+  color: #e6f5ff;
+}
+
+.console-line.command {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.console-line.analysis {
+  color: #a3a3a3;
+  font-style: normal;
+}
+
+.console-line.output {
+  letter-spacing: 0.02em;
+}
+
+.console-line.safe {
+  color: #f0fff3;
+}
+
+.console-line.warning {
+  color: #ff4d4f;
+}
+
+.console-line.error {
+  color: #ff4d4f;
+  font-weight: 600;
+}
+
+.console-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  animation: console-scan 3s linear infinite;
+  pointer-events: none;
+}
+
+.console-line .prompt {
+  color: var(--accent-green);
+  margin-right: 0.35rem;
+}
+
+.radar-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar {
+  margin-top: 0;
+  width: 100%;
+  height: 220px;
+  border-radius: 36px;
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.12) 25%, rgba(0,0,0,0.4) 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
 }
 
 .console-panel {
@@ -1433,4 +1548,172 @@ main {
 @keyframes radar-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+.hero__panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+}
+
+.console-panel {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: #070712;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  position: relative;
+  min-height: 220px;
+}
+
+.console-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+}
+
+.console-panel__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 12px var(--accent-green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.console-feed {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: #e6f5ff;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-right: 0.25rem;
+  min-height: 220px;
+}
+
+.console-line {
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  animation: console-line-appear 0.45s ease forwards;
+  color: #e6f5ff;
+}
+
+.console-line.command {
+  color: var(--accent-green);
+  font-weight: 600;
+}
+
+.console-line.analysis {
+  color: #a3a3a3;
+}
+
+.console-line.safe {
+  color: #f0fff3;
+}
+
+.console-line.warning,
+.console-line.error {
+  color: #ff4d4f;
+}
+
+.console-line.error {
+  font-weight: 600;
+}
+
+.console-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  animation: console-scan 3s linear infinite;
+  pointer-events: none;
+}
+
+.console-line .prompt {
+  color: var(--accent-green);
+  margin-right: 0.35rem;
+  font-weight: 600;
+}
+
+.radar-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.radar {
+  width: 100%;
+  height: 220px;
+  border-radius: 36px;
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.12) 25%, rgba(0, 0, 0, 0.6) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.radar__ring {
+  position: absolute;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 50%;
+  width: 85%;
+  height: 85%;
+  animation: radar-glow 4s ease-in-out infinite, radar-spin 12s linear infinite;
+}
+
+.radar__ring--inner {
+  width: 60%;
+  height: 60%;
+  animation-duration: 4s;
+}
+
+.radar__blip {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-pink);
+  box-shadow: 0 0 20px rgba(255, 51, 102, 0.8);
+  animation: radar-blip 3.6s linear infinite;
+}
+
+.radar__label {
+  position: absolute;
+  bottom: -1.25rem;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.radar--safe {
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.25) 35%, transparent 65%);
+}
+
+.radar--warning {
+  background: radial-gradient(circle at center, rgba(248, 113, 113, 0.3) 32%, transparent 63%);
+}
+
+.radar--error {
+  background: radial-gradient(circle at center, rgba(255, 51, 102, 0.35) 30%, transparent 60%);
+}
+
+.radar--safe .radar__ring {
+  border-color: rgba(34, 197, 94, 0.7);
+}
+
+.radar--warning .radar__ring {
+  border-color: rgba(248, 113, 113, 0.75);
+}
+
+.radar--error .radar__ring {
+  border-color: rgba(255, 51, 102, 0.9);
 }

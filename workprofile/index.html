@@ -88,22 +88,26 @@
           </div>
         </div>
         <div class="hero__panel">
-          <div class="console-panel" aria-live="polite">
-            <div class="console-panel__header">
-              <span>command feed</span>
-              <span class="console-panel__dot" aria-hidden="true"></span>
+          <div class="hero__panel-grid">
+            <div class="console-panel" aria-live="polite">
+              <div class="console-panel__header">
+                <span>command feed</span>
+                <span class="console-panel__dot" aria-hidden="true"></span>
+              </div>
+              <div class="console-feed" id="console-feed">
+                <p class="console-line command"><span class="prompt">[sys]</span> aligning telemetry…</p>
+                <p class="console-line analysis">analysis — synchronizing guards</p>
+                <p class="console-line safe">safe — perimeter telemetry matches hardened baselines</p>
+              </div>
             </div>
-            <div class="console-feed" id="console-feed">
-              <p class="console-line"><span class="prompt">[sys]</span> aligning telemetry…</p>
-              <p class="console-line"><span class="prompt">[sys]</span> scanning borderless infra</p>
-              <p class="console-line"><span class="prompt">[sys]</span> rules synced with blue team</p>
+            <div class="radar-shell">
+              <div class="radar" aria-hidden="true">
+                <span class="radar__ring radar__ring--outer"></span>
+                <span class="radar__ring radar__ring--inner"></span>
+                <span class="radar__blip"></span>
+                <p class="radar__label">Threat radar — nominal</p>
+              </div>
             </div>
-          </div>
-          <div class="radar" aria-hidden="true">
-            <span class="radar__ring radar__ring--outer"></span>
-            <span class="radar__ring radar__ring--inner"></span>
-            <span class="radar__blip"></span>
-            <p class="radar__label">Threat radar — nominal</p>
           </div>
         </div>
       </div>
