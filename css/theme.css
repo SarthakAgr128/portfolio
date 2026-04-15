@@ -35,6 +35,7 @@
 
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "DM Serif Display", "Georgia", serif;
 
   --fs-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);
   --fs-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
@@ -177,21 +178,52 @@ body::before {
   background-size: 256px 256px;
 }
 
-/* --- Cursor glow --- */
+/* --- Custom cursor --- */
 
-.cursor-glow {
+.has-cursor { cursor: none; }
+.has-cursor a,
+.has-cursor button,
+.has-cursor [data-copy] { cursor: none; }
+
+.cursor__dot {
   position: fixed;
-  width: 400px;
-  height: 400px;
+  width: 8px;
+  height: 8px;
+  background: #fff;
   border-radius: 50%;
   pointer-events: none;
-  z-index: -1;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+  z-index: 10000;
   transform: translate(-50%, -50%);
-  transition: opacity 0.3s ease;
-  will-change: left, top;
+  transition: transform 0.15s ease, background 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor__ring {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease,
+              border-color 0.3s ease, background 0.3s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor--active .cursor__dot {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.cursor--active .cursor__ring {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(168, 85, 247, 0.5);
 }
 
 @media (pointer: coarse) {
-  .cursor-glow { display: none; }
+  .cursor__dot, .cursor__ring { display: none; }
+  .has-cursor { cursor: auto; }
+  .has-cursor a, .has-cursor button, .has-cursor [data-copy] { cursor: pointer; }
 }

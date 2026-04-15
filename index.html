@@ -3,56 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sarthak Agrawal — Security Engineer</title>
-  <meta name="description" content="Security engineer who breaks things (with permission), builds tools, and writes about it. Portfolio, projects, CTF writeups, and more.">
+  <title>Sarthak Agrawal</title>
+  <meta name="description" content="Hey — I'm Sarthak. Puzzle solver, coffee snob, board game tactician, and someone who builds things for the internet.">
   <meta name="theme-color" content="#050510">
 
-  <meta property="og:title" content="Sarthak Agrawal — Security Engineer">
-  <meta property="og:description" content="I break into systems (with permission) and build tools that catch bad guys.">
+  <meta property="og:title" content="Sarthak Agrawal">
+  <meta property="og:description" content="Puzzle solver, coffee snob, and builder of things.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- Cursor glow -->
-  <div class="cursor-glow" aria-hidden="true"></div>
+  <!-- Custom cursor -->
+  <div aria-hidden="true">
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
 
-  <!-- Gradient mesh bg -->
+  <!-- Background -->
   <div class="gradient-mesh" aria-hidden="true">
     <div class="blob blob--1"></div>
     <div class="blob blob--2"></div>
     <div class="blob blob--3"></div>
   </div>
 
-  <!-- Mobile overlay -->
-  <div class="nav__overlay" aria-hidden="true"></div>
-
   <!-- Nav -->
-  <nav class="nav" aria-label="Main navigation">
+  <nav class="home-nav">
     <div class="container">
-      <a href="#" class="nav__logo">sa<span>.</span></a>
-      <button class="nav__toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="nav__links" id="nav-links" role="navigation">
-        <a href="#about" class="nav__link">about</a>
-        <a href="#skills" class="nav__link">skills</a>
-        <a href="#projects" class="nav__link">projects</a>
-        <a href="#writeups" class="nav__link">writeups</a>
-        <a href="#timeline" class="nav__link">timeline</a>
-        <a href="#contact" class="nav__link">contact</a>
+      <a href="#" class="home-nav__logo">Sarthak.</a>
+      <div class="home-nav__links">
+        <a href="#about" class="home-nav__link">about</a>
+        <a href="#gallery" class="home-nav__link">photos</a>
+        <a href="#interests" class="home-nav__link">interests</a>
+        <a href="workprofile/" class="home-nav__link home-nav__link--accent magnetic">work</a>
       </div>
     </div>
   </nav>
@@ -60,516 +55,326 @@
   <main id="main">
 
     <!-- ===== HERO ===== -->
-    <section class="hero section">
-      <div class="container hero__content">
-        <div class="hero__badge">
-          <span class="dot" aria-hidden="true"></span>
-          open to opportunities
+    <section class="home-hero">
+      <div class="container">
+        <div class="home-hero__text">
+          <span class="home-hero__wave">hey there 👋</span>
+          <h1 class="home-hero__name">
+            I'm <span class="gradient-text scramble-text">Sarthak</span><br>
+            <span class="scramble-text">Agrawal</span>
+          </h1>
+          <p class="home-hero__desc">
+            Puzzle solver, coffee snob, board game tactician, and someone who
+            occasionally builds useful things for the internet.
+          </p>
+          <div class="home-hero__meta">
+            <span>📍 India</span>
+            <span>☕ Pour-over loyalist</span>
+            <span>🎲 Board game night regular</span>
+          </div>
         </div>
 
-        <h1 class="hero__name">
-          <span class="scramble-text">Sarthak</span><br>
-          <span class="scramble-text gradient-text">Agrawal</span>
-        </h1>
-
-        <p class="hero__subtitle">
-          I break into systems <em>(with permission)</em>, build tools that
-          catch bad guys, and occasionally write code that compiles on the first try.
-        </p>
-
-        <div class="hero__cta">
-          <a href="#projects" class="btn btn--primary magnetic">see what I've built</a>
-          <a href="#contact" class="btn btn--glass magnetic">say hello</a>
+        <div class="home-hero__photo">
+          <div class="home-hero__photo-frame tilt-card">
+            <div class="tilt-card__shine"></div>
+            <img
+              src="assets/avatar.webp"
+              alt="Sarthak Agrawal"
+              width="400" height="533"
+              onerror="this.remove()"
+              loading="eager"
+            >
+          </div>
+          <div class="home-hero__photo-float home-hero__photo-float--top">
+            ☕ 4th cup today
+          </div>
+          <div class="home-hero__photo-float home-hero__photo-float--bottom">
+            🎵 lo-fi & chill
+          </div>
         </div>
+      </div>
+
+      <div class="home-hero__scroll" aria-hidden="true">
+        scroll
+        <div class="home-hero__scroll-line"></div>
       </div>
     </section>
 
-    <!-- ===== SCROLLING MARQUEE ===== -->
-    <div class="marquee-section" aria-hidden="true">
-      <div class="marquee-track">
-        <span class="marquee-item">penetration testing <span class="sep">◆</span></span>
-        <span class="marquee-item">web app security <span class="sep">◆</span></span>
-        <span class="marquee-item">red teaming <span class="sep">◆</span></span>
-        <span class="marquee-item">ctf player <span class="sep">◆</span></span>
-        <span class="marquee-item">tool builder <span class="sep">◆</span></span>
-        <span class="marquee-item">bug hunter <span class="sep">◆</span></span>
-        <span class="marquee-item">open source <span class="sep">◆</span></span>
-        <span class="marquee-item">coffee enthusiast <span class="sep">◆</span></span>
-        <!-- Duplicate for seamless loop -->
-        <span class="marquee-item">penetration testing <span class="sep">◆</span></span>
-        <span class="marquee-item">web app security <span class="sep">◆</span></span>
-        <span class="marquee-item">red teaming <span class="sep">◆</span></span>
-        <span class="marquee-item">ctf player <span class="sep">◆</span></span>
-        <span class="marquee-item">tool builder <span class="sep">◆</span></span>
-        <span class="marquee-item">bug hunter <span class="sep">◆</span></span>
-        <span class="marquee-item">open source <span class="sep">◆</span></span>
-        <span class="marquee-item">coffee enthusiast <span class="sep">◆</span></span>
+    <!-- ===== MARQUEE ===== -->
+    <div class="home-marquee" aria-hidden="true">
+      <div class="home-marquee__track">
+        <span class="home-marquee__item">traveler <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">puzzle solver <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">coffee enthusiast <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">board game nerd <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">sci-fi reader <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">amateur chef <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">music lover <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">night owl <span class="home-marquee__dot"></span></span>
+        <!-- duplicate -->
+        <span class="home-marquee__item">traveler <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">puzzle solver <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">coffee enthusiast <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">board game nerd <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">sci-fi reader <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">amateur chef <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">music lover <span class="home-marquee__dot"></span></span>
+        <span class="home-marquee__item">night owl <span class="home-marquee__dot"></span></span>
       </div>
     </div>
 
-    <!-- ===== ABOUT (Bento Grid) ===== -->
-    <section id="about" class="section">
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="home-section">
       <div class="container">
-        <p class="section__label reveal">who is this guy</p>
-        <h2 class="section__title reveal"><span class="scramble-text">About Me</span></h2>
+        <p class="home-section__label reveal">get to know me</p>
+        <h2 class="home-section__title reveal">A bit about me</h2>
 
-        <div class="bento-grid stagger">
+        <div class="home-about__grid">
+          <div class="home-about__text reveal">
+            <p>
+              I grew up taking things apart to see how they worked — clocks, radios,
+              my parents' patience. That curiosity never left; it just moved to
+              <strong>computers, puzzles, and figuring out why things break.</strong>
+            </p>
+            <p>
+              By day I work in <em>cybersecurity</em> — finding vulnerabilities, building
+              tools, and making systems safer. But that's only one chapter. Outside of work,
+              I'm someone who gets unreasonably excited about a good board game strategy,
+              argues about pour-over techniques, and reads sci-fi novels like they're going
+              out of print.
+            </p>
+            <p>
+              I believe the best conversations happen over food, the best ideas come
+              from unexpected places, and the best people are the ones who stay curious.
+              <strong>If you're reading this, you might be one of them.</strong>
+            </p>
+          </div>
 
-          <!-- Main bio card -->
-          <div class="bento-item bento-item--bio tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__avatar-wrap">
-              <img
-                src="assets/avatar.webp"
-                alt="Sarthak Agrawal"
-                width="80" height="80"
-                loading="lazy"
-                onerror="this.style.background='var(--bg-surface-hover)';this.alt=''"
-              >
+          <div class="home-about__sidebar stagger">
+            <div class="home-about__card tilt-card reveal">
+              <div class="tilt-card__shine"></div>
+              <div class="home-about__card-emoji">📍</div>
+              <div class="home-about__card-label">Based in</div>
+              <div class="home-about__card-value">India</div>
             </div>
-            <h3 class="bento__bio-title">The short version</h3>
-            <p class="bento__bio-text">
-              I'm a <strong>security engineer</strong> who thinks like an attacker
-              and builds like a developer. I spend my days poking holes in systems,
-              writing tools to automate the boring parts of hacking, and competing
-              in CTFs where I pretend the flags are real treasure.
-            </p>
-            <p class="bento__bio-text" style="margin-top: var(--space-sm);">
-              My philosophy: <strong>break it, understand it, make it stronger.</strong>
-              Also, everything is better with a good cup of coffee.
-            </p>
-          </div>
 
-          <!-- Location -->
-          <div class="bento-item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji">📍</div>
-            <div class="bento__label">Based in</div>
-            <div class="bento__value">India</div>
-          </div>
-
-          <!-- Coffee meter -->
-          <div class="bento-item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji">☕</div>
-            <div class="bento__label">Coffee today</div>
-            <div class="bento__meter">████░ 4/5</div>
-          </div>
-
-          <!-- Music -->
-          <div class="bento-item tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji">🎵</div>
-            <div class="bento__label">Vibe right now</div>
-            <div class="bento__music">
-              <div class="bento__music-bars" aria-hidden="true">
-                <div class="bento__music-bar"></div>
-                <div class="bento__music-bar"></div>
-                <div class="bento__music-bar"></div>
-                <div class="bento__music-bar"></div>
+            <div class="home-about__card tilt-card reveal">
+              <div class="tilt-card__shine"></div>
+              <div class="home-about__card-emoji">🎵</div>
+              <div class="home-about__card-label">Listening to</div>
+              <div class="home-about__card-value">
+                <span class="music-bars" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span>
+                </span>
+                lo-fi beats to exist to
               </div>
-              <span class="bento__value" style="font-size: var(--fs-sm);">lo-fi beats to hack to</span>
             </div>
-          </div>
 
-          <!-- Currently -->
-          <div class="bento-item bento-item--wide tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="bento__emoji">🧪</div>
-            <div class="bento__label">Currently</div>
-            <div class="bento__value">Building a custom fuzzer, learning Rust, and pretending I understand quantum computing</div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== SKILLS ===== -->
-    <section id="skills" class="section">
-      <div class="container">
-        <p class="section__label reveal">the toolkit</p>
-        <h2 class="section__title reveal"><span class="scramble-text">What I Work With</span></h2>
-
-        <div class="skills-grid stagger">
-
-          <div class="skill-group tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="skill-group__icon">⚔️</div>
-            <h3 class="skill-group__title">Offensive Security</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">Penetration Testing</span>
-              <span class="skill-tag">Web App Security</span>
-              <span class="skill-tag">Network Exploitation</span>
-              <span class="skill-tag">Active Directory</span>
-              <span class="skill-tag">OWASP Top 10</span>
-              <span class="skill-tag">API Security</span>
-              <span class="skill-tag">Red Teaming</span>
-              <span class="skill-tag">Social Engineering</span>
+            <div class="home-about__card tilt-card reveal">
+              <div class="tilt-card__shine"></div>
+              <div class="home-about__card-emoji">☕</div>
+              <div class="home-about__card-label">Coffee today</div>
+              <div class="home-about__card-value" style="font-family: var(--font-mono); color: var(--accent-amber);">████░ 4/5</div>
             </div>
-          </div>
 
-          <div class="skill-group tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="skill-group__icon">🛡️</div>
-            <h3 class="skill-group__title">Blue Team</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">SIEM & Log Analysis</span>
-              <span class="skill-tag">Incident Response</span>
-              <span class="skill-tag">Digital Forensics</span>
-              <span class="skill-tag">Threat Modeling</span>
-              <span class="skill-tag">Vuln Management</span>
-              <span class="skill-tag">Security Auditing</span>
+            <div class="home-about__card tilt-card reveal">
+              <div class="tilt-card__shine"></div>
+              <div class="home-about__card-emoji">🧠</div>
+              <div class="home-about__card-label">Personality type</div>
+              <div class="home-about__card-value">INTJ who pretends to be an ENFP at parties</div>
             </div>
-          </div>
-
-          <div class="skill-group tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="skill-group__icon">🔧</div>
-            <h3 class="skill-group__title">Dev & Tooling</h3>
-            <div class="skill-tags">
-              <span class="skill-tag">Python</span>
-              <span class="skill-tag">Bash</span>
-              <span class="skill-tag">Go</span>
-              <span class="skill-tag">JavaScript</span>
-              <span class="skill-tag">Docker</span>
-              <span class="skill-tag">Burp Suite</span>
-              <span class="skill-tag">Nmap</span>
-              <span class="skill-tag">Metasploit</span>
-              <span class="skill-tag">Wireshark</span>
-              <span class="skill-tag">Git</span>
-              <span class="skill-tag">Linux</span>
-              <span class="skill-tag">AWS</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== PROJECTS ===== -->
-    <section id="projects" class="section">
-      <div class="container">
-        <p class="section__label reveal">side quests & main missions</p>
-        <h2 class="section__title reveal"><span class="scramble-text">Things I've Built</span></h2>
-
-        <div class="filter-bar reveal">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="tool">Tools</button>
-          <button class="filter-btn" data-filter="research">Research</button>
-          <button class="filter-btn" data-filter="ctf">CTF</button>
-        </div>
-
-        <div class="card-grid stagger">
-
-          <article class="card tilt-card reveal" data-category="tool">
-            <div class="tilt-card__shine"></div>
-            <div class="card__number">01</div>
-            <h3 class="card__title">ReconPilot</h3>
-            <p class="card__desc">Automated recon framework that chains subdomain enumeration, port scanning, and fingerprinting into a single pipeline. Because doing it manually is for people with free time.</p>
-            <div class="card__tags">
-              <span class="card__tag">Python</span>
-              <span class="card__tag">Automation</span>
-              <span class="card__tag">Recon</span>
-            </div>
-            <div class="card__links">
-              <a href="#" class="card__link" aria-label="ReconPilot on GitHub">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                Source
-              </a>
-              <a href="#" class="card__link" aria-label="ReconPilot demo">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                Demo
-              </a>
-            </div>
-          </article>
-
-          <article class="card tilt-card reveal" data-category="tool">
-            <div class="tilt-card__shine"></div>
-            <div class="card__number">02</div>
-            <h3 class="card__title">HeaderGuard</h3>
-            <p class="card__desc">CLI that audits HTTP security headers and generates fix recommendations. Point it at a URL, get a report card. Simple as that.</p>
-            <div class="card__tags">
-              <span class="card__tag">Go</span>
-              <span class="card__tag">CLI</span>
-              <span class="card__tag">Headers</span>
-            </div>
-            <div class="card__links">
-              <a href="#" class="card__link" aria-label="HeaderGuard on GitHub">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                Source
-              </a>
-            </div>
-          </article>
-
-          <article class="card tilt-card reveal" data-category="research">
-            <div class="tilt-card__shine"></div>
-            <div class="card__number">03</div>
-            <h3 class="card__title">JWT Pitfalls in the Wild</h3>
-            <p class="card__desc">Analyzed JWT implementation mistakes across 50 open-source projects. Spoiler: almost nobody validates the <code style="color:var(--accent-pink)">alg</code> header properly.</p>
-            <div class="card__tags">
-              <span class="card__tag">Research</span>
-              <span class="card__tag">JWT</span>
-              <span class="card__tag">Auth</span>
-            </div>
-            <div class="card__links">
-              <a href="#" class="card__link" aria-label="JWT research writeup">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                Read
-              </a>
-            </div>
-          </article>
-
-          <article class="card tilt-card reveal" data-category="ctf">
-            <div class="tilt-card__shine"></div>
-            <div class="card__number">04</div>
-            <h3 class="card__title">CTF Toolkit</h3>
-            <p class="card__desc">My personal collection of scripts, templates, and cheat sheets for competitions. From crypto solvers to pwn templates — the stuff that saves me at 3 AM.</p>
-            <div class="card__tags">
-              <span class="card__tag">Python</span>
-              <span class="card__tag">CTF</span>
-              <span class="card__tag">Crypto</span>
-              <span class="card__tag">Pwn</span>
-            </div>
-            <div class="card__links">
-              <a href="#" class="card__link" aria-label="CTF Toolkit on GitHub">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                Source
-              </a>
-            </div>
-          </article>
-
-          <article class="card tilt-card reveal" data-category="tool">
-            <div class="tilt-card__shine"></div>
-            <div class="card__number">05</div>
-            <h3 class="card__title">SecretSweep</h3>
-            <p class="card__desc">Pre-commit hook + CI action that scans for leaked secrets using entropy analysis and pattern matching. Because <code style="color:var(--accent-pink)">AWS_SECRET_KEY</code> in your repo is not a vibe.</p>
-            <div class="card__tags">
-              <span class="card__tag">Python</span>
-              <span class="card__tag">CI/CD</span>
-              <span class="card__tag">Secrets</span>
-            </div>
-            <div class="card__links">
-              <a href="#" class="card__link" aria-label="SecretSweep on GitHub">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                Source
-              </a>
-            </div>
-          </article>
-
-          <article class="card tilt-card reveal" data-category="research">
-            <div class="tilt-card__shine"></div>
-            <div class="card__number">06</div>
-            <h3 class="card__title">DNS Rebinding Lab</h3>
-            <p class="card__desc">Interactive educational lab demonstrating DNS rebinding attacks. Built so the next person doesn't have to spend 3 days understanding it like I did.</p>
-            <div class="card__tags">
-              <span class="card__tag">Docker</span>
-              <span class="card__tag">DNS</span>
-              <span class="card__tag">Education</span>
-            </div>
-            <div class="card__links">
-              <a href="#" class="card__link" aria-label="DNS Rebinding Lab on GitHub">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                Source
-              </a>
-              <a href="#" class="card__link" aria-label="DNS Rebinding Lab demo">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                Demo
-              </a>
-            </div>
-          </article>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== WRITEUPS / CTFs ===== -->
-    <section id="writeups" class="section">
-      <div class="container">
-        <p class="section__label reveal">war stories</p>
-        <h2 class="section__title reveal"><span class="scramble-text">CTF Writeups</span></h2>
-
-        <div class="writeups-list stagger">
-          <a href="#" class="writeup-row reveal">
-            <div>
-              <div class="writeup-row__title">Exploiting Race Conditions in OAuth Flows</div>
-              <div class="writeup-row__event">DEF CON CTF Quals 2026</div>
-            </div>
-            <span class="writeup-row__badge writeup-row__badge--web">web</span>
-            <span class="writeup-row__arrow">→</span>
-          </a>
-
-          <a href="#" class="writeup-row reveal">
-            <div>
-              <div class="writeup-row__title">Heap Feng Shui for Fun and Flags</div>
-              <div class="writeup-row__event">picoCTF 2025</div>
-            </div>
-            <span class="writeup-row__badge writeup-row__badge--pwn">pwn</span>
-            <span class="writeup-row__arrow">→</span>
-          </a>
-
-          <a href="#" class="writeup-row reveal">
-            <div>
-              <div class="writeup-row__title">Breaking Custom Elliptic Curve Implementations</div>
-              <div class="writeup-row__event">CryptoHack Monthly</div>
-            </div>
-            <span class="writeup-row__badge writeup-row__badge--crypto">crypto</span>
-            <span class="writeup-row__arrow">→</span>
-          </a>
-
-          <a href="#" class="writeup-row reveal">
-            <div>
-              <div class="writeup-row__title">Memory Forensics: Recovering Deleted Artifacts</div>
-              <div class="writeup-row__event">HackTheBox Sherlock</div>
-            </div>
-            <span class="writeup-row__badge writeup-row__badge--forensics">forensics</span>
-            <span class="writeup-row__arrow">→</span>
-          </a>
-
-          <a href="#" class="writeup-row reveal">
-            <div>
-              <div class="writeup-row__title">Abusing SSRF to Pivot Through Cloud Metadata</div>
-              <div class="writeup-row__event">TryHackMe King of the Hill</div>
-            </div>
-            <span class="writeup-row__badge writeup-row__badge--web">web</span>
-            <span class="writeup-row__arrow">→</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== CERTIFICATIONS ===== -->
-    <section id="certs" class="section">
-      <div class="container">
-        <p class="section__label reveal">achievement unlocked</p>
-        <h2 class="section__title reveal"><span class="scramble-text">Certifications</span></h2>
-
-        <div class="certs-grid stagger">
-          <div class="cert-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="cert-card__icon">🏅</div>
-            <div class="cert-card__name">OSCP</div>
-            <div class="cert-card__issuer">Offensive Security</div>
-            <div class="cert-card__year">2025</div>
-          </div>
-          <div class="cert-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="cert-card__icon">🏅</div>
-            <div class="cert-card__name">CEH</div>
-            <div class="cert-card__issuer">EC-Council</div>
-            <div class="cert-card__year">2024</div>
-          </div>
-          <div class="cert-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="cert-card__icon">🏅</div>
-            <div class="cert-card__name">AWS Security Specialty</div>
-            <div class="cert-card__issuer">Amazon Web Services</div>
-            <div class="cert-card__year">2024</div>
-          </div>
-          <div class="cert-card tilt-card reveal">
-            <div class="tilt-card__shine"></div>
-            <div class="cert-card__icon">🏅</div>
-            <div class="cert-card__name">CompTIA Security+</div>
-            <div class="cert-card__issuer">CompTIA</div>
-            <div class="cert-card__year">2023</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== TIMELINE ===== -->
-    <section id="timeline" class="section">
+    <!-- ===== PHOTO GALLERY ===== -->
+    <section id="gallery" class="home-section">
       <div class="container">
-        <p class="section__label reveal">the story so far</p>
-        <h2 class="section__title reveal"><span class="scramble-text">Journey</span></h2>
+        <p class="home-section__label reveal">some moments</p>
+        <h2 class="home-section__title reveal">Gallery</h2>
 
-        <div class="timeline stagger">
-          <div class="timeline__item reveal">
-            <div class="timeline__dot"></div>
-            <div class="timeline__year">2025 — Present</div>
-            <div class="timeline__role">Senior Security Engineer</div>
-            <div class="timeline__org">Acme Corp</div>
-            <div class="timeline__desc">Leading red team engagements, building internal security tooling. Reduced mean-time-to-detect by 40% through custom detection rules. Still haven't found the office snack thief though.</div>
+        <div class="gallery__grid stagger">
+          <div class="gallery__item gallery__item--tall reveal">
+            <div class="gallery__item-inner">your photo here</div>
           </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__dot"></div>
-            <div class="timeline__year">2023 — 2025</div>
-            <div class="timeline__role">Penetration Tester</div>
-            <div class="timeline__org">SecureWorks</div>
-            <div class="timeline__desc">50+ web application and network pentests for Fortune 500 clients. Specialized in OAuth/SSO bypass techniques. Got really good at writing reports nobody reads.</div>
+          <div class="gallery__item reveal">
+            <div class="gallery__item-inner">travel snap</div>
           </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__dot"></div>
-            <div class="timeline__year">2022 — 2023</div>
-            <div class="timeline__role">Security Analyst</div>
-            <div class="timeline__org">StartupXYZ</div>
-            <div class="timeline__desc">Built the security program from zero — vuln management, IR playbooks, security awareness training. Learned that the hardest vulnerability to patch is human behavior.</div>
+          <div class="gallery__item reveal">
+            <div class="gallery__item-inner">with friends</div>
           </div>
-
-          <div class="timeline__item reveal">
-            <div class="timeline__dot"></div>
-            <div class="timeline__year">2018 — 2022</div>
-            <div class="timeline__role">B.Tech Computer Science</div>
-            <div class="timeline__org">University</div>
-            <div class="timeline__desc">Specialized in information security. Founded the university CTF team, placed top 10 nationally. Survived on instant noodles and determination.</div>
+          <div class="gallery__item reveal">
+            <div class="gallery__item-inner">hobby moment</div>
+          </div>
+          <div class="gallery__item reveal">
+            <div class="gallery__item-inner">adventure</div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== INTERESTS ===== -->
+    <section id="interests" class="home-section">
+      <div class="container">
+        <p class="home-section__label reveal">what makes me tick</p>
+        <h2 class="home-section__title reveal">Interests & Hobbies</h2>
+
+        <div class="interests__grid stagger">
+          <div class="interest-card tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="interest-card__emoji">🎲</div>
+            <div>
+              <div class="interest-card__title">Board Games</div>
+              <div class="interest-card__desc">Strategy games with deception mechanics are my weakness. If you've played Coup or Secret Hitler, we'll get along.</div>
+            </div>
+          </div>
+
+          <div class="interest-card tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="interest-card__emoji">☕</div>
+            <div>
+              <div class="interest-card__title">Coffee</div>
+              <div class="interest-card__desc">Pour-over or we can't be friends. Currently obsessed with Ethiopian single-origin light roasts.</div>
+            </div>
+          </div>
+
+          <div class="interest-card tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="interest-card__emoji">🍳</div>
+            <div>
+              <div class="interest-card__title">Cooking</div>
+              <div class="interest-card__desc">Kitchen experiments that are mostly successful. Only needed the fire extinguisher twice this year.</div>
+            </div>
+          </div>
+
+          <div class="interest-card tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="interest-card__emoji">📚</div>
+            <div>
+              <div class="interest-card__title">Reading</div>
+              <div class="interest-card__desc">Sci-fi and non-fiction in equal measure. Asimov, Ted Chiang, and anything about how the world actually works.</div>
+            </div>
+          </div>
+
+          <div class="interest-card tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="interest-card__emoji">🌏</div>
+            <div>
+              <div class="interest-card__title">Travel</div>
+              <div class="interest-card__desc">Chasing good food and interesting history. The best trips are the ones where the plan falls apart.</div>
+            </div>
+          </div>
+
+          <div class="interest-card tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="interest-card__emoji">🧩</div>
+            <div>
+              <div class="interest-card__title">Puzzles & CTFs</div>
+              <div class="interest-card__desc">I solve logic puzzles for fun. Yes, for fun. CTF competitions are just puzzles with bragging rights.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CURRENTLY ===== -->
+    <section class="home-section">
+      <div class="container">
+        <p class="home-section__label reveal">right now</p>
+        <h2 class="home-section__title reveal">What I'm up to</h2>
+
+        <div class="currently__grid stagger">
+          <div class="currently__item tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="currently__icon">📖</div>
+            <div class="currently__label">Reading</div>
+            <div class="currently__value">Project Hail Mary</div>
+            <div class="currently__detail">Andy Weir — 70% through, can't put it down</div>
+          </div>
+
+          <div class="currently__item tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="currently__icon">🎵</div>
+            <div class="currently__label">Listening</div>
+            <div class="currently__value">Lo-fi + post-rock</div>
+            <div class="currently__detail">Godspeed You! Black Emperor on repeat</div>
+          </div>
+
+          <div class="currently__item tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="currently__icon">🎬</div>
+            <div class="currently__label">Watching</div>
+            <div class="currently__value">Severance S2</div>
+            <div class="currently__detail">The vibes are immaculate and terrifying</div>
+          </div>
+
+          <div class="currently__item tilt-card reveal">
+            <div class="tilt-card__shine"></div>
+            <div class="currently__icon">🔨</div>
+            <div class="currently__label">Building</div>
+            <div class="currently__value">This website</div>
+            <div class="currently__detail">And a custom fuzzer in Rust (slowly)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WORK CTA ===== -->
+    <section class="work-cta">
+      <div class="container">
+        <p class="home-section__label reveal">the professional side</p>
+        <h2 class="work-cta__title reveal">Curious what I do for a living?</h2>
+        <p class="work-cta__desc reveal">
+          I'm a security engineer by profession — pentesting, tool building, CTF competing, and
+          making the internet slightly less broken. Check out the full story.
+        </p>
+        <a href="workprofile/" class="btn btn--primary magnetic reveal">see my work profile →</a>
       </div>
     </section>
 
     <!-- ===== CONTACT ===== -->
-    <section id="contact" class="section">
-      <div class="container contact-section">
-        <p class="section__label reveal">let's talk</p>
-        <h2 class="section__title reveal"><span class="scramble-text">Get In Touch</span></h2>
-        <p class="contact__text reveal">
-          Whether it's a job opportunity, a CTF team invite, a security question,
-          or just a good meme — my inbox is open.
-        </p>
+    <section id="contact" class="home-contact">
+      <div class="container">
+        <h2 class="home-contact__title reveal">Let's be friends.</h2>
+        <p class="home-contact__subtitle reveal">Or at least internet acquaintances.</p>
 
-        <div class="contact__links reveal">
-          <a href="mailto:hello@sarthak.dev" class="contact__link magnetic" data-copy="hello@sarthak.dev" aria-label="Copy email address">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+        <div class="home-contact__links reveal">
+          <a href="mailto:hello@sarthak.dev" class="home-contact__link magnetic" data-copy="hello@sarthak.dev" aria-label="Copy email">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
             Email
           </a>
-          <a href="https://github.com/sarthakagrawal" class="contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <a href="https://github.com/sarthakagrawal" class="home-contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             GitHub
           </a>
-          <a href="https://linkedin.com/in/sarthak" class="contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <a href="https://linkedin.com/in/sarthak" class="home-contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             LinkedIn
           </a>
-          <a href="https://twitter.com/sarthak" class="contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="Twitter profile">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <a href="https://twitter.com/sarthak" class="home-contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             Twitter
           </a>
-        </div>
-
-        <div class="contact__status reveal">
-          <span class="dot" aria-hidden="true"></span>
-          Currently open to opportunities
+          <a href="https://instagram.com/sarthak" class="home-contact__link magnetic" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <footer class="footer">
+  <footer class="home-footer">
     <div class="container">
-      <p class="footer__text">
-        &copy; 2026 Sarthak Agrawal &middot;
-        Built with vanilla HTML, CSS &amp; JS &middot;
-        No frameworks were harmed &middot;
-        <span style="cursor:help" title="↑↑↓↓←→←→BA">try the konami code</span>
+      <p class="home-footer__text">
+        &copy; 2026 Sarthak Agrawal &middot; made with curiosity and too much coffee
       </p>
     </div>
   </footer>
 
   <script src="js/effects.js"></script>
   <script src="js/animations.js"></script>
-  <script src="js/typing.js"></script>
-  <script src="js/main.js"></script>
 </body>
 </html>

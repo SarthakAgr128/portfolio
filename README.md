@@ -1,18 +1,24 @@
 # portfolio
 
-Personal cybersecurity portfolio — static site hosted on GitHub Pages.
+Personal + professional portfolio — static site on GitHub Pages.
+
+## Structure
+
+| Route | What |
+|-------|------|
+| `/` | Personal home page (about, photos, interests, hobbies) |
+| `/workprofile/` | Cybersecurity work portfolio (projects, CTFs, certs, timeline) |
+| `/date/` | Hidden dating page (not linked publicly) |
 
 ## Stack
 
-Vanilla HTML, CSS, and JavaScript. Zero frameworks, zero build step.
+Vanilla HTML, CSS, JavaScript. Zero frameworks, zero build step.
 
-## Local development
-
-Open `index.html` in a browser, or serve with any static server:
+## Local dev
 
 ```bash
 python3 -m http.server 8000
-# then visit http://localhost:8000
+# visit http://localhost:8000
 ```
 
 ## Deploy
@@ -23,9 +29,8 @@ python3 -m http.server 8000
 
 ## Customization
 
-- **Content:** Edit `index.html` directly — all sections are in one file.
-- **Colors/fonts:** Edit `css/theme.css` custom properties.
-- **Hidden pages:** Create `<date>/index.html` folders (see `2026-04-15/` for an example).
-- **Avatar:** Replace `assets/avatar.webp` with your own (160×160, WebP recommended).
-
-See [BLUEPRINT.md](BLUEPRINT.md) for the full architecture spec.
+- **Home page content:** Edit `index.html`
+- **Work profile content:** Edit `workprofile/index.html`
+- **Colors / fonts:** Edit `css/theme.css`
+- **Photos:** Replace placeholder gallery items in `index.html` with real `<img>` tags
+- **Avatar:** Replace `assets/avatar.webp` (used on home hero + work profile)

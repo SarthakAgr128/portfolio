@@ -2,36 +2,62 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.addEventListener('DOMContentLoaded', () => {
+    initCustomCursor();
+    initEmailCopy();
+    initKonamiCode();
     if (!prefersReduced) {
-      initCursorGlow();
       initTiltCards();
       initMagneticButtons();
       initTextScramble();
     }
-    initKonamiCode();
-    initEmailCopy();
   });
 
-  /* --- Cursor glow follows mouse --- */
+  /* --- Custom dot + ring cursor --- */
 
-  function initCursorGlow() {
-    const glow = document.querySelector('.cursor-glow');
-    if (!glow || window.matchMedia('(pointer: coarse)').matches) return;
+  function initCustomCursor() {
+    const dot = document.querySelector('.cursor__dot');
+    const ring = document.querySelector('.cursor__ring');
+    if (!dot || !ring || window.matchMedia('(pointer: coarse)').matches) return;
 
-    let mx = 0, my = 0, gx = 0, gy = 0;
+    document.body.classList.add('has-cursor');
+
+    let mx = 0, my = 0, rx = 0, ry = 0;
 
     document.addEventListener('mousemove', (e) => {
       mx = e.clientX;
       my = e.clientY;
+      dot.style.left = mx + 'px';
+      dot.style.top = my + 'px';
     });
 
     (function animate() {
-      gx += (mx - gx) * 0.12;
-      gy += (my - gy) * 0.12;
-      glow.style.left = gx + 'px';
-      glow.style.top = gy + 'px';
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
       requestAnimationFrame(animate);
     })();
+
+    const interactive = 'a, button, [data-copy], .tilt-card, .gallery__item, .bento-item, input, textarea';
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(interactive)) {
+        dot.parentElement?.classList.add('cursor--active');
+      }
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(interactive)) {
+        dot.parentElement?.classList.remove('cursor--active');
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity = '1';
+      ring.style.opacity = '1';
+    });
   }
 
   /* --- 3D tilt on cards --- */
@@ -44,12 +70,11 @@
         const y = e.clientY - rect.top;
         const cx = rect.width / 2;
         const cy = rect.height / 2;
-        const rotX = ((y - cy) / cy) * -6;
-        const rotY = ((x - cx) / cx) * 6;
+        const rotX = ((y - cy) / cy) * -5;
+        const rotY = ((x - cx) / cx) * 5;
 
         card.style.transform =
           `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.01, 1.01, 1.01)`;
-
         card.style.setProperty('--mouse-x', ((x / rect.width) * 100) + '%');
         card.style.setProperty('--mouse-y', ((y / rect.height) * 100) + '%');
       });
@@ -81,7 +106,7 @@
     });
   }
 
-  /* --- Text scramble effect on scroll --- */
+  /* --- Text scramble on scroll --- */
 
   function initTextScramble() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
@@ -108,28 +133,17 @@
       const steps = 20;
       const stepTime = duration / steps;
       let step = 0;
-
       const interval = setInterval(() => {
         step++;
         const progress = step / steps;
         let result = '';
-
         for (let i = 0; i < final.length; i++) {
-          if (final[i] === ' ') {
-            result += ' ';
-          } else if (i < final.length * progress) {
-            result += final[i];
-          } else {
-            result += chars[Math.floor(Math.random() * chars.length)];
-          }
+          if (final[i] === ' ') result += ' ';
+          else if (i < final.length * progress) result += final[i];
+          else result += chars[Math.floor(Math.random() * chars.length)];
         }
-
         el.textContent = result;
-
-        if (step >= steps) {
-          clearInterval(interval);
-          el.textContent = final;
-        }
+        if (step >= steps) { clearInterval(interval); el.textContent = final; }
       }, stepTime);
     }
   }
@@ -139,57 +153,39 @@
   function initKonamiCode() {
     const code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
     let pos = 0;
-
     document.addEventListener('keydown', (e) => {
-      if (e.key === code[pos]) {
-        pos++;
-        if (pos === code.length) {
-          activatePartyMode();
-          pos = 0;
-        }
-      } else {
-        pos = 0;
-      }
+      if (e.key === code[pos]) { pos++; if (pos === code.length) { activatePartyMode(); pos = 0; } }
+      else pos = 0;
     });
   }
 
   function activatePartyMode() {
     document.body.classList.toggle('party-mode');
-    const isOn = document.body.classList.contains('party-mode');
-    showToast(isOn ? '🎉 party mode activated!' : '😴 back to business');
+    showToast(document.body.classList.contains('party-mode') ? '🎉 party mode activated!' : '😴 back to business');
   }
 
   /* --- Click-to-copy email --- */
 
   function initEmailCopy() {
     document.querySelectorAll('[data-copy]').forEach(el => {
-      el.style.cursor = 'pointer';
       el.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
           await navigator.clipboard.writeText(el.dataset.copy);
           showToast('📋 copied to clipboard!');
-        } catch {
-          showToast('could not copy — check permissions');
-        }
+        } catch { showToast('could not copy — check permissions'); }
       });
     });
   }
 
-  /* --- Toast helper --- */
+  /* --- Toast --- */
 
   function showToast(msg) {
     let toast = document.querySelector('.toast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.className = 'toast';
-      document.body.appendChild(toast);
-    }
+    if (!toast) { toast = document.createElement('div'); toast.className = 'toast'; document.body.appendChild(toast); }
     toast.textContent = msg;
     toast.classList.remove('show');
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => toast.classList.add('show'));
-    });
+    requestAnimationFrame(() => { requestAnimationFrame(() => toast.classList.add('show')); });
     setTimeout(() => toast.classList.remove('show'), 2500);
   }
 
