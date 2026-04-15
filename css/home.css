@@ -773,6 +773,29 @@ body::before {
 .currently__detail { font-size: 0.8rem; color: var(--text-tertiary); margin-top: 4px; }
 
 /* =========================
+   SKILL BADGES
+   ========================= */
+
+.skill-badge {
+  padding: 10px 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s;
+}
+
+.skill-badge:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-indigo);
+  color: var(--accent-indigo);
+}
+
+/* =========================
    WORK CTA
    ========================= */
 
@@ -906,7 +929,7 @@ body::before {
 
 /* Hero entrance is now managed by GSAP */
 .home-hero__wave, .home-hero__name, .home-hero__desc, 
-.home-hero__meta, .home-hero__cta, .home-hero__photo {
+.home-hero__meta, .home-hero__cta, .home-hero__photo-frame {
   opacity: 0;
 }
 

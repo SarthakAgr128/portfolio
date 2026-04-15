@@ -11,6 +11,7 @@
     initParallax();
     initCardStack();
     initGalleryAnimations();
+    initHorizontalScroll();
     initSmoothScroll();
     initMagneticButtons();
   });
@@ -39,7 +40,8 @@
   }
 
   function initScrollReveals() {
-    const sections = document.querySelectorAll('.home-section');
+    // Select all sections that might contain .reveal elements
+    const sections = document.querySelectorAll('section, footer');
     sections.forEach(sec => {
       const elements = sec.querySelectorAll('.reveal');
       if(elements.length) {
@@ -54,7 +56,7 @@
             ease: 'power3.out',
             scrollTrigger: {
               trigger: sec,
-              start: 'top 80%',
+              start: 'top 85%',
               toggleActions: 'play none none reverse'
             }
           }
@@ -75,6 +77,22 @@
           end: 'bottom top',
           scrub: true
         }
+      });
+    });
+
+    // Make background blobs float interactively
+    const blobs = gsap.utils.toArray('.blob');
+    blobs.forEach((blob, i) => {
+      gsap.to(blob, {
+        x: "random(-100, 100)",
+        y: "random(-100, 100)",
+        rotation: "random(-45, 45)",
+        scale: "random(0.8, 1.2)",
+        duration: "random(10, 20)",
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+        delay: i * -5
       });
     });
   }
@@ -124,6 +142,48 @@
         }
       }
     );
+  }
+
+  function initHorizontalScroll() {
+    const horizontalSection = document.querySelector('.horizontal-scroll-section');
+    const scrollContainer = document.querySelector('.horizontal-scroll-container');
+    const panels = gsap.utils.toArray('.horizontal-scroll-panel');
+    
+    if (!horizontalSection || !scrollContainer || panels.length === 0) return;
+
+    let horizontalTween = gsap.to(panels, {
+      xPercent: -100 * (panels.length - 1),
+      ease: "none",
+      scrollTrigger: {
+        trigger: horizontalSection,
+        pin: true,
+        scrub: 1,
+        snap: 1 / (panels.length - 1),
+        end: () => "+=" + scrollContainer.offsetWidth
+      }
+    });
+
+    // Add parallax to the badges inside panels
+    panels.forEach((panel, i) => {
+      const badges = panel.querySelectorAll('.skill-badge');
+      if(badges.length) {
+        gsap.fromTo(badges,
+          { opacity: 0, y: 50, scale: 0.5 },
+          {
+            opacity: 1, y: 0, scale: 1,
+            stagger: 0.1,
+            duration: 1,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: horizontalTween,
+              start: "left center",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      }
+    });
   }
 
   function initSmoothScroll() {
