@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moncy Yohannan · Portfolio V2</title>
+    <meta
+      name="description"
+      content="Moncy Yohannan — cinematic web designer, developer, and motion director building interactive 3D experiences."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@150..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/moncy.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="ambient-grid" aria-hidden="true">
+      <div class="ambient-grid__dots"></div>
+      <div class="ambient-grid__glow"></div>
+    </div>
+
+    <div class="cursor" aria-hidden="true">
+      <span class="cursor__dot"></span>
+      <span class="cursor__ring"></span>
+    </div>
+
+    <header class="moncy-header">
+      <div class="moncy-header__inner">
+        <span class="moncy-logo">MONCY</span>
+        <nav class="moncy-nav">
+          <a href="#about">about</a>
+          <a href="#what">what I do</a>
+          <a href="#work">work</a>
+          <a href="#contact">contact</a>
+        </nav>
+        <a class="moncy-btn" href="#work">see the work</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="moncy-hero">
+        <div class="hero-content">
+          <p class="hero-eyebrow">creative director × software architect</p>
+          <h1>
+            Moncy
+            <span>Yohannan</span>
+          </h1>
+          <p class="hero-tagline" data-text="Designing cinematic web experiences with light, motion, and physics.">
+            Designing cinematic web experiences with light, motion, and physics.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn--primary" href="#contact">work with me</a>
+            <button class="btn btn--ghost" type="button">download dossier</button>
+          </div>
+          <div class="hero-meta">
+            <div>
+              <span>Role</span>
+              <strong>Designer / Developer</strong>
+            </div>
+            <div>
+              <span>Location</span>
+              <strong>Dubai · Remote</strong>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="orb" id="orb"></div>
+          <div class="floating-card">
+            <span>3D Motion Lab</span>
+            <strong>Live Render</strong>
+            <p>Realtime WebGL moods layered with GSAP inspired timing.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="moncy-section">
+        <div class="section-heading">
+          <p>// about</p>
+          <h2>Story &amp; intention</h2>
+        </div>
+        <div class="section-body">
+          <p>
+            I blend cinematic storytelling, spatial soundscapes, and code to design digital destinations that
+            feel alive. Experimental by nature, I build with light, motion, and tactile interactions to make
+            every scroll feel like a scene from a film.
+          </p>
+          <p>
+            My studio ships lightning-fast prototypes, immersive product launches, and full WebGL hero
+            experiences for brands who want to be remembered.
+          </p>
+        </div>
+        <div class="metrics-grid">
+          <article>
+            <h3>12+</h3>
+            <p>Years crafting motion-forward experiences</p>
+          </article>
+          <article>
+            <h3>5</h3>
+            <p>Countries shipping cinematic launches from</p>
+          </article>
+          <article>
+            <h3>23</h3>
+            <p>WebGL &amp; shader systems deployed live</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="what" class="moncy-section triple-grid">
+        <div class="section-heading">
+          <p>// what I do</p>
+          <h2>Capabilities</h2>
+        </div>
+        <div class="grid">
+          <article class="glass-panel">
+            <span class="tag">CREATIVE CODING</span>
+            <h3>Immersive websites</h3>
+            <p>GSAP, Three.js, WebGL, and shader-based storytelling for hero moments with depth.</p>
+          </article>
+          <article class="glass-panel">
+            <span class="tag">DESIGN SYSTEM</span>
+            <h3>Design ops</h3>
+            <p>Documenting motion, typography, and interactive libraries so every release feels cohesive.</p>
+          </article>
+          <article class="glass-panel">
+            <span class="tag">EXPERIMENTS</span>
+            <h3>Realtime labs</h3>
+            <p>Prototyping volumetric lighting, 3D typography, and tactile cursor systems.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="work" class="moncy-section">
+        <div class="section-heading">
+          <p>// experience</p>
+          <h2>Selected case studies</h2>
+        </div>
+        <div class="project-stack" role="list">
+          <article class="project-card" role="listitem">
+            <div class="edge"></div>
+            <div class="surface">
+              <h3>Hyperloop Studio</h3>
+              <p>Realtime interactive showcase with orbiting data spheres and volumetric gradients.</p>
+              <span class="tag">Brand · Motion</span>
+            </div>
+          </article>
+          <article class="project-card" role="listitem">
+            <div class="edge"></div>
+            <div class="surface">
+              <h3>Cosmos Gateway</h3>
+              <p>Immersive story builder with WebGL nodes and tactile scroll choreography.</p>
+              <span class="tag">Product · WebGL</span>
+            </div>
+          </article>
+          <article class="project-card" role="listitem">
+            <div class="edge"></div>
+            <div class="surface">
+              <h3>Pulse VR</h3>
+              <p>Realtime data cube visualizing livestream telemetry from global events.</p>
+              <span class="tag">Interactive · Data</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="moncy-cta">
+        <div class="cta-stage">
+          <h2>Need a director for your next digital launch?</h2>
+          <p>Prototype, iterate, polish, and deploy work that feels alive.</p>
+          <a class="btn btn--primary" href="#contact">start a conversation</a>
+        </div>
+      </section>
+
+      <section id="contact" class="moncy-section contact-section">
+        <div class="section-heading">
+          <p>// contact</p>
+          <h2>Where to find me</h2>
+        </div>
+        <div class="contact-grid">
+          <div>
+            <h3>Email</h3>
+            <a href="mailto:hello@moncy.dev">hello@moncy.dev</a>
+          </div>
+          <div>
+            <h3>Drift</h3>
+            <p>Casual noise, replies usually within 24 hrs.</p>
+          </div>
+          <div>
+            <h3>Availability</h3>
+            <p>Open for creative experiments Q3 2026</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="moncy-footer">
+      <p>© 2026 Moncy Yohannan · Crafted with motion, light, and code.</p>
+    </footer>
+
+    <script src="../js/moncy.js"></script>
+  </body>
+</html>
