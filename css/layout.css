@@ -260,6 +260,42 @@ main {
   color: #fff;
 }
 
+.hero__name-block {
+  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-sans);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+  color: var(--accent-cyan);
+}
+
+.hero__name-leaf {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hero__name-first,
+.hero__name-last {
+  font-family: var(--font-mono);
+  font-size: clamp(3rem, 5vw, 5rem);
+  line-height: 1;
+  font-weight: 700;
+}
+
+.hero__tagline {
+  font-size: var(--fs-md);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 .hero__panel-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
