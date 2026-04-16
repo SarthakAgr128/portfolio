@@ -16,21 +16,19 @@
     }
     
     ghostCursor = new window.GhostCursor({
-      color: '#FFFFFF',
-      brightness: 1.2,
-      trailLength: 20,
-      inertia: 0.4,
-      bloomStrength: 0.3,
-      bloomRadius: 0.8,
-      bloomThreshold: 0,
-      grainIntensity: 0.05,
-      fadeDelayMs: 200,
-      fadeDurationMs: 1000,
-      mixBlendMode: 'screen',
-      zIndex: 999
+      color: '#64748b',       // Slate-500 - matches cosmic theme
+      brightness: 0.6,        // Reduced brightness
+      trailLength: 12,        // Shorter trail for subtlety
+      inertia: 0.35,          // Smooth movement
+      intensity: 0.5,         // Reduced overall intensity
+      fadeDelayMs: 150,       // Quick fade start
+      fadeDurationMs: 800,    // Fast fade out
+      mixBlendMode: 'screen', // Blend with background
+      zIndex: 50              // Below most UI elements
     });
     
-    ghostCursor.init('body');
+    // Init without parent selector - uses fixed viewport positioning
+    ghostCursor.init();
   }
 
   // Portal Rings Cursor Distortion

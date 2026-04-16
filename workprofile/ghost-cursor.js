@@ -15,15 +15,11 @@
   class GhostCursor {
     constructor(options = {}) {
       this.config = {
-        color: options.color || '#FFFFFF',
-        brightness: options.brightness || 1.2,
-        trailLength: options.trailLength || 20,
+        color: options.color || '#94a3b8',  // Slate-400 tint instead of pure white
+        brightness: options.brightness || 0.7,  // Reduced brightness
+        trailLength: options.trailLength || 15,  // Shorter trail
         inertia: options.inertia || 0.4,
-        bloomStrength: options.bloomStrength || 0.3,
-        bloomRadius: options.bloomRadius || 0.8,
-        bloomThreshold: options.bloomThreshold || 0,
-        grainIntensity: options.grainIntensity || 0.05,
-        edgeIntensity: options.edgeIntensity || 0,
+        intensity: options.intensity || 0.6,  // Overall intensity
         mixBlendMode: options.mixBlendMode || 'screen',
         fadeDelayMs: options.fadeDelayMs || 200,
         fadeDurationMs: options.fadeDurationMs || 1000,
@@ -39,12 +35,10 @@
       this.camera = null;
       this.material = null;
       this.container = null;
-      this.parentElement = null;
       
       this.trailBuffer = [];
       this.headIndex = 0;
       this.rafId = null;
-      this.resizeObserver = null;
       this.currentMouse = new THREE.Vector2(0.5, 0.5);
       this.velocity = new THREE.Vector2(0, 0);
       this.fadeOpacity = 1.0;
@@ -53,25 +47,23 @@
       this.isRunning = false;
     }
 
-    init(parentSelector = 'body') {
-      this.parentElement = document.querySelector(parentSelector);
-      if (!this.parentElement) {
-        console.error('GhostCursor: Parent element not found:', parentSelector);
-        return;
-      }
-
+    init() {
       console.log('GhostCursor: Initializing...');
       
+      // Create fixed container that covers the entire viewport
       this.container = document.createElement('div');
       this.container.className = 'ghost-cursor-container';
       this.container.style.cssText = `
-        position: absolute;
-        inset: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
         pointer-events: none;
         z-index: ${this.config.zIndex};
         overflow: hidden;
       `;
-      this.parentElement.appendChild(this.container);
+      document.body.appendChild(this.container);
 
       try {
         this.setupRenderer();
@@ -127,6 +119,7 @@
         }
       `;
 
+      // Simplified and less dense shader
       const fragmentShader = `
         uniform float iTime;
         uniform vec3  iResolution;
@@ -136,6 +129,7 @@
         uniform float iScale;
         uniform vec3  iBaseColor;
         uniform float iBrightness;
+        uniform float iIntensity;
 
         varying vec2  vUv;
 
@@ -152,7 +146,7 @@
           float v = 0.0;
           float a = 0.5;
           mat2 m = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-          for(int i=0;i<5;i++){
+          for(int i=0;i<4;i++){  // Reduced iterations for less density
             v += a * noise(p);
             p = m * p * 2.0;
             a *= 0.5;
@@ -161,15 +155,19 @@
         }
 
         vec4 blob(vec2 p, vec2 mousePos, float intensity, float activity) {
-          vec2 q = vec2(fbm(p * iScale + iTime * 0.1), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.1));
-          vec2 r = vec2(fbm(p * iScale + q * 1.5 + iTime * 0.15), fbm(p * iScale + q * 1.5 + vec2(8.3,2.8) + iTime * 0.15));
-          float smoke = fbm(p * iScale + r * 0.8);
+          vec2 q = vec2(fbm(p * iScale + iTime * 0.08), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.08));
+          float smoke = fbm(p * iScale * 0.8 + q * 0.5);
           
-          float radius = 0.5 + 0.3 * (1.0 / iScale);
-          float distFactor = 1.0 - smoothstep(0.0, radius * activity, length(p - mousePos));
-          float alpha = pow(smoke, 2.5) * distFactor;
+          // Smaller radius for tighter effect
+          float radius = 0.25 + 0.15 * (1.0 / iScale);
+          float dist = length(p - mousePos);
+          float distFactor = 1.0 - smoothstep(0.0, radius * activity, dist);
+          
+          // Softer falloff, less dense
+          float alpha = pow(smoke, 3.0) * distFactor * 0.5;
 
-          vec3 color = mix(iBaseColor, vec3(1.0), 0.2);
+          // Mix base color with slight white tint
+          vec3 color = mix(iBaseColor, vec3(0.9, 0.95, 1.0), 0.3);
 
           return vec4(color * alpha * intensity, alpha * intensity);
         }
@@ -181,26 +179,29 @@
           vec3 colorAcc = vec3(0.0);
           float alphaAcc = 0.0;
           
-          vec4 b = blob(uv, mouse, 1.0, iOpacity);
+          // Main blob at cursor
+          vec4 b = blob(uv, mouse, 0.8, iOpacity);
           colorAcc += b.rgb;
           alphaAcc += b.a;
 
+          // Trail blobs with faster falloff
           for (int i = 0; i < ${maxTrail}; i++) {
             vec2 pm = (iPrevMouse[i] * 2.0 - 1.0) * vec2(iResolution.x / iResolution.y, 1.0);
             float t = 1.0 - float(i) / float(${maxTrail});
-            t = pow(t, 2.0);
+            t = pow(t, 2.5);  // Faster falloff
             
-            if (t > 0.01) {
-              vec4 bt = blob(uv, pm, t * 0.8, iOpacity);
+            if (t > 0.02) {
+              vec4 bt = blob(uv, pm, t * 0.5, iOpacity);  // Reduced trail intensity
               colorAcc += bt.rgb;
               alphaAcc += bt.a;
             }
           }
 
-          colorAcc *= iBrightness;
+          colorAcc *= iBrightness * iIntensity;
           
-          float outAlpha = clamp(alphaAcc * iOpacity, 0.0, 1.0);
-          gl_FragColor = vec4(colorAcc, outAlpha);
+          // Clamp to prevent over-bright areas
+          float outAlpha = clamp(alphaAcc * iOpacity * iIntensity * 0.7, 0.0, 0.6);
+          gl_FragColor = vec4(clamp(colorAcc, 0.0, 0.8), outAlpha);
         }
       `;
 
@@ -213,7 +214,8 @@
           iOpacity: { value: 1.0 },
           iScale: { value: 1.0 },
           iBaseColor: { value: new THREE.Vector3(baseColor.r, baseColor.g, baseColor.b) },
-          iBrightness: { value: this.config.brightness }
+          iBrightness: { value: this.config.brightness },
+          iIntensity: { value: this.config.intensity }
         },
         vertexShader,
         fragmentShader,
@@ -231,14 +233,14 @@
 
       this.handleResize();
       
-      this.resizeObserver = new ResizeObserver(() => this.handleResize());
-      this.resizeObserver.observe(this.container);
+      // Use window resize instead of ResizeObserver for fixed positioning
+      window.addEventListener('resize', () => this.handleResize());
     }
 
     handleResize() {
-      const rect = this.container.getBoundingClientRect();
-      const cssW = Math.max(1, Math.floor(rect.width));
-      const cssH = Math.max(1, Math.floor(rect.height));
+      // Use viewport dimensions for fixed positioning
+      const cssW = window.innerWidth;
+      const cssH = window.innerHeight;
 
       const currentDPR = Math.min(window.devicePixelRatio || 1, this.config.maxDevicePixelRatio);
       const need = cssW * cssH * currentDPR * currentDPR;
@@ -256,17 +258,17 @@
     }
 
     calculateScale() {
-      const rect = this.container.getBoundingClientRect();
       const base = 600;
-      const current = Math.min(Math.max(1, rect.width), Math.max(1, rect.height));
+      const current = Math.min(window.innerWidth, window.innerHeight);
       return Math.max(0.5, Math.min(2.0, current / base));
     }
 
     setupEventListeners() {
+      // Use window/document for events since we're fixed to viewport
       this.onPointerMove = (e) => {
-        const rect = this.parentElement.getBoundingClientRect();
-        const x = THREE.MathUtils.clamp((e.clientX - rect.left) / Math.max(1, rect.width), 0, 1);
-        const y = THREE.MathUtils.clamp(1 - (e.clientY - rect.top) / Math.max(1, rect.height), 0, 1);
+        // Calculate position relative to viewport (0-1 range)
+        const x = THREE.MathUtils.clamp(e.clientX / window.innerWidth, 0, 1);
+        const y = THREE.MathUtils.clamp(1 - (e.clientY / window.innerHeight), 0, 1);
         
         this.currentMouse.set(x, y);
         this.pointerActive = true;
@@ -285,9 +287,10 @@
         this.ensureLoop();
       };
 
-      this.parentElement.addEventListener('pointermove', this.onPointerMove, { passive: true });
-      this.parentElement.addEventListener('pointerenter', this.onPointerEnter, { passive: true });
-      this.parentElement.addEventListener('pointerleave', this.onPointerLeave, { passive: true });
+      // Listen on document for full page coverage
+      document.addEventListener('pointermove', this.onPointerMove, { passive: true });
+      document.addEventListener('pointerenter', this.onPointerEnter, { passive: true });
+      document.addEventListener('pointerleave', this.onPointerLeave, { passive: true });
     }
 
     startAnimationLoop() {
@@ -358,15 +361,11 @@
       }
       this.isRunning = false;
 
-      if (this.parentElement) {
-        this.parentElement.removeEventListener('pointermove', this.onPointerMove);
-        this.parentElement.removeEventListener('pointerenter', this.onPointerEnter);
-        this.parentElement.removeEventListener('pointerleave', this.onPointerLeave);
-      }
-
-      if (this.resizeObserver) {
-        this.resizeObserver.disconnect();
-      }
+      // Remove document event listeners
+      document.removeEventListener('pointermove', this.onPointerMove);
+      document.removeEventListener('pointerenter', this.onPointerEnter);
+      document.removeEventListener('pointerleave', this.onPointerLeave);
+      window.removeEventListener('resize', this.handleResize);
 
       if (this.scene) this.scene.clear();
       if (this.geometry) this.geometry.dispose();
