@@ -29,7 +29,7 @@
   }
 
   // Create menu modal HTML
-  function createMenuModal() {
+  function createMenuModal(container) {
     const modal = document.createElement('div');
     modal.className = 'menu-modal';
     modal.id = 'menu-modal';
@@ -46,33 +46,24 @@
     `).join('');
 
     modal.innerHTML = `
-      <button class="menu-modal__close" aria-label="Close menu">×</button>
       <div class="menu-modal__glass">
-        <div class="menu-modal__reflection menu-modal__reflection--1" aria-hidden="true"></div>
-        <div class="menu-modal__reflection menu-modal__reflection--2" aria-hidden="true"></div>
         <nav class="menu-modal__nav">
           ${menuItemsHTML}
         </nav>
       </div>
     `;
 
-    document.body.appendChild(modal);
+    container.appendChild(modal);
     return modal;
   }
 
   // Create menu trigger button
-  function createMenuTrigger() {
+  function createMenuTrigger(container) {
     const trigger = document.createElement('button');
     trigger.className = 'menu-trigger';
     trigger.id = 'menu-trigger';
     trigger.setAttribute('aria-label', 'Open menu');
-    
-    // Check if page has light background
-    const isLightBg = document.body.classList.contains('light-bg') || 
-                      window.location.pathname.includes('/date/');
-    if (isLightBg) {
-      trigger.classList.add('menu-trigger--light');
-    }
+    trigger.setAttribute('aria-expanded', 'false');
     
     trigger.innerHTML = `
       <div class="menu-trigger__icon">
@@ -83,8 +74,16 @@
       <span class="menu-trigger__label">Menu</span>
     `;
 
-    document.body.appendChild(trigger);
+    container.appendChild(trigger);
     return trigger;
+  }
+  
+  // Create menu container wrapper
+  function createMenuContainer() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'menu-container';
+    wrapper.style.position = 'relative';
+    return wrapper;
   }
 
   // Flowing Menu Item Class
@@ -195,12 +194,31 @@
   const MenuModal = {
     modal: null,
     trigger: null,
+    container: null,
     isOpen: false,
     menuItems: [],
 
     init() {
-      this.trigger = createMenuTrigger();
-      this.modal = createMenuModal();
+      // Find nav links container in different page layouts
+      const navLinks = document.querySelector('.home-nav__links') || 
+                       document.querySelector('.glass-nav__links') || 
+                       document.querySelector('.nav__links') ||
+                       document.querySelector('.sketch-nav__links');
+      
+      if (!navLinks) {
+        console.warn('Menu: Could not find navigation links container');
+        return;
+      }
+      
+      // Create container wrapper
+      this.container = createMenuContainer();
+      
+      // Create trigger and modal
+      this.trigger = createMenuTrigger(this.container);
+      this.modal = createMenuModal(this.container);
+      
+      // Insert into navigation
+      navLinks.appendChild(this.container);
       
       this.bindEvents();
       this.initMenuItems();
@@ -216,7 +234,7 @@
     open() {
       this.isOpen = true;
       this.modal.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
+      this.trigger.setAttribute('aria-expanded', 'true');
       
       // Re-setup marquee animations when modal opens
       this.menuItems.forEach(item => item.setupMarqueeAnimation());
@@ -225,7 +243,7 @@
     close() {
       this.isOpen = false;
       this.modal.classList.remove('is-open');
-      document.body.style.overflow = '';
+      this.trigger.setAttribute('aria-expanded', 'false');
     },
 
     toggle() {
@@ -238,14 +256,14 @@
 
     bindEvents() {
       // Trigger click
-      this.trigger.addEventListener('click', () => this.open());
-      
-      // Close button
-      this.modal.querySelector('.menu-modal__close').addEventListener('click', () => this.close());
+      this.trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggle();
+      });
       
       // Click outside to close
-      this.modal.addEventListener('click', (e) => {
-        if (e.target === this.modal) {
+      document.addEventListener('click', (e) => {
+        if (this.isOpen && !this.container.contains(e.target)) {
           this.close();
         }
       });
