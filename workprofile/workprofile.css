@@ -131,7 +131,7 @@ body {
 }
 
 /* Style menu button as white CTA for cosmic nav */
-.cosmic-nav__links .menu-trigger {
+.cosmic-nav__inner .menu-trigger {
   padding: 0.375rem 1rem;
   background: var(--white);
   color: var(--midnight);
@@ -139,9 +139,10 @@ body {
   font-weight: 600;
   border-radius: 9999px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-left: 0.5rem;
 }
 
-.cosmic-nav__links .menu-trigger:hover {
+.cosmic-nav__inner .menu-trigger:hover {
   transform: scale(1.05);
   box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
   opacity: 1;
@@ -306,6 +307,10 @@ body {
   border-top: 1px solid var(--white-10);
   border-bottom: 1px solid var(--white-10);
   overflow: hidden;
+  background: var(--midnight);
+  position: relative;
+  z-index: 2;
+  margin-top: -25vh;
 }
 
 .marquee-track {

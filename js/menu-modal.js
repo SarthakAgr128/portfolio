@@ -201,7 +201,8 @@
       const navLinks = document.querySelector('.home-nav__links') || 
                        document.querySelector('.glass-nav__links') || 
                        document.querySelector('.nav__links') ||
-                       document.querySelector('.sketch-nav__links');
+                       document.querySelector('.sketch-nav__links') ||
+                       document.querySelector('.cosmic-nav__inner');
       
       if (!navLinks) {
         console.warn('Menu: Could not find navigation links container');
