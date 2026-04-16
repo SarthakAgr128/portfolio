@@ -3,8 +3,6 @@
  * Interactive effects and animations
  */
 
-import { GhostCursor } from './ghost-cursor.js';
-
 (function() {
   'use strict';
 
@@ -12,19 +10,24 @@ import { GhostCursor } from './ghost-cursor.js';
 
   // Initialize Ghost Cursor
   function initGhostCursor() {
-    ghostCursor = new GhostCursor({
-      color: '#FFFFFF',        // White to match cosmic theme
-      brightness: 1.2,         // Slightly brighter
-      trailLength: 20,         // Moderate trail
-      inertia: 0.4,            // Smooth movement
-      bloomStrength: 0.3,      // Subtle glow
+    if (typeof window.GhostCursor === 'undefined') {
+      console.warn('GhostCursor not loaded');
+      return;
+    }
+    
+    ghostCursor = new window.GhostCursor({
+      color: '#FFFFFF',
+      brightness: 1.2,
+      trailLength: 20,
+      inertia: 0.4,
+      bloomStrength: 0.3,
       bloomRadius: 0.8,
       bloomThreshold: 0,
-      grainIntensity: 0.05,    // Subtle film grain
-      fadeDelayMs: 200,        // Quick fade start
-      fadeDurationMs: 1000,    // Smooth fade out
-      mixBlendMode: 'screen',  // Blend with background
-      zIndex: 999              // Below navigation but above content
+      grainIntensity: 0.05,
+      fadeDelayMs: 200,
+      fadeDurationMs: 1000,
+      mixBlendMode: 'screen',
+      zIndex: 999
     });
     
     ghostCursor.init('body');
