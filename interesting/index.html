@@ -214,115 +214,6 @@
       display: block;
     }
 
-    /* ─── Controls ─── */
-    .ff-controls {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 50;
-      pointer-events: auto;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-
-    .ff-controls.visible {
-      opacity: 1;
-    }
-
-    .ff-controls-inner {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1rem 1.5rem;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 1rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-
-    .ff-control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.375rem;
-    }
-
-    .ff-control-label {
-      font-size: 0.625rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.35);
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
-    }
-
-    .ff-control-label svg {
-      width: 10px;
-      height: 10px;
-    }
-
-    .ff-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 5rem;
-      height: 2px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 2px;
-      outline: none;
-      cursor: pointer;
-    }
-
-    .ff-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.7);
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .ff-slider::-webkit-slider-thumb:hover {
-      background: #fff;
-    }
-
-    .ff-divider {
-      width: 1px;
-      height: 2rem;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .ff-btn {
-      padding: 0.625rem;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.6);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .ff-btn:hover {
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-    }
-
-    .ff-btn svg {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.5s ease;
-    }
-
-    .ff-btn:hover svg {
-      transform: rotate(180deg);
-    }
-
     @media (max-width: 768px) {
       .back-link {
         top: 1rem;
@@ -336,15 +227,6 @@
 
       .tagline {
         padding: 0 1rem;
-      }
-
-      .ff-controls-inner {
-        gap: 1rem;
-        padding: 0.75rem 1rem;
-      }
-
-      .ff-slider {
-        width: 3.5rem;
       }
     }
   </style>
@@ -388,38 +270,6 @@
     <div id="forcefield-container"></div>
   </div>
 
-  <!-- Controls -->
-  <div class="ff-controls" id="ff-controls">
-    <div class="ff-controls-inner">
-      <div class="ff-control-group">
-        <div class="ff-control-label">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg>
-          Hue
-        </div>
-        <input type="range" min="0" max="360" value="210" class="ff-slider" id="ff-hue">
-      </div>
-      <div class="ff-divider"></div>
-      <div class="ff-control-group">
-        <div class="ff-control-label">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M3.6 9h16.8M3.6 15h16.8"/></svg>
-          Radius
-        </div>
-        <input type="range" min="50" max="300" value="150" class="ff-slider" id="ff-radius">
-      </div>
-      <div class="ff-divider"></div>
-      <div class="ff-control-group">
-        <div class="ff-control-label">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Force
-        </div>
-        <input type="range" min="0" max="30" value="10" class="ff-slider" id="ff-force">
-      </div>
-      <div class="ff-divider"></div>
-      <button class="ff-btn" id="ff-randomize" title="Randomize">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-      </button>
-    </div>
-  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
 
@@ -505,7 +355,6 @@
       bindClickHandler() {
         document.addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
-          if (e.target.closest('.ff-controls')) return;
           this.randomize();
         });
       }
@@ -528,25 +377,19 @@
       const hintClick = document.getElementById('hint-click');
       const scrollIndicator = document.getElementById('scroll-indicator');
       const forcefieldLayer = document.getElementById('forcefield-layer');
-      const ffControls = document.getElementById('ff-controls');
       const tubesWrapper = document.getElementById('tubes-wrapper');
 
       /*
        * SCROLL TIMELINE (400vh):
        *
-       * 0–0.25 (0–100vh): Hero. "SARTHAK AGRAWAL" in big Inter font.
-       *
-       * 0.20–0.50: Text morphs.
-       *   0.20–0.25: tagline fades out
-       *   0.22–0.35: scramble TEXT_A → TEXT_B (font smoothly transitions)
-       *   0.35–0.45: TEXT_B fully visible, force field starts sliding in
-       *
-       * 0.45–0.75: Split screen phase.
-       *   0.50–0.65: scramble TEXT_B → TEXT_A (font transitions back)
-       *   0.45–0.80: force field slides from 100% → 0% translateY
-       *   0.50–0.85: tubes wrapper clips from bottom
-       *
-       * 0.75–1.0: Force field full. Name shown. Controls appear.
+       * 0–0.15:     Hero. "SARTHAK AGRAWAL" static.
+       * 0.10–0.18:  Tagline fades out.
+       * 0.15–0.40:  Scramble A → B (long, requires significant scrolling).
+       * 0.40–0.55:  Hold B. Force field starts sliding in at 0.40.
+       * 0.55–0.82:  Scramble B → A (long).
+       * 0.82–1.0:   "SARTHAK AGRAWAL" on force field.
+       * 0.40–0.80:  Force field slides up.
+       * 0.45–0.85:  Tubes clip from bottom.
        */
 
       let currentMode = 'hero';
@@ -613,7 +456,7 @@
         hintClick.style.opacity = fadeOut * 0.6;
 
         // Tagline fade
-        tagline.style.opacity = remap(progress, 0.18, 0.24, 1, 0);
+        tagline.style.opacity = remap(progress, 0.10, 0.18, 1, 0);
 
         /*
          * Text state machine:
@@ -623,23 +466,23 @@
          * 0.52–0.70:    Scramble B→A
          * 0.70–1.0:     Show hero name again (on force field)
          */
-        if (progress < 0.20) {
+        if (progress < 0.15) {
           if (currentMode !== 'hero') {
             renderText(TEXT_A, TEXT_A, 1);
             currentMode = 'hero';
           }
-        } else if (progress < 0.38) {
+        } else if (progress < 0.40) {
           currentMode = 'scrambling-forward';
-          const sp = easeInOutCubic(remap(progress, 0.20, 0.38, 0, 1));
+          const sp = easeInOutCubic(remap(progress, 0.15, 0.40, 0, 1));
           renderText(TEXT_A, TEXT_B, sp);
-        } else if (progress < 0.52) {
+        } else if (progress < 0.55) {
           if (currentMode !== 'hold-b') {
             renderText(TEXT_A, TEXT_B, 1);
             currentMode = 'hold-b';
           }
-        } else if (progress < 0.70) {
+        } else if (progress < 0.82) {
           currentMode = 'scrambling-back';
-          const sp = easeInOutCubic(remap(progress, 0.52, 0.70, 0, 1));
+          const sp = easeInOutCubic(remap(progress, 0.55, 0.82, 0, 1));
           renderText(TEXT_B, TEXT_A, sp);
         } else {
           if (currentMode !== 'hero-ff') {
@@ -660,12 +503,6 @@
           tubesWrapper.style.clipPath = '';
         }
 
-        /* ── Controls ── */
-        if (progress > 0.78) {
-          ffControls.classList.add('visible');
-        } else {
-          ffControls.classList.remove('visible');
-        }
       }
 
       function rafLoop() {
@@ -690,8 +527,8 @@
         spacing: 10,
         minStroke: 2,
         maxStroke: 6,
-        forceStrength: 10,
-        magnifierRadius: 150,
+        forceStrength: 27,
+        magnifierRadius: 275,
         friction: 0.9,
         restoreSpeed: 0.05,
         threshold: 255,
@@ -849,25 +686,6 @@
       };
 
       new p5(sketch);
-
-      document.getElementById('ff-hue')?.addEventListener('input', (e) => {
-        state.hue = parseInt(e.target.value);
-      });
-      document.getElementById('ff-radius')?.addEventListener('input', (e) => {
-        state.magnifierRadius = parseInt(e.target.value);
-      });
-      document.getElementById('ff-force')?.addEventListener('input', (e) => {
-        state.forceStrength = parseInt(e.target.value);
-      });
-      document.getElementById('ff-randomize')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        state.hue = Math.floor(Math.random() * 360);
-        state.minStroke = parseFloat((Math.random() * 3 + 1).toFixed(1));
-        state.maxStroke = parseFloat((Math.random() * 8 + 4).toFixed(1));
-        state.magnifierRadius = Math.floor(Math.random() * 100 + 100);
-        document.getElementById('ff-hue').value = state.hue;
-        document.getElementById('ff-radius').value = state.magnifierRadius;
-      });
     })();
   </script>
 </body>
