@@ -59,12 +59,33 @@
       .fromTo('.home-hero__desc', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
       .fromTo('.home-hero__meta span', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out' }, '-=0.6')
       .fromTo('.home-hero__cta .btn', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'back.out(1.7)' }, '-=0.6')
-      .fromTo('.home-hero__photo-frame', { opacity: 0, scale: 0.8, rotate: -5 }, { opacity: 1, scale: 1, rotate: 0, duration: 1.5, ease: 'power4.out' }, '-=1.2')
+      .fromTo('.home-hero__photo-frame', { opacity: 0, clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)', scale: 1.1 }, { opacity: 1, clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)', scale: 1, duration: 1.5, ease: 'power4.out' }, '-=1.2')
       .fromTo('.home-hero__float', { opacity: 0, scale: 0, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 1, stagger: 0.2, ease: 'back.out(2)' }, '-=1');
   }
 
   function initScrollReveals() {
-    // Select all sections that might contain .reveal elements
+    // Marquee scroll velocity
+    const marqueeTrack = document.querySelector('.home-marquee__track');
+    if (marqueeTrack) {
+      gsap.to(marqueeTrack, {
+        xPercent: -50,
+        ease: "none",
+        duration: 20,
+        repeat: -1
+      });
+      let proxy = { skew: 0 },
+          skewSetter = gsap.quickSetter(".home-marquee__item", "skewX", "deg"),
+          clamp = gsap.utils.clamp(-20, 20);
+      ScrollTrigger.create({
+        onUpdate: (self) => {
+          let skew = clamp(self.getVelocity() / -300);
+          if (Math.abs(skew) > Math.abs(proxy.skew)) {
+            proxy.skew = skew;
+            gsap.to(proxy, {skew: 0, duration: 0.8, ease: "power3", overwrite: true, onUpdate: () => skewSetter(proxy.skew)});
+          }
+        }
+      });
+    }
     const sections = document.querySelectorAll('section, footer');
     sections.forEach(sec => {
       const elements = sec.querySelectorAll('.reveal');
@@ -86,6 +107,34 @@
           }
         );
       }
+    });
+
+    // Rabbit hole background transition
+    ScrollTrigger.create({
+      trigger: '.rabbit-hole-section',
+      start: 'top 50%',
+      end: 'bottom 50%',
+      toggleClass: 'is-active',
+    });
+
+    // Magnetic text
+    const magneticTexts = document.querySelectorAll('.magnetic-text');
+    magneticTexts.forEach(text => {
+      text.addEventListener('mousemove', (e) => {
+        const rect = text.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        
+        gsap.to(text, {
+          x: x * 0.1,
+          y: y * 0.1,
+          duration: 0.5,
+          ease: 'power3.out'
+        });
+      });
+      text.addEventListener('mouseleave', () => {
+        gsap.to(text, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+      });
     });
   }
 
