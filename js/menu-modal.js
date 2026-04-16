@@ -15,14 +15,15 @@
     { text: 'Home', link: getBasePath() + '', image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&h=200&auto=format&fit=crop' },
     { text: 'Home v2', link: getBasePath() + 'home2/', image: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=400&h=200&auto=format&fit=crop' },
     { text: 'Work', link: getBasePath() + 'workprofile/', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=400&h=200&auto=format&fit=crop' },
+    { text: 'Work v2', link: getBasePath() + 'workv2/', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=400&h=200&auto=format&fit=crop' },
     { text: 'Interesting', link: getBasePath() + 'interesting/', image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=400&h=200&auto=format&fit=crop' }
   ];
 
   function getBasePath() {
     const path = window.location.pathname;
     if (path.includes('/home2/') || path.includes('/workprofile/') || 
-        path.includes('/interesting/') || path.includes('/date/') ||
-        path.includes('/menu/')) {
+        path.includes('/workv2/') || path.includes('/interesting/') || 
+        path.includes('/date/') || path.includes('/menu/')) {
       return '../';
     }
     return '';
