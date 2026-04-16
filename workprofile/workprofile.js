@@ -1,5 +1,5 @@
 /**
- * Work v2 - Cosmic Minimalist
+ * Work Profile - Cosmic Minimalist
  * Interactive effects and animations
  */
 
