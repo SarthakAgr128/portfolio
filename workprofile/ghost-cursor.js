@@ -157,28 +157,28 @@
           float v = 0.0;
           float a = 0.5;
           mat2 m = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-          for(int i=0;i<4;i++){  // Reduced iterations for less density
+          for(int i=0;i<5;i++){  // Increased iterations for more texture
             v += a * noise(p);
-            p = m * p * 2.0;
-            a *= 0.5;
+            p = m * p * 2.2;     // Higher frequency for finer texture
+            a *= 0.45;           // Balanced amplitude
           }
           return v;
         }
 
         vec4 blob(vec2 p, vec2 mousePos, float intensity, float activity) {
-          vec2 q = vec2(fbm(p * iScale + iTime * 0.1), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.1));
-          float smoke = fbm(p * iScale * 0.8 + q * 0.6);
+          vec2 q = vec2(fbm(p * iScale * 1.5 + iTime * 0.15), fbm(p * iScale * 1.5 + vec2(5.2,1.3) + iTime * 0.15));
+          float smoke = fbm(p * iScale * 1.2 + q * 0.8);
           
           // Moderate radius
-          float radius = 0.35 + 0.2 * (1.0 / iScale);
+          float radius = 0.4 + 0.25 * (1.0 / iScale);
           float dist = length(p - mousePos);
           float distFactor = 1.0 - smoothstep(0.0, radius * activity, dist);
           
-          // Balanced falloff
-          float alpha = pow(smoke, 2.5) * distFactor * 0.7;
+          // Improved texture mapping
+          float alpha = pow(smoke, 1.8) * distFactor * 0.6; // Less dense power, lower base opacity
 
           // Mix base color with slight white tint for visibility
-          vec3 color = mix(iBaseColor, vec3(1.0), 0.4);
+          vec3 color = mix(iBaseColor, vec3(1.0), 0.35);
 
           return vec4(color * alpha * intensity, alpha * intensity);
         }

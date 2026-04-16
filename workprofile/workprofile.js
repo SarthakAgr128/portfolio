@@ -20,15 +20,15 @@
     
     try {
       ghostCursor = new window.GhostCursor({
-        color: '#94a3b8',       // Slate-400 - light slate with theme tint
-        brightness: 1.0,        // Normal brightness
-        trailLength: 15,        // Moderate trail
-        inertia: 0.4,           // Smooth movement
-        intensity: 0.8,         // Good visibility
-        fadeDelayMs: 200,       // Quick fade start
-        fadeDurationMs: 1000,   // Smooth fade out
+        color: '#a8b8d0',       // Slightly lighter slate for better visibility
+        brightness: 1.1,        // Normal brightness
+        trailLength: 20,        // Longer, smoother trail
+        inertia: 0.25,          // Tighter follow (less vanishing)
+        intensity: 0.65,        // Less dense/intensive
+        fadeDelayMs: 600,       // Don't vanish immediately
+        fadeDurationMs: 1500,   // Slower fade out
         mixBlendMode: 'screen', // Blend with background
-        zIndex: 50              // Below most UI elements
+        zIndex: 0               // Behind the liquid glass boxes (z-index 0)
       });
       
       // Init without parent selector - uses fixed viewport positioning
