@@ -21,19 +21,28 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html {
       height: 100%;
-      overflow: hidden;
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #000;
       color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── Section 1: Tubes (unchanged content) ── */
+    .section-tubes {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
     }
 
     #tubes-canvas {
-      position: fixed;
+      position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
@@ -86,7 +95,7 @@
     }
 
     .hint {
-      position: fixed;
+      position: absolute;
       bottom: 2rem;
       left: 50%;
       transform: translateX(-50%);
@@ -151,6 +160,280 @@
       transform: translateX(-3px);
     }
 
+    /* ── Scroll indicator (replaces fixed hint when scrollable) ── */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      pointer-events: none;
+      opacity: 0.5;
+      transition: opacity 0.6s ease;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .scroll-indicator .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleY(1); opacity: 0.4; }
+      50% { transform: scaleY(1.3); opacity: 0.8; }
+    }
+
+    /* ── Transition zone ── */
+    .transition-zone {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .transition-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, #000 70%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .transition-text {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .transition-text .line {
+      font-size: clamp(1rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0);
+      letter-spacing: 0.1em;
+      transform: translateY(40px);
+      transition: color 0.8s ease, transform 0.8s ease;
+    }
+
+    .transition-text .line.visible {
+      color: rgba(255, 255, 255, 0.7);
+      transform: translateY(0);
+    }
+
+    .transition-text .line:nth-child(2) {
+      transition-delay: 0.15s;
+      font-weight: 600;
+      font-size: clamp(1.25rem, 4vw, 3.5rem);
+    }
+
+    .transition-text .line:nth-child(2).visible {
+      color: #fff;
+    }
+
+    .transition-particles {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* ── Section 2: Force Field ── */
+    .section-forcefield {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #forcefield-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    #forcefield-container canvas {
+      display: block;
+    }
+
+    .forcefield-content {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+
+    .forcefield-title {
+      font-size: clamp(2.5rem, 10vw, 9rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 0.9;
+      text-transform: uppercase;
+      background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.5));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .forcefield-title.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .forcefield-subtitle {
+      margin-top: 1.5rem;
+      font-size: clamp(0.75rem, 1.5vw, 1.125rem);
+      font-weight: 400;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+    }
+
+    .forcefield-subtitle.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Floating controls for force field ── */
+    .ff-controls {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      gap: 1rem;
+      pointer-events: auto;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.6s;
+    }
+
+    .ff-controls.visible {
+      opacity: 1;
+    }
+
+    .ff-controls-inner {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 1.5rem;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .ff-control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+
+    .ff-control-label {
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.35);
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .ff-control-label svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .ff-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 5rem;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .ff-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .ff-slider::-webkit-slider-thumb:hover {
+      background: #fff;
+    }
+
+    .ff-divider {
+      width: 1px;
+      height: 2rem;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .ff-btn {
+      padding: 0.625rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ff-btn:hover {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    .ff-btn svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.5s ease;
+    }
+
+    .ff-btn:hover svg {
+      transform: rotate(180deg);
+    }
+
     @media (max-width: 768px) {
       .back-link {
         top: 1rem;
@@ -165,12 +448,19 @@
       .tagline {
         padding: 0 1rem;
       }
+
+      .ff-controls-inner {
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+      }
+
+      .ff-slider {
+        width: 3.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Tubes 3D Background -->
-  <canvas id="tubes-canvas" aria-hidden="true"></canvas>
 
   <!-- Back Link -->
   <a href="../" class="back-link">
@@ -180,23 +470,97 @@
     <span>Back</span>
   </a>
 
-  <!-- Content -->
-  <div class="content">
-    <h1 class="name">
-      <span class="first">Sarthak</span>
-      <span class="last">Agrawal</span>
-    </h1>
-    <p class="tagline">Security Engineer · Problem Solver · Builder</p>
-  </div>
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 1: Tubes Background (unchanged)     -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="section-tubes" id="section-tubes">
+    <canvas id="tubes-canvas" aria-hidden="true"></canvas>
 
-  <!-- Hint -->
-  <div class="hint">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 5v14M5 12l7-7 7 7"/>
-    </svg>
-    <span>Click to change colors</span>
-  </div>
+    <div class="content">
+      <h1 class="name">
+        <span class="first">Sarthak</span>
+        <span class="last">Agrawal</span>
+      </h1>
+      <p class="tagline">Security Engineer · Problem Solver · Builder</p>
+    </div>
 
+    <div class="hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7-7 7 7"/>
+      </svg>
+      <span>Click to change colors</span>
+    </div>
+
+    <div class="scroll-indicator" id="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- TRANSITION ZONE                             -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="transition-zone" id="transition-zone">
+    <canvas class="transition-particles" id="transition-canvas"></canvas>
+    <div class="transition-overlay"></div>
+    <div class="transition-text" id="transition-text">
+      <div class="line">From chaos</div>
+      <div class="line">Emerges order</div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 2: Force Field Background           -->
+  <!-- ════════════════════════════════════════════ -->
+  <section class="section-forcefield" id="section-forcefield">
+    <div id="forcefield-container"></div>
+
+    <div class="forcefield-content">
+      <h2 class="forcefield-title" id="ff-title">FORCE FIELD</h2>
+      <p class="forcefield-subtitle" id="ff-subtitle">Interactive Particle System</p>
+    </div>
+
+    <div class="ff-controls" id="ff-controls">
+      <div class="ff-controls-inner">
+        <div class="ff-control-group">
+          <div class="ff-control-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/></svg>
+            Hue
+          </div>
+          <input type="range" min="0" max="360" value="210" class="ff-slider" id="ff-hue">
+        </div>
+        <div class="ff-divider"></div>
+        <div class="ff-control-group">
+          <div class="ff-control-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M3.6 9h16.8M3.6 15h16.8"/></svg>
+            Radius
+          </div>
+          <input type="range" min="50" max="300" value="150" class="ff-slider" id="ff-radius">
+        </div>
+        <div class="ff-divider"></div>
+        <div class="ff-control-group">
+          <div class="ff-control-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Force
+          </div>
+          <input type="range" min="0" max="30" value="10" class="ff-slider" id="ff-force">
+        </div>
+        <div class="ff-divider"></div>
+        <button class="ff-btn" id="ff-randomize" title="Randomize">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- p5.js CDN                                   -->
+  <!-- ════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 1: Tubes Script (unchanged logic)   -->
+  <!-- ════════════════════════════════════════════ -->
   <script type="module">
     const TubesBackground = {
       app: null,
@@ -281,12 +645,339 @@
       bindClickHandler() {
         document.addEventListener('click', (e) => {
           if (e.target.closest('a')) return;
+          if (e.target.closest('.ff-controls')) return;
           this.randomize();
         });
       }
     };
 
     TubesBackground.init();
+  </script>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- TRANSITION: Particle dissolve animation     -->
+  <!-- ════════════════════════════════════════════ -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('transition-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let raf;
+
+      function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        initParticles();
+      }
+
+      function initParticles() {
+        particles = [];
+        const count = Math.floor((canvas.width * canvas.height) / 3000);
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            baseX: Math.random() * canvas.width,
+            baseY: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.3,
+            speedY: (Math.random() - 0.5) * 0.3,
+            hue: Math.random() * 60 + 200,
+            alpha: Math.random() * 0.5 + 0.1
+          });
+        }
+      }
+
+      function draw(scrollProgress) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const convergeFactor = Math.max(0, (scrollProgress - 0.3) / 0.7);
+
+        for (const p of particles) {
+          p.x += p.speedX;
+          p.y += p.speedY;
+
+          if (convergeFactor > 0) {
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            p.x += (cx - p.x) * convergeFactor * 0.02;
+            p.y += (cy - p.y) * convergeFactor * 0.02;
+          }
+
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+
+          const alpha = p.alpha * (0.3 + scrollProgress * 0.7);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * (1 + convergeFactor), 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${p.hue}, 80%, 65%, ${alpha})`;
+          ctx.fill();
+        }
+      }
+
+      function loop() {
+        const rect = canvas.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const progress = Math.max(0, Math.min(1, 1 - (rect.bottom / (vh + rect.height))));
+        draw(progress);
+        raf = requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      loop();
+
+      const textEl = document.getElementById('transition-text');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const lines = textEl.querySelectorAll('.line');
+          if (entry.isIntersecting) {
+            lines.forEach(l => l.classList.add('visible'));
+          } else {
+            lines.forEach(l => l.classList.remove('visible'));
+          }
+        });
+      }, { threshold: 0.4 });
+      observer.observe(textEl);
+
+      const scrollInd = document.getElementById('scroll-indicator');
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        if (scrollInd) {
+          scrollInd.style.opacity = Math.max(0, 1 - scrollY / 200);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 2: Force Field (vanilla p5.js port) -->
+  <!-- ════════════════════════════════════════════ -->
+  <script>
+    (function() {
+      const container = document.getElementById('forcefield-container');
+      if (!container) return;
+
+      const state = {
+        hue: 210,
+        saturation: 100,
+        spacing: 10,
+        minStroke: 2,
+        maxStroke: 6,
+        forceStrength: 10,
+        magnifierRadius: 150,
+        friction: 0.9,
+        restoreSpeed: 0.05,
+        threshold: 255,
+        density: 2.0,
+        invertImage: true,
+        invertWireframe: true,
+        initialized: false
+      };
+
+      const IMAGE_URL = 'https://cdn.pixabay.com/photo/2024/12/13/20/29/alps-9266131_1280.jpg';
+
+      let p5Instance = null;
+      let sectionVisible = false;
+
+      const sectionEl = document.getElementById('section-forcefield');
+      const sectionObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          sectionVisible = entry.isIntersecting;
+          if (entry.isIntersecting && !state.initialized) {
+            initForceField();
+            state.initialized = true;
+          }
+
+          const title = document.getElementById('ff-title');
+          const subtitle = document.getElementById('ff-subtitle');
+          const controls = document.getElementById('ff-controls');
+          if (entry.isIntersecting) {
+            title?.classList.add('visible');
+            subtitle?.classList.add('visible');
+            controls?.classList.add('visible');
+          } else {
+            title?.classList.remove('visible');
+            subtitle?.classList.remove('visible');
+            controls?.classList.remove('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+      sectionObs.observe(sectionEl);
+
+      function initForceField() {
+        const sketch = (p) => {
+          let originalImg;
+          let img;
+          let palette = [];
+          let points = [];
+          let magnifierX = 0, magnifierY = 0;
+          const magnifierInertia = 0.1;
+          let lastHue = -1, lastSaturation = -1;
+
+          p.preload = () => {
+            originalImg = p.loadImage(IMAGE_URL);
+          };
+
+          p.setup = () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            const cnv = p.createCanvas(w, h);
+            cnv.parent(container);
+            magnifierX = w / 2;
+            magnifierY = h / 2;
+            processImage();
+            generatePalette();
+            generatePoints();
+          };
+
+          p.windowResized = () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            if (w > 0 && h > 0) {
+              p.resizeCanvas(w, h);
+              processImage();
+              generatePoints();
+            }
+          };
+
+          function processImage() {
+            if (!originalImg) return;
+            img = originalImg.get();
+            if (p.width > 0 && p.height > 0) {
+              img.resize(p.width, p.height);
+            }
+            img.filter(p.GRAY);
+            if (state.invertImage) {
+              img.loadPixels();
+              for (let i = 0; i < img.pixels.length; i += 4) {
+                img.pixels[i] = 255 - img.pixels[i];
+                img.pixels[i + 1] = 255 - img.pixels[i + 1];
+                img.pixels[i + 2] = 255 - img.pixels[i + 2];
+              }
+              img.updatePixels();
+            }
+          }
+
+          function generatePalette() {
+            palette = [];
+            p.push();
+            p.colorMode(p.HSL);
+            for (let i = 0; i < 12; i++) {
+              let lightness = p.map(i, 0, 11, 95, 5);
+              palette.push(p.color(state.hue, state.saturation, lightness));
+            }
+            p.pop();
+            lastHue = state.hue;
+            lastSaturation = state.saturation;
+          }
+
+          function generatePoints() {
+            if (!img) return;
+            points = [];
+            const sp = Math.max(2, state.spacing);
+            for (let y = 0; y < img.height; y += sp) {
+              for (let x = 0; x < img.width; x += sp) {
+                if (p.random() > state.density) continue;
+                points.push({
+                  pos: p.createVector(x, y),
+                  originalPos: p.createVector(x, y),
+                  vel: p.createVector(0, 0)
+                });
+              }
+            }
+          }
+
+          p.draw = () => {
+            if (!img || !sectionVisible) return;
+            p.background(0);
+
+            if (state.hue !== lastHue || state.saturation !== lastSaturation) {
+              generatePalette();
+            }
+
+            const rect = container.getBoundingClientRect();
+            const mx = p.mouseX;
+            const my = p.mouseY;
+
+            magnifierX = p.lerp(magnifierX, mx, magnifierInertia);
+            magnifierY = p.lerp(magnifierY, my, magnifierInertia);
+
+            for (const pt of points) {
+              const dir = p5.Vector.sub(pt.pos, p.createVector(magnifierX, magnifierY));
+              const d = dir.mag();
+              if (d < state.magnifierRadius) {
+                dir.normalize();
+                const force = dir.mult(state.forceStrength / Math.max(1, d));
+                pt.vel.add(force);
+              }
+              pt.vel.mult(state.friction);
+              const restore = p5.Vector.sub(pt.pos, pt.originalPos).mult(-state.restoreSpeed);
+              pt.vel.add(restore);
+              pt.pos.add(pt.vel);
+            }
+
+            img.loadPixels();
+            p.noFill();
+
+            for (const pt of points) {
+              const x = pt.pos.x;
+              const y = pt.pos.y;
+              const d = p.dist(x, y, magnifierX, magnifierY);
+              const px = p.constrain(p.floor(x), 0, img.width - 1);
+              const py = p.constrain(p.floor(y), 0, img.height - 1);
+              const index = (px + py * img.width) * 4;
+              const brightness = img.pixels[index];
+              if (brightness === undefined) continue;
+
+              const condition = state.invertWireframe
+                ? brightness < state.threshold
+                : brightness > state.threshold;
+
+              if (condition) {
+                let shadeIndex = Math.floor(p.map(brightness, 0, 255, 0, palette.length - 1));
+                shadeIndex = p.constrain(shadeIndex, 0, palette.length - 1);
+                let strokeSize = p.map(brightness, 0, 255, state.minStroke, state.maxStroke);
+
+                if (d < state.magnifierRadius) {
+                  strokeSize *= p.map(d, 0, state.magnifierRadius, 2, 1);
+                }
+
+                if (palette[shadeIndex]) {
+                  p.stroke(palette[shadeIndex]);
+                  p.strokeWeight(strokeSize);
+                  p.point(x, y);
+                }
+              }
+            }
+          };
+        };
+
+        p5Instance = new p5(sketch);
+      }
+
+      // Controls
+      document.getElementById('ff-hue')?.addEventListener('input', (e) => {
+        state.hue = parseInt(e.target.value);
+      });
+      document.getElementById('ff-radius')?.addEventListener('input', (e) => {
+        state.magnifierRadius = parseInt(e.target.value);
+      });
+      document.getElementById('ff-force')?.addEventListener('input', (e) => {
+        state.forceStrength = parseInt(e.target.value);
+      });
+      document.getElementById('ff-randomize')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        state.hue = Math.floor(Math.random() * 360);
+        state.minStroke = parseFloat((Math.random() * 3 + 1).toFixed(1));
+        state.maxStroke = parseFloat((Math.random() * 8 + 4).toFixed(1));
+        state.magnifierRadius = Math.floor(Math.random() * 100 + 100);
+        document.getElementById('ff-hue').value = state.hue;
+        document.getElementById('ff-radius').value = state.magnifierRadius;
+      });
+    })();
   </script>
 </body>
 </html>
