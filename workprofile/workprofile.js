@@ -10,25 +10,33 @@
 
   // Initialize Ghost Cursor
   function initGhostCursor() {
+    console.log('Attempting to initialize GhostCursor...');
+    console.log('window.GhostCursor:', typeof window.GhostCursor);
+    
     if (typeof window.GhostCursor === 'undefined') {
-      console.warn('GhostCursor not loaded');
+      console.warn('GhostCursor class not found on window');
       return;
     }
     
-    ghostCursor = new window.GhostCursor({
-      color: '#64748b',       // Slate-500 - matches cosmic theme
-      brightness: 0.6,        // Reduced brightness
-      trailLength: 12,        // Shorter trail for subtlety
-      inertia: 0.35,          // Smooth movement
-      intensity: 0.5,         // Reduced overall intensity
-      fadeDelayMs: 150,       // Quick fade start
-      fadeDurationMs: 800,    // Fast fade out
-      mixBlendMode: 'screen', // Blend with background
-      zIndex: 50              // Below most UI elements
-    });
-    
-    // Init without parent selector - uses fixed viewport positioning
-    ghostCursor.init();
+    try {
+      ghostCursor = new window.GhostCursor({
+        color: '#94a3b8',       // Slate-400 - light slate with theme tint
+        brightness: 1.0,        // Normal brightness
+        trailLength: 15,        // Moderate trail
+        inertia: 0.4,           // Smooth movement
+        intensity: 0.8,         // Good visibility
+        fadeDelayMs: 200,       // Quick fade start
+        fadeDurationMs: 1000,   // Smooth fade out
+        mixBlendMode: 'screen', // Blend with background
+        zIndex: 50              // Below most UI elements
+      });
+      
+      // Init without parent selector - uses fixed viewport positioning
+      ghostCursor.init();
+      console.log('GhostCursor initialized from workprofile.js');
+    } catch (error) {
+      console.error('Failed to initialize GhostCursor:', error);
+    }
   }
 
   // Portal Rings Cursor Distortion

@@ -6,25 +6,19 @@
 (function() {
   'use strict';
 
-  // Check if Three.js is loaded
-  if (typeof THREE === 'undefined') {
-    console.error('GhostCursor: Three.js is required. Please include Three.js before this script.');
-    return;
-  }
-
   class GhostCursor {
     constructor(options = {}) {
       this.config = {
-        color: options.color || '#94a3b8',  // Slate-400 tint instead of pure white
-        brightness: options.brightness || 0.7,  // Reduced brightness
-        trailLength: options.trailLength || 15,  // Shorter trail
+        color: options.color || '#94a3b8',  // Slate-400 tint
+        brightness: options.brightness || 1.0,
+        trailLength: options.trailLength || 15,
         inertia: options.inertia || 0.4,
-        intensity: options.intensity || 0.6,  // Overall intensity
+        intensity: options.intensity || 0.8,
         mixBlendMode: options.mixBlendMode || 'screen',
         fadeDelayMs: options.fadeDelayMs || 200,
         fadeDurationMs: options.fadeDurationMs || 1000,
         zIndex: options.zIndex || 999,
-        maxDevicePixelRatio: options.maxDevicePixelRatio || 0.5
+        maxDevicePixelRatio: options.maxDevicePixelRatio || 1.0
       };
 
       this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -39,8 +33,8 @@
       this.trailBuffer = [];
       this.headIndex = 0;
       this.rafId = null;
-      this.currentMouse = new THREE.Vector2(0.5, 0.5);
-      this.velocity = new THREE.Vector2(0, 0);
+      this.currentMouse = null;
+      this.velocity = null;
       this.fadeOpacity = 1.0;
       this.lastMoveTime = performance.now();
       this.pointerActive = false;
@@ -48,7 +42,18 @@
     }
 
     init() {
-      console.log('GhostCursor: Initializing...');
+      // Check if Three.js is loaded
+      if (typeof THREE === 'undefined') {
+        console.error('GhostCursor: Three.js is not loaded! Make sure to include Three.js before this script.');
+        return;
+      }
+      
+      console.log('GhostCursor: Initializing with config:', this.config);
+      console.log('GhostCursor: THREE version:', THREE.REVISION);
+      
+      // Initialize Three.js objects now that we know THREE is available
+      this.currentMouse = new THREE.Vector2(0.5, 0.5);
+      this.velocity = new THREE.Vector2(0, 0);
       
       // Create fixed container that covers the entire viewport
       this.container = document.createElement('div');
@@ -64,15 +69,21 @@
         overflow: hidden;
       `;
       document.body.appendChild(this.container);
+      console.log('GhostCursor: Container created');
 
       try {
         this.setupRenderer();
+        console.log('GhostCursor: Renderer created');
         this.setupScene();
+        console.log('GhostCursor: Scene created');
         this.setupEventListeners();
+        console.log('GhostCursor: Event listeners attached');
         this.startAnimationLoop();
+        console.log('GhostCursor: Animation loop started');
         console.log('GhostCursor: Initialized successfully!');
       } catch (error) {
         console.error('GhostCursor: Initialization failed:', error);
+        console.error('Error stack:', error.stack);
       }
     }
 
@@ -155,19 +166,19 @@
         }
 
         vec4 blob(vec2 p, vec2 mousePos, float intensity, float activity) {
-          vec2 q = vec2(fbm(p * iScale + iTime * 0.08), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.08));
-          float smoke = fbm(p * iScale * 0.8 + q * 0.5);
+          vec2 q = vec2(fbm(p * iScale + iTime * 0.1), fbm(p * iScale + vec2(5.2,1.3) + iTime * 0.1));
+          float smoke = fbm(p * iScale * 0.8 + q * 0.6);
           
-          // Smaller radius for tighter effect
-          float radius = 0.25 + 0.15 * (1.0 / iScale);
+          // Moderate radius
+          float radius = 0.35 + 0.2 * (1.0 / iScale);
           float dist = length(p - mousePos);
           float distFactor = 1.0 - smoothstep(0.0, radius * activity, dist);
           
-          // Softer falloff, less dense
-          float alpha = pow(smoke, 3.0) * distFactor * 0.5;
+          // Balanced falloff
+          float alpha = pow(smoke, 2.5) * distFactor * 0.7;
 
-          // Mix base color with slight white tint
-          vec3 color = mix(iBaseColor, vec3(0.9, 0.95, 1.0), 0.3);
+          // Mix base color with slight white tint for visibility
+          vec3 color = mix(iBaseColor, vec3(1.0), 0.4);
 
           return vec4(color * alpha * intensity, alpha * intensity);
         }
@@ -180,18 +191,18 @@
           float alphaAcc = 0.0;
           
           // Main blob at cursor
-          vec4 b = blob(uv, mouse, 0.8, iOpacity);
+          vec4 b = blob(uv, mouse, 1.0, iOpacity);
           colorAcc += b.rgb;
           alphaAcc += b.a;
 
-          // Trail blobs with faster falloff
+          // Trail blobs
           for (int i = 0; i < ${maxTrail}; i++) {
             vec2 pm = (iPrevMouse[i] * 2.0 - 1.0) * vec2(iResolution.x / iResolution.y, 1.0);
             float t = 1.0 - float(i) / float(${maxTrail});
-            t = pow(t, 2.5);  // Faster falloff
+            t = pow(t, 2.0);
             
             if (t > 0.02) {
-              vec4 bt = blob(uv, pm, t * 0.5, iOpacity);  // Reduced trail intensity
+              vec4 bt = blob(uv, pm, t * 0.7, iOpacity);
               colorAcc += bt.rgb;
               alphaAcc += bt.a;
             }
@@ -199,9 +210,9 @@
 
           colorAcc *= iBrightness * iIntensity;
           
-          // Clamp to prevent over-bright areas
-          float outAlpha = clamp(alphaAcc * iOpacity * iIntensity * 0.7, 0.0, 0.6);
-          gl_FragColor = vec4(clamp(colorAcc, 0.0, 0.8), outAlpha);
+          // Clamp to prevent over-bright areas but keep visible
+          float outAlpha = clamp(alphaAcc * iOpacity * iIntensity, 0.0, 0.85);
+          gl_FragColor = vec4(clamp(colorAcc, 0.0, 1.0), outAlpha);
         }
       `;
 
@@ -264,11 +275,14 @@
     }
 
     setupEventListeners() {
+      // Simple clamp function (compatible with all Three.js versions)
+      const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+      
       // Use window/document for events since we're fixed to viewport
       this.onPointerMove = (e) => {
         // Calculate position relative to viewport (0-1 range)
-        const x = THREE.MathUtils.clamp(e.clientX / window.innerWidth, 0, 1);
-        const y = THREE.MathUtils.clamp(1 - (e.clientY / window.innerHeight), 0, 1);
+        const x = clamp(e.clientX / window.innerWidth, 0, 1);
+        const y = clamp(1 - (e.clientY / window.innerHeight), 0, 1);
         
         this.currentMouse.set(x, y);
         this.pointerActive = true;
@@ -385,5 +399,6 @@
 
   // Export to global scope
   window.GhostCursor = GhostCursor;
+  console.log('GhostCursor: Class defined and exported to window.GhostCursor');
 
 })();
