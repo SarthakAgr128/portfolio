@@ -3,145 +3,290 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interesting · Signal backbone</title>
-  <meta name="description" content="Scroll the backbone — a vertical data cable scene. Original work; not affiliated with Active Theory.">
-  <meta name="theme-color" content="#030308">
-  <meta name="robots" content="noindex, nofollow">
+  <title>Sarthak Agrawal</title>
+  <meta name="description" content="Sarthak Agrawal - Security Engineer, Problem Solver, Builder">
+  <meta name="theme-color" content="#000000">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="interesting.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #000;
+      color: #fff;
+    }
+
+    #tubes-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      touch-action: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .name {
+      font-size: clamp(3rem, 12vw, 10rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      text-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+      user-select: none;
+    }
+
+    .name span {
+      display: block;
+    }
+
+    .name .first {
+      color: #fff;
+    }
+
+    .name .last {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .tagline {
+      margin-top: 1.5rem;
+      font-size: clamp(0.875rem, 2vw, 1.25rem);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .hint {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      animation: pulse 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hint svg {
+      width: 20px;
+      height: 20px;
+      opacity: 0.5;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .back-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .back-link:hover svg {
+      transform: translateX(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .back-link {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.625rem;
+      }
+
+      .back-link span {
+        display: none;
+      }
+
+      .tagline {
+        padding: 0 1rem;
+      }
+    }
+  </style>
 </head>
-<body class="interesting--lock-x">
-  <canvas id="cable-canvas" aria-hidden="true"></canvas>
-  <div class="interesting__vignette" aria-hidden="true"></div>
+<body>
+  <!-- Tubes 3D Background -->
+  <canvas id="tubes-canvas" aria-hidden="true"></canvas>
 
-  <div class="cursor-dot" aria-hidden="true"></div>
-  <div class="cursor-ring" aria-hidden="true"></div>
+  <!-- Back Link -->
+  <a href="../" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    <span>Back</span>
+  </a>
 
-  <header class="interesting__header">
-    <a href="../" class="interesting__brand">← Home</a>
-    <a href="../menu/" class="interesting__brand" style="margin-left: auto; margin-right: 2rem;">Menu</a>
-    <span class="interesting__depth" id="interesting-depth">SIGNAL DEPTH · 0%</span>
-  </header>
+  <!-- Content -->
+  <div class="content">
+    <h1 class="name">
+      <span class="first">Sarthak</span>
+      <span class="last">Agrawal</span>
+    </h1>
+    <p class="tagline">Security Engineer · Problem Solver · Builder</p>
+  </div>
 
-  <main class="interesting__track" id="main">
-    <!-- Hero -->
-    <section class="interesting__section interesting__section--hero" aria-labelledby="interesting-title">
-      <div class="interesting__hero-block">
-        <p class="interesting__eyebrow">Vertical feed · no horizontal scroll</p>
-        <h1 id="interesting-title" class="interesting__title">
-          The <span>cable</span> doesn’t scroll sideways.
-        </h1>
-        <p class="interesting__lede">
-          One backbone runs down the center. As you move down the page, the strand twists and the signal travels — inspired by immersive studio sites, built from scratch for this repo (not a copy of any third-party codebase).
-        </p>
-        <span class="interesting__tag">Scroll to descend</span>
-      </div>
-    </section>
+  <!-- Hint -->
+  <div class="hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7-7 7 7"/>
+    </svg>
+    <span>Click to change colors</span>
+  </div>
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <h2>Handshake</h2>
-        <p>TCP-friendly banter: SYN, SYN-ACK, ACK — then we talk about real problems like why your coffee tastes like paper.</p>
-        <p class="interesting__meta">// link_established</p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <h2>Latency budget</h2>
-        <p>Every animation frame has a price. This page keeps motion on the canvas and the layout in plain vertical flow — no sideways panning.</p>
-        <p class="interesting__meta">// frame_pacing_ok</p>
-      </article>
-    </section>
+  <script type="module">
+    const TubesBackground = {
+      app: null,
+      canvas: null,
+      currentColors: {
+        tubes: ['#f967fb', '#53bc28', '#6958d5'],
+        lights: ['#83f36e', '#fe8a2e', '#ff008a', '#60aed5']
+      },
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <p class="interesting__stat">01</p>
-        <h2>Origin</h2>
-        <p>Static routes, dynamic stories. The spine you see is procedural: rotation and vertical travel come from scroll position only.</p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <p class="interesting__big-type">NO<br>X</p>
-        <p class="interesting__meta" style="margin-top: 1rem;">Horizontal page movement disabled by design.</p>
-      </article>
-    </section>
+      async init() {
+        this.canvas = document.getElementById('tubes-canvas');
+        if (!this.canvas) return;
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <h2>Packet loss</h2>
-        <p>Sometimes the best idea is the one you didn’t ship. Other times it’s the one you ship at 2 AM with a typo in the commit message.</p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <h2>Checksum</h2>
-        <p>Humor is a checksum for the soul. If it doesn’t validate, tighten the bolts and try again.</p>
-        <p class="interesting__meta">// crc_ok</p>
-      </article>
-    </section>
+        try {
+          const module = await import('https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js');
+          const TubesCursor = module.default;
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <h2>Reference</h2>
-        <p>
-          The vibe nods to high-end interactive studios (e.g.
-          <a href="https://activetheory.net/" rel="noopener noreferrer" target="_blank">Active Theory</a>
-          ) — without reusing their code. If you want their exact experience, visit them directly.
-        </p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <h2>Throughput</h2>
-        <p>Ideas per second is a vanity metric. Useful work per week is closer to the truth.</p>
-        <p class="interesting__meta">// bench_pass</p>
-      </article>
-    </section>
+          this.app = TubesCursor(this.canvas, {
+            tubes: {
+              colors: this.currentColors.tubes,
+              lights: {
+                intensity: 200,
+                colors: this.currentColors.lights
+              }
+            }
+          });
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <p class="interesting__stat">256</p>
-        <h2>Bits of entropy</h2>
-        <p>Enough for a session token, not enough for your life story. Share the long version in person.</p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <h2>Mesh</h2>
-        <p>Friends, colleagues, random people on the internet who fix your regex — that’s the real distributed system.</p>
-      </article>
-    </section>
+          this.bindClickHandler();
+          console.log('%c🎨 Tubes initialized', 'font-size: 12px; color: #f967fb;');
+        } catch (error) {
+          console.warn('Tubes not available:', error);
+          document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%)';
+        }
+      },
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <h2>Failover</h2>
-        <p>When plan A melts, plan B is usually “turn it off and on again” with better logging.</p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <h2>Quiet hours</h2>
-        <p>Protect deep work like you protect prod. Notifications are a DDoS against your attention.</p>
-      </article>
-    </section>
+      randomColors(count) {
+        const colors = [];
+        const hueRanges = [[280, 320], [100, 160], [200, 260], [0, 40]];
+        
+        for (let i = 0; i < count; i++) {
+          const range = hueRanges[i % hueRanges.length];
+          const hue = Math.floor(Math.random() * (range[1] - range[0]) + range[0]);
+          const sat = Math.floor(Math.random() * 30 + 70);
+          const light = Math.floor(Math.random() * 20 + 50);
+          colors.push(`hsl(${hue}, ${sat}%, ${light}%)`);
+        }
+        return colors;
+      },
 
-    <section class="interesting__section">
-      <article class="interesting__panel interesting__panel--left">
-        <h2>Red team / blue team</h2>
-        <p>Both roles are empathy. One breaks assumptions; the other guards sleep-deprived humans from their past decisions.</p>
-      </article>
-      <div class="interesting__spine-gap" aria-hidden="true"></div>
-      <article class="interesting__panel interesting__panel--right">
-        <p class="interesting__big-type">EOF</p>
-        <p class="interesting__meta" style="margin-top: 0.75rem;">End of interesting buffer for now.</p>
-      </article>
-    </section>
+      hslToHex(hsl) {
+        const match = hsl.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+        if (!match) return hsl;
+        
+        let [, h, s, l] = match.map(Number);
+        s /= 100; l /= 100;
 
-    <section class="interesting__section interesting__section--hero interesting__section--end">
-      <div class="interesting__footer-strip">
-        <p>That’s the cable. Still want more? Go build something weirder.</p>
-        <a href="../">← Back to home</a>
-      </div>
-    </section>
-  </main>
+        const c = (1 - Math.abs(2 * l - 1)) * s;
+        const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+        const m = l - c / 2;
+        let r = 0, g = 0, b = 0;
 
-  <script src="interesting.js" defer></script>
+        if (h < 60) { r = c; g = x; }
+        else if (h < 120) { r = x; g = c; }
+        else if (h < 180) { g = c; b = x; }
+        else if (h < 240) { g = x; b = c; }
+        else if (h < 300) { r = x; b = c; }
+        else { r = c; b = x; }
+
+        return '#' + [r, g, b].map(v => 
+          Math.round((v + m) * 255).toString(16).padStart(2, '0')
+        ).join('');
+      },
+
+      randomize() {
+        if (!this.app) return;
+        const tubeColors = this.randomColors(3).map(c => this.hslToHex(c));
+        const lightColors = this.randomColors(4).map(c => this.hslToHex(c));
+        this.app.tubes.setColors(tubeColors);
+        this.app.tubes.setLightsColors(lightColors);
+      },
+
+      bindClickHandler() {
+        document.addEventListener('click', (e) => {
+          if (e.target.closest('a')) return;
+          this.randomize();
+        });
+      }
+    };
+
+    TubesBackground.init();
+  </script>
 </body>
 </html>

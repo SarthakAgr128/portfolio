@@ -766,6 +766,165 @@ strong {
 }
 
 /* ============================================
+   FEATURED PROJECTS - ALTERNATING LAYOUT
+   ============================================ */
+.section__subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.project-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.project-row--reverse {
+  direction: rtl;
+}
+
+.project-row--reverse > * {
+  direction: ltr;
+}
+
+.project-row__image {
+  position: relative;
+}
+
+.project-image-frame {
+  position: relative;
+  background: #fff;
+  padding: 0.75rem 0.75rem 3rem;
+  border: var(--border-sketch-thin);
+  box-shadow: var(--shadow-hard);
+  transition: transform 0.3s ease;
+}
+
+.project-image-frame:hover {
+  transform: scale(1.02) rotate(0deg) !important;
+}
+
+.project-image-frame--rotate-1 { transform: rotate(1deg); }
+.project-image-frame--rotate-neg1 { transform: rotate(-1deg); }
+.project-image-frame--rotate-2 { transform: rotate(2deg); }
+
+.project-image-frame__img {
+  aspect-ratio: 16/10;
+  background: linear-gradient(135deg, #f8f8f8 0%, #eee 100%);
+  border: 1px solid var(--bg-dot);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.project-image-frame__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-image-placeholder {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+}
+
+/* Tape and Thumbtack for project frames */
+.project-image-frame__tape {
+  position: absolute;
+  width: 70px;
+  height: 22px;
+  background: rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  top: -8px;
+  left: 15px;
+  transform: rotate(-5deg);
+  z-index: 10;
+}
+
+.project-image-frame__tape--alt {
+  left: auto;
+  right: 15px;
+  transform: rotate(6deg);
+}
+
+.project-image-frame__thumbtack {
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 14px;
+  height: 14px;
+  background: var(--accent-red);
+  border: 2px solid var(--text-primary);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  z-index: 10;
+}
+
+.project-row__content {
+  padding: 1rem 0;
+}
+
+.project-row__title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.project-row__desc {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+.project-row__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: #fff;
+  border: var(--border-sketch-thin);
+  border-radius: var(--radius-wobbly-sm);
+}
+
+.project-row__link {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--accent-orange);
+  text-underline-offset: 6px;
+  transition: all 0.2s ease;
+}
+
+.project-row__link:hover {
+  color: var(--accent-orange);
+}
+
+.dashed-divider--short {
+  max-width: 200px;
+  margin: 3rem auto;
+}
+
+/* ============================================
    ANIMATIONS & REVEALS
    ============================================ */
 .reveal {
@@ -831,6 +990,27 @@ strong {
 
   .contact-link {
     justify-content: center;
+  }
+
+  /* Project rows stack on mobile */
+  .project-row,
+  .project-row--reverse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    direction: ltr;
+  }
+
+  .project-row__content {
+    text-align: center;
+  }
+
+  .project-row__tags {
+    justify-content: center;
+  }
+
+  .project-image-frame {
+    max-width: 350px;
+    margin: 0 auto;
   }
 }
 

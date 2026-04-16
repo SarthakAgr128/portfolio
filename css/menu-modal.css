@@ -1,0 +1,358 @@
+/* ============================================
+   MENU MODAL - Liquid Glass Popup
+   ============================================ */
+
+:root {
+  --menu-modal-bg: rgba(0, 0, 0, 0.6);
+  --menu-glass-bg: rgba(255, 255, 255, 0.08);
+  --menu-glass-border: rgba(255, 255, 255, 0.15);
+  --menu-text: #ffffff;
+  --menu-marquee-bg: rgba(255, 255, 255, 0.95);
+  --menu-marquee-text: #09090B;
+}
+
+/* Menu Trigger Button */
+.menu-trigger {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  color: #fff;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.menu-trigger:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.menu-trigger__icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 18px;
+}
+
+.menu-trigger__icon span {
+  display: block;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+.menu-trigger__icon span:nth-child(1) { width: 100%; }
+.menu-trigger__icon span:nth-child(2) { width: 70%; }
+.menu-trigger__icon span:nth-child(3) { width: 50%; }
+
+.menu-trigger:hover .menu-trigger__icon span {
+  width: 100%;
+}
+
+/* Menu trigger on light backgrounds */
+.menu-trigger--light {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1a1a1a;
+}
+
+.menu-trigger--light .menu-trigger__icon span {
+  background: #1a1a1a;
+}
+
+.menu-trigger--light:hover {
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+}
+
+.menu-trigger--light:hover .menu-trigger__icon span {
+  background: #fff;
+}
+
+/* Modal Overlay */
+.menu-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--menu-modal-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.menu-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Close Button */
+.menu-modal__close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-modal__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+/* Liquid Glass Container */
+.menu-modal__glass {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  max-height: 80vh;
+  position: relative;
+  border-radius: 2rem;
+  overflow: hidden;
+  transform: scale(0.9) translateY(30px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Heavy Liquid Glass Effect */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(60px) saturate(200%);
+  -webkit-backdrop-filter: blur(60px) saturate(200%);
+  
+  /* Multi-layer border for depth */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  /* Complex shadow for floating effect */
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 25px 80px rgba(0, 0, 0, 0.5),
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.menu-modal.is-open .menu-modal__glass {
+  transform: scale(1) translateY(0);
+}
+
+/* Glass Reflections */
+.menu-modal__reflection {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.menu-modal__reflection--1 {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 100%
+  );
+  border-radius: 2rem 2rem 0 0;
+}
+
+.menu-modal__reflection--2 {
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 100%
+  );
+  border-radius: 2rem 0 0 2rem;
+}
+
+/* Menu Navigation */
+.menu-modal__nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Menu Item */
+.menu-modal__item {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-modal__item:first-child {
+  border-top: none;
+}
+
+.menu-modal__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 90px;
+  width: 100%;
+  text-decoration: none;
+  color: var(--menu-text);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  padding: 1.5rem;
+}
+
+.menu-modal__link:hover {
+  opacity: 0;
+}
+
+.menu-modal__text {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: clamp(1.25rem, 3vh, 1.75rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Marquee Layer */
+.menu-modal__marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--menu-marquee-bg);
+  transform: translateY(101%);
+  will-change: transform;
+}
+
+.menu-modal__marquee-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  transform: translateY(-101%);
+  will-change: transform;
+}
+
+/* Marquee Part */
+.marquee-part {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--menu-marquee-text);
+}
+
+.marquee-part__text {
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3vh, 1.75rem);
+  line-height: 1;
+  padding: 0 1vw;
+  letter-spacing: 0.02em;
+}
+
+.marquee-part__image {
+  width: clamp(80px, 10vw, 120px);
+  height: clamp(40px, 5vh, 60px);
+  margin: 0 1.5vw;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .menu-trigger {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.625rem 1rem;
+  }
+
+  .menu-trigger__label {
+    display: none;
+  }
+
+  .menu-modal {
+    padding: 1rem;
+  }
+
+  .menu-modal__close {
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+  }
+
+  .menu-modal__glass {
+    border-radius: 1.5rem;
+    max-height: 85vh;
+  }
+
+  .menu-modal__link {
+    min-height: 70px;
+    padding: 1rem;
+  }
+
+  .marquee-part__image {
+    width: 60px;
+    height: 30px;
+    margin: 0 1rem;
+  }
+}
+
+/* ============================================
+   HOVER STATES FOR TOUCH DEVICES
+   ============================================ */
+@media (hover: none) {
+  .menu-modal__link:hover {
+    opacity: 1;
+  }
+
+  .menu-modal__marquee {
+    display: none;
+  }
+}
