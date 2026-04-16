@@ -69,36 +69,15 @@
     }
 
     .center-text-inner {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(3rem, 12vw, 10rem);
-      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1.5rem, 4vw, 3.5rem);
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: -0.04em;
-      line-height: 0.9;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
       text-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
       user-select: none;
       color: #fff;
-      min-height: 1.2em;
-    }
-
-    .center-text-inner .first-line {
-      display: block;
-      color: #fff;
-    }
-
-    .center-text-inner .second-line {
-      display: block;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* When showing the scramble question, switch to mono + smaller */
-    .center-text-inner.mode-scramble {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(1rem, 2.8vw, 2.25rem);
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-      text-transform: none;
     }
 
     .center-text-inner .char-glitch {
@@ -367,10 +346,6 @@
       .ff-slider {
         width: 3.5rem;
       }
-
-      .center-text-inner.mode-scramble {
-        font-size: clamp(0.875rem, 4vw, 1.5rem);
-      }
     }
   </style>
 </head>
@@ -392,10 +367,7 @@
 
   <!-- Single centered text element — morphs in place -->
   <div class="center-text" id="center-text">
-    <div class="center-text-inner" id="center-text-inner">
-      <span class="first-line">Sarthak</span>
-      <span class="second-line">Agrawal</span>
-    </div>
+    <div class="center-text-inner" id="center-text-inner">SARTHAK<br>AGRAWAL</div>
     <p class="tagline" id="hero-tagline">Security Engineer · Problem Solver · Builder</p>
   </div>
 
@@ -577,7 +549,6 @@
        * 0.75–1.0: Force field full. Name shown. Controls appear.
        */
 
-      // Modes: 'hero' (big Inter), 'scramble' (JetBrains), 'hero-ff' (big Inter on ff)
       let currentMode = 'hero';
 
       function clamp01(v) {
@@ -593,16 +564,7 @@
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       }
 
-      function renderHeroName(firstColor, secondColor) {
-        textInner.classList.remove('mode-scramble');
-        textInner.innerHTML =
-          `<span class="first-line" style="color:${firstColor}">Sarthak</span>` +
-          `<span class="second-line" style="color:${secondColor}">Agrawal</span>`;
-      }
-
-      function renderScramble(from, to, progress) {
-        textInner.classList.add('mode-scramble');
-
+      function renderText(from, to, progress) {
         const fromChars = from.split('');
         const toChars = to.split('');
         const maxLen = Math.max(fromChars.length, toChars.length);
@@ -614,32 +576,21 @@
 
           const charProgress = clamp01((progress - (i / maxLen) * 0.6) / 0.4);
 
-          if (fromC === '\n' && charProgress < 1) {
-            html += '<br>';
-            continue;
-          }
-          if (toC === '\n' && charProgress >= 1) {
-            html += '<br>';
-            continue;
-          }
-          if (charProgress >= 1 && toC === '\n') {
-            html += '<br>';
-            continue;
+          let resolved;
+          if (charProgress <= 0) {
+            resolved = fromC;
+          } else if (charProgress >= 1) {
+            resolved = toC;
+          } else {
+            resolved = null;
           }
 
-          let c;
-          if (charProgress <= 0) {
-            c = fromC;
-            if (c === '\n') { html += '<br>'; continue; }
-            if (c === ' ') { html += ' '; continue; }
-            html += c;
-          } else if (charProgress >= 1) {
-            c = toC;
-            if (c === '\n') { html += '<br>'; continue; }
-            if (c === ' ') { html += ' '; continue; }
-            html += c;
+          if (resolved !== null) {
+            if (resolved === '\n') { html += '<br>'; }
+            else if (resolved === ' ') { html += ' '; }
+            else { html += resolved; }
           } else {
-            if (fromC === ' ' || toC === ' ' || fromC === '\n' || toC === '\n') {
+            if (fromC === '\n' || toC === '\n' || fromC === ' ' || toC === ' ') {
               html += ' ';
             } else {
               const g = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
@@ -674,25 +625,25 @@
          */
         if (progress < 0.20) {
           if (currentMode !== 'hero') {
-            renderHeroName('#fff', 'rgba(255,255,255,0.6)');
+            renderText(TEXT_A, TEXT_A, 1);
             currentMode = 'hero';
           }
         } else if (progress < 0.38) {
           currentMode = 'scrambling-forward';
           const sp = easeInOutCubic(remap(progress, 0.20, 0.38, 0, 1));
-          renderScramble(TEXT_A, TEXT_B, sp);
+          renderText(TEXT_A, TEXT_B, sp);
         } else if (progress < 0.52) {
           if (currentMode !== 'hold-b') {
-            renderScramble(TEXT_A, TEXT_B, 1);
+            renderText(TEXT_A, TEXT_B, 1);
             currentMode = 'hold-b';
           }
         } else if (progress < 0.70) {
           currentMode = 'scrambling-back';
           const sp = easeInOutCubic(remap(progress, 0.52, 0.70, 0, 1));
-          renderScramble(TEXT_B, TEXT_A, sp);
+          renderText(TEXT_B, TEXT_A, sp);
         } else {
           if (currentMode !== 'hero-ff') {
-            renderHeroName('#fff', 'rgba(255,255,255,0.6)');
+            renderText(TEXT_A, TEXT_A, 1);
             currentMode = 'hero-ff';
           }
         }
