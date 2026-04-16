@@ -1,14 +1,21 @@
 /* ============================================
-   MENU PAGE - Flowing Menu Styles
+   MENU PAGE - Liquid Glass + Tubes Background
    ============================================ */
 
 :root {
-  --menu-bg: #F9F9F9;
-  --menu-text: #09090B;
-  --menu-border: #E4E4E7;
-  --menu-marquee-bg: #18181B;
-  --menu-marquee-text: #FAFAFA;
+  --menu-bg: #000000;
+  --menu-text: #ffffff;
+  --menu-text-muted: rgba(255, 255, 255, 0.6);
+  --menu-border: rgba(255, 255, 255, 0.1);
+  --menu-marquee-bg: rgba(255, 255, 255, 0.95);
+  --menu-marquee-text: #09090B;
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Dynamic color variables - updated by JS */
+  --tube-color-1: #f967fb;
+  --tube-color-2: #53bc28;
+  --tube-color-3: #6958d5;
+  --tube-glow: rgba(249, 103, 251, 0.3);
 }
 
 *,
@@ -50,7 +57,37 @@ body {
   top: 1rem;
 }
 
-/* Back Button */
+/* ============================================
+   TUBES CANVAS BACKGROUND
+   ============================================ */
+#tubes-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  touch-action: none;
+}
+
+/* Color Reflection Layer - picks up tube colors */
+.color-reflection {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    var(--tube-glow) 0%,
+    transparent 70%
+  );
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  transition: background 0.8s ease;
+}
+
+/* ============================================
+   BACK BUTTON
+   ============================================ */
 .back-btn {
   position: fixed;
   top: 2rem;
@@ -60,22 +97,28 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--menu-border);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
   color: var(--menu-text);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .back-btn:hover {
-  background: var(--menu-marquee-bg);
-  color: var(--menu-marquee-text);
-  border-color: var(--menu-marquee-bg);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .back-btn svg {
@@ -86,35 +129,144 @@ body {
   transform: translateX(-3px);
 }
 
-/* Main */
-main {
-  height: 100vh;
+/* ============================================
+   CLICK HINT
+   ============================================ */
+.click-hint {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  animation: pulse-hint 2s ease-in-out infinite;
+  pointer-events: none;
 }
 
-/* Flowing Menu Container */
-.flowing-menu {
-  flex: 1;
+@keyframes pulse-hint {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.7; transform: translateX(-50%) translateY(-4px); }
+}
+
+/* ============================================
+   MAIN LAYOUT
+   ============================================ */
+main {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4rem 2rem;
 }
 
-.flowing-menu__nav {
+/* ============================================
+   LIQUID GLASS CONTAINER
+   ============================================ */
+.liquid-glass-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   height: 100%;
-  max-height: 700px;
+  max-height: 650px;
+  perspective: 1000px;
+}
+
+.liquid-glass-menu {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem;
+  overflow: hidden;
+  
+  /* Super Liquid Glass Effect */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  
+  /* Multi-layer border for depth */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  
+  /* Complex shadow for floating effect */
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 32px 64px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  
+  /* Tube color reflection tint */
+  box-shadow: 
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 32px 64px rgba(0, 0, 0, 0.3),
+    0 0 100px -20px var(--tube-color-1),
+    0 0 80px -30px var(--tube-color-2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  
+  transition: box-shadow 0.8s ease, transform 0.3s ease;
+}
+
+.liquid-glass-menu:hover {
+  transform: translateY(-4px) scale(1.005);
+}
+
+/* Glass Reflection Layers */
+.glass-reflection {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-reflection--1 {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    transparent 100%
+  );
+  border-radius: 2rem 2rem 0 0;
+}
+
+.glass-reflection--2 {
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 100%
+  );
+  border-radius: 2rem 0 0 2rem;
+}
+
+/* ============================================
+   FLOWING MENU NAVIGATION
+   ============================================ */
+.flowing-menu__nav {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  border-radius: 1.5rem;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 
-    0 0 0 1px var(--menu-border),
-    0 40px 100px rgba(0, 0, 0, 0.05);
+  height: 100%;
 }
 
 /* Menu Item */
@@ -122,7 +274,7 @@ main {
   flex: 1;
   position: relative;
   overflow: hidden;
-  border-top: 1px solid var(--menu-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .menu-item:first-child {
@@ -138,18 +290,21 @@ main {
   text-decoration: none;
   color: var(--menu-text);
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, background 0.3s ease;
+  background: transparent;
 }
 
 .menu-item__link:hover {
   opacity: 0;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .menu-item__text {
-  font-size: clamp(1.5rem, 4vh, 2.5rem);
+  font-size: clamp(1.25rem, 3.5vh, 2rem);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* Marquee Layer */
@@ -186,35 +341,54 @@ main {
 .marquee-part__text {
   white-space: nowrap;
   text-transform: uppercase;
-  font-weight: 500;
-  font-size: clamp(1.5rem, 4vh, 2.5rem);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 3.5vh, 2rem);
   line-height: 1;
   padding: 0 1vw;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
 }
 
 .marquee-part__image {
-  width: clamp(120px, 15vw, 200px);
-  height: clamp(50px, 7vh, 80px);
-  margin: 0 2vw;
-  border-radius: 50px;
+  width: clamp(100px, 12vw, 160px);
+  height: clamp(45px, 6vh, 70px);
+  margin: 0 1.5vw;
+  border-radius: 40px;
   background-size: cover;
   background-position: center;
   flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Menu Footer */
-.menu-footer {
-  padding: 1.5rem;
-  text-align: center;
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
-.menu-footer p {
-  font-size: 0.75rem;
-  color: #A1A1AA;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin: 0;
+.loading-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--tube-color-1);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ============================================
@@ -231,31 +405,53 @@ main {
     display: none;
   }
 
-  .flowing-menu {
-    padding: 5rem 1rem 2rem;
+  main {
+    padding: 5rem 1rem 4rem;
   }
 
-  .flowing-menu__nav {
-    border-radius: 1rem;
+  .liquid-glass-container {
+    max-height: none;
+    height: calc(100% - 2rem);
+  }
+
+  .liquid-glass-menu {
+    border-radius: 1.5rem;
+  }
+
+  .glass-reflection--1 {
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
+
+  .glass-reflection--2 {
+    border-radius: 1.5rem 0 0 1.5rem;
   }
 
   .marquee-part__image {
-    width: 80px;
-    height: 40px;
+    width: 70px;
+    height: 35px;
     margin: 0 1rem;
+  }
+
+  .click-hint {
+    bottom: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .menu-item__text,
   .marquee-part__text {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
+    letter-spacing: 0.02em;
   }
 
   .marquee-part__image {
-    width: 60px;
-    height: 30px;
-    border-radius: 20px;
+    width: 50px;
+    height: 25px;
+    border-radius: 15px;
+  }
+
+  .liquid-glass-menu {
+    border-radius: 1.25rem;
   }
 }
 
@@ -269,5 +465,22 @@ main {
 
   .menu-item__marquee {
     display: none;
+  }
+
+  .click-hint {
+    display: none;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .click-hint {
+    animation: none;
+  }
+  
+  .loading-spinner {
+    animation: none;
   }
 }
