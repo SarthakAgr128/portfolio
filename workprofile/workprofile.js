@@ -3,8 +3,32 @@
  * Interactive effects and animations
  */
 
+import { GhostCursor } from './ghost-cursor.js';
+
 (function() {
   'use strict';
+
+  let ghostCursor = null;
+
+  // Initialize Ghost Cursor
+  function initGhostCursor() {
+    ghostCursor = new GhostCursor({
+      color: '#FFFFFF',        // White to match cosmic theme
+      brightness: 1.2,         // Slightly brighter
+      trailLength: 20,         // Moderate trail
+      inertia: 0.4,            // Smooth movement
+      bloomStrength: 0.3,      // Subtle glow
+      bloomRadius: 0.8,
+      bloomThreshold: 0,
+      grainIntensity: 0.05,    // Subtle film grain
+      fadeDelayMs: 200,        // Quick fade start
+      fadeDurationMs: 1000,    // Smooth fade out
+      mixBlendMode: 'screen',  // Blend with background
+      zIndex: 999              // Below navigation but above content
+    });
+    
+    ghostCursor.init('body');
+  }
 
   // Portal Rings Cursor Distortion
   function initPortalRings() {
@@ -130,6 +154,7 @@
   }
 
   function init() {
+    initGhostCursor();
     initPortalRings();
     initSmoothScroll();
     initScrollReveal();
@@ -141,5 +166,12 @@
   } else {
     init();
   }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (ghostCursor) {
+      ghostCursor.destroy();
+    }
+  });
 
 })();
