@@ -32,24 +32,30 @@
       overflow-x: hidden;
     }
 
-    /* ─── Scroll spacer: total scrollable height ─── */
     .scroll-spacer {
       height: 400vh;
       position: relative;
     }
 
-    /* ─── LAYER 1: Tubes — fixed, always behind ─── */
-    #tubes-canvas {
+    /* ─── Tubes canvas wrapper ─── */
+    .tubes-wrapper {
       position: fixed;
       inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    #tubes-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1;
       touch-action: none;
     }
 
-    /* ─── LAYER 2: Hero text overlay — fixed, scroll-driven ─── */
-    .hero-overlay {
+    /* ─── Center text: single element, always centered ─── */
+    .center-text {
       position: fixed;
       inset: 0;
       z-index: 10;
@@ -59,9 +65,11 @@
       justify-content: center;
       text-align: center;
       pointer-events: none;
+      padding: 0 2rem;
     }
 
-    .name {
+    .center-text-inner {
+      font-family: 'Inter', sans-serif;
       font-size: clamp(3rem, 12vw, 10rem);
       font-weight: 800;
       text-transform: uppercase;
@@ -69,18 +77,32 @@
       line-height: 0.9;
       text-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
       user-select: none;
+      color: #fff;
+      min-height: 1.2em;
     }
 
-    .name span {
+    .center-text-inner .first-line {
       display: block;
-    }
-
-    .name .first {
       color: #fff;
     }
 
-    .name .last {
+    .center-text-inner .second-line {
+      display: block;
       color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* When showing the scramble question, switch to mono + smaller */
+    .center-text-inner.mode-scramble {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(1rem, 2.8vw, 2.25rem);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      text-transform: none;
+    }
+
+    .center-text-inner .char-glitch {
+      color: rgba(255, 255, 255, 0.3);
     }
 
     .tagline {
@@ -90,39 +112,6 @@
       color: rgba(255, 255, 255, 0.5);
       letter-spacing: 0.15em;
       text-transform: uppercase;
-    }
-
-    /* ─── Scramble text (replaces name during transition) ─── */
-    .scramble-container {
-      position: fixed;
-      inset: 0;
-      z-index: 11;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      pointer-events: none;
-      opacity: 0;
-      padding: 0 2rem;
-    }
-
-    .scramble-text {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(1rem, 2.8vw, 2.25rem);
-      font-weight: 400;
-      color: #fff;
-      letter-spacing: 0.02em;
-      line-height: 1.4;
-      white-space: pre-wrap;
-    }
-
-    .scramble-text .char {
-      display: inline-block;
-      transition: none;
-    }
-
-    .scramble-text .char.glitch {
-      color: rgba(255, 255, 255, 0.3);
     }
 
     .hint {
@@ -223,7 +212,7 @@
       transform: translateX(-3px);
     }
 
-    /* ─── LAYER 3: Force field — slides up from bottom ─── */
+    /* ─── Force field layer ─── */
     .forcefield-layer {
       position: fixed;
       left: 0;
@@ -244,49 +233,6 @@
 
     #forcefield-container canvas {
       display: block;
-    }
-
-    /* ─── Clip mask: used to split-screen the tubes ─── */
-    .tubes-clip {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      will-change: clip-path;
-      clip-path: inset(0 0 0 0);
-    }
-
-    /* ─── Force field name overlay ─── */
-    .ff-name-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 12;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .ff-name {
-      font-size: clamp(3rem, 12vw, 10rem);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: -0.04em;
-      line-height: 0.9;
-      user-select: none;
-      color: #fff;
-      text-shadow: 0 0 80px rgba(0, 0, 0, 0.9);
-    }
-
-    .ff-name span {
-      display: block;
-    }
-
-    .ff-name .last {
-      color: rgba(255, 255, 255, 0.6);
     }
 
     /* ─── Controls ─── */
@@ -422,7 +368,7 @@
         width: 3.5rem;
       }
 
-      .scramble-text {
+      .center-text-inner.mode-scramble {
         font-size: clamp(0.875rem, 4vw, 1.5rem);
       }
     }
@@ -430,7 +376,6 @@
 </head>
 <body>
 
-  <!-- Back Link -->
   <a href="../" class="back-link">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -438,30 +383,22 @@
     <span>Back</span>
   </a>
 
-  <!-- Scroll spacer — this is the only thing in document flow -->
   <div class="scroll-spacer"></div>
 
-  <!-- FIXED LAYER: Tubes canvas (always behind everything) -->
-  <canvas id="tubes-canvas" aria-hidden="true"></canvas>
+  <!-- Tubes: wrapper div is fixed, canvas inside fills it -->
+  <div class="tubes-wrapper" id="tubes-wrapper">
+    <canvas id="tubes-canvas" aria-hidden="true"></canvas>
+  </div>
 
-  <!-- FIXED LAYER: Clip wrapper for tubes (used to mask upper half) -->
-  <div class="tubes-clip" id="tubes-clip"></div>
-
-  <!-- FIXED LAYER: Hero text -->
-  <div class="hero-overlay" id="hero-overlay">
-    <h1 class="name" id="hero-name">
-      <span class="first">Sarthak</span>
-      <span class="last">Agrawal</span>
-    </h1>
+  <!-- Single centered text element — morphs in place -->
+  <div class="center-text" id="center-text">
+    <div class="center-text-inner" id="center-text-inner">
+      <span class="first-line">Sarthak</span>
+      <span class="second-line">Agrawal</span>
+    </div>
     <p class="tagline" id="hero-tagline">Security Engineer · Problem Solver · Builder</p>
   </div>
 
-  <!-- FIXED LAYER: Scramble text (hidden until transition) -->
-  <div class="scramble-container" id="scramble-container">
-    <div class="scramble-text" id="scramble-text"></div>
-  </div>
-
-  <!-- FIXED LAYER: Hint -->
   <div class="hint" id="hint-click">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M12 5v14M5 12l7-7 7 7"/>
@@ -469,26 +406,17 @@
     <span>Click to change colors</span>
   </div>
 
-  <!-- FIXED LAYER: Scroll indicator -->
   <div class="scroll-indicator" id="scroll-indicator">
     <span>Scroll</span>
     <div class="scroll-line"></div>
   </div>
 
-  <!-- FIXED LAYER: Force field (slides up) -->
+  <!-- Force field slides up -->
   <div class="forcefield-layer" id="forcefield-layer">
     <div id="forcefield-container"></div>
   </div>
 
-  <!-- FIXED LAYER: Force field name (appears at end) -->
-  <div class="ff-name-overlay" id="ff-name-overlay">
-    <h2 class="ff-name" id="ff-name">
-      <span class="first">Sarthak</span>
-      <span class="last">Agrawal</span>
-    </h2>
-  </div>
-
-  <!-- FIXED LAYER: Controls -->
+  <!-- Controls -->
   <div class="ff-controls" id="ff-controls">
     <div class="ff-controls-inner">
       <div class="ff-control-group">
@@ -521,11 +449,10 @@
     </div>
   </div>
 
-  <!-- p5.js -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
 
   <!-- ════════════════════════════════════════════ -->
-  <!-- Tubes (unchanged logic)                     -->
+  <!-- Tubes (original logic, restored)            -->
   <!-- ════════════════════════════════════════════ -->
   <script type="module">
     const TubesBackground = {
@@ -555,6 +482,7 @@
           });
 
           this.bindClickHandler();
+          console.log('%c🎨 Tubes initialized', 'font-size: 12px; color: #f967fb;');
         } catch (error) {
           console.warn('Tubes not available:', error);
           document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1a 100%)';
@@ -615,62 +543,42 @@
   </script>
 
   <!-- ════════════════════════════════════════════ -->
-  <!-- Scroll choreography + text scramble         -->
+  <!-- Scroll choreography + in-place text morph   -->
   <!-- ════════════════════════════════════════════ -->
   <script>
     (function () {
       const GLYPHS = '0123456789ABCDEFabcdef!@#$%^&*<>{}[]|/\\~';
-      const TEXT_A = 'SARTHAK AGRAWAL';
-      const TEXT_B = "Who said cyber security nerds can't be creative?";
+      const TEXT_A = 'SARTHAK\nAGRAWAL';
+      const TEXT_B = "Who said cyber\nsecurity nerds can't\nbe creative?";
 
-      const heroOverlay = document.getElementById('hero-overlay');
-      const scrambleContainer = document.getElementById('scramble-container');
-      const scrambleText = document.getElementById('scramble-text');
+      const textInner = document.getElementById('center-text-inner');
+      const tagline = document.getElementById('hero-tagline');
       const hintClick = document.getElementById('hint-click');
       const scrollIndicator = document.getElementById('scroll-indicator');
       const forcefieldLayer = document.getElementById('forcefield-layer');
-      const ffNameOverlay = document.getElementById('ff-name-overlay');
       const ffControls = document.getElementById('ff-controls');
-      const tubesClip = document.getElementById('tubes-clip');
+      const tubesWrapper = document.getElementById('tubes-wrapper');
 
       /*
-       * SCROLL TIMELINE (over 400vh):
+       * SCROLL TIMELINE (400vh):
        *
-       * 0vh–100vh (progress 0–0.25):
-       *   Hero state. Name visible. Tubes full screen. No changes.
+       * 0–0.25 (0–100vh): Hero. "SARTHAK AGRAWAL" in big Inter font.
        *
-       * 100vh–200vh (progress 0.25–0.5):
-       *   "Scramble out" phase.
-       *   - Hero name + tagline fade out (0.25–0.30)
-       *   - Scramble container fades in (0.28–0.33)
-       *   - Text scrambles from TEXT_A → TEXT_B across 0.30–0.48
-       *   - At 0.45, force field begins sliding up from bottom
+       * 0.20–0.50: Text morphs.
+       *   0.20–0.25: tagline fades out
+       *   0.22–0.35: scramble TEXT_A → TEXT_B (font smoothly transitions)
+       *   0.35–0.45: TEXT_B fully visible, force field starts sliding in
        *
-       * 200vh–300vh (progress 0.5–0.75):
-       *   Split-screen phase.
-       *   - Tubes get clip-path to show only upper portion
-       *   - Force field visible in lower portion, rising
-       *   - Text scrambles back: TEXT_B → TEXT_A across 0.52–0.70
-       *   - Scramble container fades out (0.68–0.73)
-       *   - ff-name-overlay fades in (0.72–0.78)
+       * 0.45–0.75: Split screen phase.
+       *   0.50–0.65: scramble TEXT_B → TEXT_A (font transitions back)
+       *   0.45–0.80: force field slides from 100% → 0% translateY
+       *   0.50–0.85: tubes wrapper clips from bottom
        *
-       * 300vh–400vh (progress 0.75–1.0):
-       *   Force field full screen.
-       *   - Force field covers 100% viewport
-       *   - Tubes fully clipped away
-       *   - Name shows on force field
-       *   - Controls visible
+       * 0.75–1.0: Force field full. Name shown. Controls appear.
        */
 
-      let lastProgress = -1;
-      let scrambleFrame = null;
-      let currentScrambleTarget = '';
-      let currentScrambleSource = '';
-      let scrambleProgress = 0;
-
-      function lerp(a, b, t) {
-        return a + (b - a) * t;
-      }
+      // Modes: 'hero' (big Inter), 'scramble' (JetBrains), 'hero-ff' (big Inter on ff)
+      let currentMode = 'hero';
 
       function clamp01(v) {
         return Math.max(0, Math.min(1, v));
@@ -678,35 +586,69 @@
 
       function remap(value, inLow, inHigh, outLow, outHigh) {
         const t = clamp01((value - inLow) / (inHigh - inLow));
-        return lerp(outLow, outHigh, t);
+        return outLow + (outHigh - outLow) * t;
       }
 
       function easeInOutCubic(t) {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       }
 
+      function renderHeroName(firstColor, secondColor) {
+        textInner.classList.remove('mode-scramble');
+        textInner.innerHTML =
+          `<span class="first-line" style="color:${firstColor}">Sarthak</span>` +
+          `<span class="second-line" style="color:${secondColor}">Agrawal</span>`;
+      }
+
       function renderScramble(from, to, progress) {
-        const maxLen = Math.max(from.length, to.length);
-        const padFrom = from.padEnd(maxLen);
-        const padTo = to.padEnd(maxLen);
+        textInner.classList.add('mode-scramble');
+
+        const fromChars = from.split('');
+        const toChars = to.split('');
+        const maxLen = Math.max(fromChars.length, toChars.length);
+
         let html = '';
-
         for (let i = 0; i < maxLen; i++) {
-          const charProgress = clamp01((progress - (i / maxLen) * 0.5) / 0.5);
+          const fromC = i < fromChars.length ? fromChars[i] : ' ';
+          const toC = i < toChars.length ? toChars[i] : ' ';
 
+          const charProgress = clamp01((progress - (i / maxLen) * 0.6) / 0.4);
+
+          if (fromC === '\n' && charProgress < 1) {
+            html += '<br>';
+            continue;
+          }
+          if (toC === '\n' && charProgress >= 1) {
+            html += '<br>';
+            continue;
+          }
+          if (charProgress >= 1 && toC === '\n') {
+            html += '<br>';
+            continue;
+          }
+
+          let c;
           if (charProgress <= 0) {
-            const c = padFrom[i];
-            html += c === ' ' ? ' ' : `<span class="char">${c}</span>`;
+            c = fromC;
+            if (c === '\n') { html += '<br>'; continue; }
+            if (c === ' ') { html += ' '; continue; }
+            html += c;
           } else if (charProgress >= 1) {
-            const c = padTo[i];
-            html += c === ' ' ? ' ' : `<span class="char">${c}</span>`;
+            c = toC;
+            if (c === '\n') { html += '<br>'; continue; }
+            if (c === ' ') { html += ' '; continue; }
+            html += c;
           } else {
-            const g = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-            html += `<span class="char glitch">${g}</span>`;
+            if (fromC === ' ' || toC === ' ' || fromC === '\n' || toC === '\n') {
+              html += ' ';
+            } else {
+              const g = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+              html += `<span class="char-glitch">${g}</span>`;
+            }
           }
         }
 
-        scrambleText.innerHTML = html;
+        textInner.innerHTML = html;
       }
 
       function onScroll() {
@@ -714,70 +656,77 @@
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
 
-        // Scroll indicator fade
-        const indicatorOpacity = clamp01(1 - scrollY / (window.innerHeight * 0.3));
-        scrollIndicator.style.opacity = indicatorOpacity;
+        // Scroll indicator + hint fade
+        const fadeOut = clamp01(1 - scrollY / (window.innerHeight * 0.3));
+        scrollIndicator.style.opacity = fadeOut;
+        hintClick.style.opacity = fadeOut * 0.6;
 
-        // Hint fade (same timing)
-        hintClick.style.opacity = indicatorOpacity * 0.6;
+        // Tagline fade
+        tagline.style.opacity = remap(progress, 0.18, 0.24, 1, 0);
 
-        /* ── Phase 1: Hero (0–0.25) ── */
-        const heroOpacity = remap(progress, 0.22, 0.30, 1, 0);
-        heroOverlay.style.opacity = heroOpacity;
-
-        /* ── Phase 2: Scramble forward (0.25–0.50) ── */
-        const scrambleInOpacity = progress < 0.5
-          ? remap(progress, 0.26, 0.32, 0, 1)
-          : remap(progress, 0.68, 0.74, 1, 0);
-        scrambleContainer.style.opacity = scrambleInOpacity;
-
-        if (progress >= 0.28 && progress < 0.50) {
-          const sp = remap(progress, 0.28, 0.48, 0, 1);
-          renderScramble(TEXT_A, TEXT_B, easeInOutCubic(sp));
-        } else if (progress >= 0.50 && progress < 0.74) {
-          const sp = remap(progress, 0.50, 0.70, 0, 1);
-          renderScramble(TEXT_B, TEXT_A, easeInOutCubic(sp));
-        } else if (progress < 0.28) {
-          renderScramble(TEXT_A, TEXT_A, 1);
+        /*
+         * Text state machine:
+         * 0–0.20:       Show hero name (Inter, big)
+         * 0.20–0.38:    Scramble A→B
+         * 0.38–0.52:    Hold B
+         * 0.52–0.70:    Scramble B→A
+         * 0.70–1.0:     Show hero name again (on force field)
+         */
+        if (progress < 0.20) {
+          if (currentMode !== 'hero') {
+            renderHeroName('#fff', 'rgba(255,255,255,0.6)');
+            currentMode = 'hero';
+          }
+        } else if (progress < 0.38) {
+          currentMode = 'scrambling-forward';
+          const sp = easeInOutCubic(remap(progress, 0.20, 0.38, 0, 1));
+          renderScramble(TEXT_A, TEXT_B, sp);
+        } else if (progress < 0.52) {
+          if (currentMode !== 'hold-b') {
+            renderScramble(TEXT_A, TEXT_B, 1);
+            currentMode = 'hold-b';
+          }
+        } else if (progress < 0.70) {
+          currentMode = 'scrambling-back';
+          const sp = easeInOutCubic(remap(progress, 0.52, 0.70, 0, 1));
+          renderScramble(TEXT_B, TEXT_A, sp);
+        } else {
+          if (currentMode !== 'hero-ff') {
+            renderHeroName('#fff', 'rgba(255,255,255,0.6)');
+            currentMode = 'hero-ff';
+          }
         }
 
-        /* ── Phase 3: Force field slide up (0.40–0.80) ── */
+        /* ── Force field slide up ── */
         const ffSlide = remap(progress, 0.40, 0.80, 100, 0);
         forcefieldLayer.style.transform = `translateY(${ffSlide}%)`;
 
-        // Tubes clip: shrink from bottom as force field rises
-        const tubesClipBottom = remap(progress, 0.45, 0.85, 0, 100);
-        if (tubesClipBottom > 0) {
-          tubesClip.style.clipPath = `inset(0 0 ${tubesClipBottom}% 0)`;
-          tubesClip.style.display = 'block';
+        /* ── Tubes clip from bottom ── */
+        const tubesClipPct = remap(progress, 0.45, 0.85, 0, 100);
+        if (tubesClipPct > 0.5) {
+          tubesWrapper.style.clipPath = `inset(0 0 ${tubesClipPct}% 0)`;
         } else {
-          tubesClip.style.clipPath = 'inset(0 0 0 0)';
+          tubesWrapper.style.clipPath = '';
         }
 
-        /* ── Phase 4: FF name + controls (0.75–1.0) ── */
-        const ffNameOpacity = remap(progress, 0.74, 0.82, 0, 1);
-        ffNameOverlay.style.opacity = ffNameOpacity;
-
+        /* ── Controls ── */
         if (progress > 0.78) {
           ffControls.classList.add('visible');
         } else {
           ffControls.classList.remove('visible');
         }
-
-        lastProgress = progress;
       }
 
       function rafLoop() {
         onScroll();
         requestAnimationFrame(rafLoop);
       }
-
       requestAnimationFrame(rafLoop);
     })();
   </script>
 
   <!-- ════════════════════════════════════════════ -->
-  <!-- Force Field (vanilla p5.js port)            -->
+  <!-- Force Field (vanilla p5.js)                 -->
   <!-- ════════════════════════════════════════════ -->
   <script>
     (function () {
@@ -872,18 +821,14 @@
           if (!img) return;
           points = [];
           const sp = Math.max(2, state.spacing);
-
           for (let y = 0; y < img.height; y += sp) {
             for (let x = 0; x < img.width; x += sp) {
               if (p.random() > state.density) continue;
-
-              // Organic jitter: noise-based offset so particles never sit on a grid
               const noiseVal = p.noise(x * 0.01, y * 0.01);
               const jitterX = (noiseVal - 0.5) * sp * 1.8;
               const jitterY = (p.noise(x * 0.01 + 500, y * 0.01 + 500) - 0.5) * sp * 1.8;
               const px = x + jitterX;
               const py = y + jitterY;
-
               points.push({
                 pos: p.createVector(px, py),
                 originalPos: p.createVector(px, py),
@@ -939,11 +884,9 @@
               let shadeIndex = Math.floor(p.map(brightness, 0, 255, 0, palette.length - 1));
               shadeIndex = p.constrain(shadeIndex, 0, palette.length - 1);
               let strokeSize = p.map(brightness, 0, 255, state.minStroke, state.maxStroke);
-
               if (d < state.magnifierRadius) {
                 strokeSize *= p.map(d, 0, state.magnifierRadius, 2, 1);
               }
-
               if (palette[shadeIndex]) {
                 p.stroke(palette[shadeIndex]);
                 p.strokeWeight(strokeSize);
@@ -956,7 +899,6 @@
 
       new p5(sketch);
 
-      // Controls
       document.getElementById('ff-hue')?.addEventListener('input', (e) => {
         state.hue = parseInt(e.target.value);
       });
