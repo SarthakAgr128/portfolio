@@ -17,8 +17,12 @@
         mixBlendMode: options.mixBlendMode || 'screen',
         fadeDelayMs: options.fadeDelayMs || 200,
         fadeDurationMs: options.fadeDurationMs || 1000,
-        zIndex: options.zIndex || 999,
-        maxDevicePixelRatio: options.maxDevicePixelRatio || 1.0
+        zIndex: options.zIndex !== undefined ? options.zIndex : 999,
+        maxDevicePixelRatio: options.maxDevicePixelRatio || 1.0,
+        grainIntensity: options.grainIntensity || 0.0,
+        bloomStrength: options.bloomStrength || 0.0,
+        bloomRadius: options.bloomRadius || 0.0,
+        edgeIntensity: options.edgeIntensity || 0.0
       };
 
       this.isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -141,6 +145,10 @@
         uniform vec3  iBaseColor;
         uniform float iBrightness;
         uniform float iIntensity;
+        uniform float iGrainIntensity;
+        uniform float iBloomStrength;
+        uniform float iBloomRadius;
+        uniform float iEdgeIntensity;
 
         varying vec2  vUv;
 
@@ -169,13 +177,25 @@
           vec2 q = vec2(fbm(p * iScale * 1.5 + iTime * 0.15), fbm(p * iScale * 1.5 + vec2(5.2,1.3) + iTime * 0.15));
           float smoke = fbm(p * iScale * 1.2 + q * 0.8);
           
-          // Moderate radius
-          float radius = 0.4 + 0.25 * (1.0 / iScale);
+          // Moderate radius, influenced by bloomRadius
+          float radius = (0.4 + iBloomRadius * 0.2) + 0.25 * (1.0 / iScale);
           float dist = length(p - mousePos);
           float distFactor = 1.0 - smoothstep(0.0, radius * activity, dist);
           
+          // Edge intensity
+          float edge = smoothstep(radius * 0.8, radius, dist);
+          smoke = mix(smoke, smoke * 2.0, edge * iEdgeIntensity);
+
           // Improved texture mapping
           float alpha = pow(smoke, 1.8) * distFactor * 0.6; // Less dense power, lower base opacity
+
+          // Grain
+          float grain = hash(p * iTime) * iGrainIntensity;
+          alpha += grain * alpha;
+
+          // Bloom effect approximation
+          float bloom = exp(-dist * 4.0) * iBloomStrength;
+          alpha += bloom;
 
           // Mix base color with slight white tint for visibility
           vec3 color = mix(iBaseColor, vec3(1.0), 0.35);
@@ -226,7 +246,11 @@
           iScale: { value: 1.0 },
           iBaseColor: { value: new THREE.Vector3(baseColor.r, baseColor.g, baseColor.b) },
           iBrightness: { value: this.config.brightness },
-          iIntensity: { value: this.config.intensity }
+          iIntensity: { value: this.config.intensity },
+          iGrainIntensity: { value: this.config.grainIntensity },
+          iBloomStrength: { value: this.config.bloomStrength },
+          iBloomRadius: { value: this.config.bloomRadius },
+          iEdgeIntensity: { value: this.config.edgeIntensity }
         },
         vertexShader,
         fragmentShader,

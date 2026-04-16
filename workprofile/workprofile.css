@@ -309,7 +309,7 @@ body {
   overflow: hidden;
   background: var(--midnight);
   position: relative;
-  z-index: 2;
+  z-index: 30;
   margin-top: -12vh;
 }
 
@@ -349,7 +349,7 @@ body {
   padding: 5rem 0;
   background: linear-gradient(180deg, var(--midnight) 0%, rgba(8, 14, 30, 1) 100%);
   position: relative;
-  z-index: 2;
+  /* z-index removed to avoid trapping child stacking contexts below the cursor */
 }
 
 .skills-cosmic-grid {
@@ -367,7 +367,7 @@ body {
   padding: 2rem;
   transition: all 0.4s var(--ease-smooth);
   position: relative;
-  z-index: 1;
+  z-index: 20;
 }
 
 .skill-cosmic-card:hover {
@@ -432,7 +432,7 @@ body {
   padding: 2rem;
   transition: all 0.4s var(--ease-smooth);
   position: relative;
-  z-index: 1;
+  z-index: 20;
   display: flex;
   flex-direction: column;
 }
@@ -529,7 +529,7 @@ body {
   text-decoration: none;
   transition: all 0.4s var(--ease-smooth);
   position: relative;
-  z-index: 1;
+  z-index: 20;
 }
 
 .writeup-cosmic-item:hover {
@@ -678,7 +678,7 @@ body {
   text-decoration: none;
   transition: all 0.4s var(--ease-smooth);
   position: relative;
-  z-index: 1;
+  z-index: 20;
 }
 
 .contact-cosmic-card:hover {
