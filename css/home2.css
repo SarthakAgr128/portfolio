@@ -1270,3 +1270,324 @@ body {
     max-width: 200px;
   }
 }
+
+/* ===== SKILLS SECTION ===== */
+.skills-glass {
+  padding: var(--section-padding) 0;
+  background: linear-gradient(180deg, var(--color-dark) 0%, rgba(9, 9, 11, 0.95) 100%);
+}
+
+.skills-glass__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--color-emerald);
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+  line-height: var(--heading-leading);
+  color: var(--color-light);
+}
+
+.skills-glass__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.skill-glass-card {
+  padding: 2.5rem;
+  transition: transform var(--duration-fast) var(--ease-out-expo);
+}
+
+.skill-glass-card:hover {
+  transform: translateY(-4px);
+}
+
+.skill-glass-card__icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.skill-glass-card__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-light);
+  margin-bottom: 1.5rem;
+}
+
+.skill-glass-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skill-tag {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: var(--color-zinc-400);
+  transition: all var(--duration-fast) ease;
+}
+
+.skill-tag:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-light);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== PROJECTS SECTION ===== */
+.projects-glass {
+  padding: var(--section-padding) 0;
+  background: var(--color-dark);
+}
+
+.projects-glass__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.projects-glass__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-glass-card {
+  padding: 2.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-fast) var(--ease-out-expo);
+}
+
+.project-glass-card:hover {
+  transform: translateY(-4px);
+}
+
+.project-glass-card__number {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.05);
+  line-height: 1;
+}
+
+.project-glass-card__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-light);
+  margin-bottom: 1rem;
+}
+
+.project-glass-card__desc {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-zinc-500);
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.project-glass-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-glass-card__link {
+  color: var(--color-emerald);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all var(--duration-fast) ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.project-glass-card__link:hover {
+  gap: 0.5rem;
+  color: var(--color-emerald-dark);
+}
+
+/* ===== WRITEUPS SECTION ===== */
+.writeups-glass {
+  padding: var(--section-padding) 0;
+  background: linear-gradient(180deg, var(--color-dark) 0%, rgba(9, 9, 11, 0.95) 100%);
+}
+
+.writeups-glass__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.writeups-glass__list {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.writeup-glass-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem 2.5rem;
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-out-expo);
+}
+
+.writeup-glass-item:hover {
+  transform: translateX(4px);
+}
+
+.writeup-glass-item__content {
+  flex: 1;
+}
+
+.writeup-glass-item__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-light);
+  margin-bottom: 0.5rem;
+}
+
+.writeup-glass-item__meta {
+  font-size: 0.875rem;
+  color: var(--color-zinc-500);
+}
+
+.writeup-glass-item__arrow {
+  font-size: 1.5rem;
+  color: var(--color-zinc-600);
+  transition: all var(--duration-fast) ease;
+  flex-shrink: 0;
+}
+
+.writeup-glass-item:hover .writeup-glass-item__arrow {
+  color: var(--color-emerald);
+  transform: translateX(4px);
+}
+
+/* ===== TIMELINE SECTION ===== */
+.timeline-glass {
+  padding: var(--section-padding) 0;
+  background: var(--color-dark);
+}
+
+.timeline-glass__container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.timeline-glass__track {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+}
+
+.timeline-glass__track::before {
+  content: '';
+  position: absolute;
+  left: 2.5rem;
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.3) 0%, transparent 100%);
+}
+
+.timeline-glass-item {
+  padding: 2.5rem;
+  padding-left: 5rem;
+  position: relative;
+  transition: transform var(--duration-fast) var(--ease-out-expo);
+}
+
+.timeline-glass-item:hover {
+  transform: translateX(4px);
+}
+
+.timeline-glass-item__marker {
+  position: absolute;
+  left: 2rem;
+  top: 2.5rem;
+  width: 14px;
+  height: 14px;
+  background: var(--color-emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.6);
+  z-index: 1;
+}
+
+.timeline-glass-item__year {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-emerald);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-glass-item__role {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-light);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-glass-item__company {
+  font-size: 1rem;
+  color: var(--color-zinc-400);
+  margin-bottom: 1rem;
+}
+
+.timeline-glass-item__desc {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-zinc-500);
+}
+
+/* ===== MENU BUTTON STYLING FOR HOME2 ===== */
+.glass-nav__links .menu-trigger {
+  background: var(--color-emerald);
+  color: var(--color-dark);
+  font-weight: 600;
+  transition: all var(--duration-fast) ease;
+}
+
+.glass-nav__links .menu-trigger:hover {
+  background: var(--color-emerald-dark);
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+}

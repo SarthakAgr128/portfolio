@@ -74,6 +74,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
+  color: var(--white);
 }
 
 .cosmic-nav__dot {
@@ -126,6 +128,23 @@ body {
 .cosmic-nav__cta:hover {
   transform: scale(1.05);
   box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+}
+
+/* Style menu button as white CTA for cosmic nav */
+.cosmic-nav__links .menu-trigger {
+  padding: 0.375rem 1rem;
+  background: var(--white);
+  color: var(--midnight);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cosmic-nav__links .menu-trigger:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 24px rgba(255, 255, 255, 0.5);
+  opacity: 1;
 }
 
 /* ============================================
@@ -316,6 +335,371 @@ body {
   background: var(--slate-700);
   border-radius: 50%;
   align-self: center;
+}
+
+/* ============================================
+   SKILLS SECTION
+   ============================================ */
+.skills-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, var(--midnight) 0%, rgba(8, 14, 30, 1) 100%);
+}
+
+.skills-cosmic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.skill-cosmic-card {
+  background: var(--white-2);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--white-10);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  transition: all 0.4s var(--ease-smooth);
+}
+
+.skill-cosmic-card:hover {
+  background: var(--white-5);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.skill-cosmic-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.skill-cosmic-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.skill-cosmic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-cosmic-tag {
+  padding: 0.375rem 0.875rem;
+  background: var(--white-5);
+  border: 1px solid var(--white-10);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  color: var(--slate-400);
+  transition: all 0.3s ease;
+}
+
+.skill-cosmic-tag:hover {
+  background: var(--white-10);
+  color: var(--white);
+}
+
+/* ============================================
+   PROJECTS SECTION
+   ============================================ */
+.projects-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, rgba(8, 14, 30, 1) 0%, var(--midnight) 100%);
+}
+
+.projects-cosmic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.project-cosmic-card {
+  background: var(--white-2);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--white-10);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  transition: all 0.4s var(--ease-smooth);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-cosmic-card:hover {
+  background: var(--white-5);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.project-cosmic-number {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--white-10);
+  line-height: 1;
+}
+
+.project-cosmic-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--white);
+}
+
+.project-cosmic-desc {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--slate-400);
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.project-cosmic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.project-tag {
+  padding: 0.25rem 0.75rem;
+  background: var(--white-5);
+  border: 1px solid var(--white-10);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  color: var(--slate-400);
+}
+
+.project-cosmic-link {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.project-cosmic-link:hover {
+  gap: 0.5rem;
+  color: var(--white);
+}
+
+/* ============================================
+   WRITEUPS SECTION
+   ============================================ */
+.writeups-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, var(--midnight) 0%, rgba(8, 14, 30, 1) 100%);
+}
+
+.writeups-cosmic-list {
+  max-width: 800px;
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.writeup-cosmic-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: var(--white-2);
+  border: 1px solid var(--white-10);
+  border-radius: 1.25rem;
+  text-decoration: none;
+  transition: all 0.4s var(--ease-smooth);
+}
+
+.writeup-cosmic-item:hover {
+  background: var(--white-5);
+  transform: translateX(4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.writeup-cosmic-content {
+  flex: 1;
+}
+
+.writeup-cosmic-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.writeup-cosmic-meta {
+  font-size: 0.8125rem;
+  color: var(--slate-400);
+}
+
+.writeup-cosmic-arrow {
+  font-size: 1.5rem;
+  color: var(--slate-600);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.writeup-cosmic-item:hover .writeup-cosmic-arrow {
+  color: var(--white);
+  transform: translateX(4px);
+}
+
+/* ============================================
+   TIMELINE SECTION
+   ============================================ */
+.timeline-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, rgba(8, 14, 30, 1) 0%, var(--midnight) 100%);
+}
+
+.timeline-cosmic {
+  max-width: 800px;
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+}
+
+.timeline-cosmic::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--white-10) 0%, transparent 100%);
+}
+
+.timeline-cosmic-item {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+}
+
+.timeline-cosmic-marker {
+  position: absolute;
+  left: -4px;
+  top: 18px;
+  width: 10px;
+  height: 10px;
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.timeline-cosmic-content {
+  flex: 1;
+  padding-left: 2rem;
+  padding-bottom: 1rem;
+}
+
+.timeline-cosmic-year {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate-600);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-cosmic-role {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-cosmic-company {
+  font-size: 0.9375rem;
+  color: var(--slate-400);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-cosmic-desc {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--slate-400);
+}
+
+/* ============================================
+   CONTACT SECTION
+   ============================================ */
+.contact-section {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, var(--midnight) 0%, rgba(15, 23, 42, 1) 100%);
+}
+
+.contact-cosmic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-cosmic-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  background: var(--white-2);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--white-10);
+  border-radius: 1.5rem;
+  text-decoration: none;
+  transition: all 0.4s var(--ease-smooth);
+}
+
+.contact-cosmic-card:hover {
+  background: var(--white-5);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.contact-cosmic-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white-5);
+  border-radius: 50%;
+  color: var(--white);
+}
+
+.contact-cosmic-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.contact-cosmic-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate-600);
+}
+
+.contact-cosmic-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--white);
 }
 
 /* ============================================
@@ -871,6 +1255,23 @@ body {
   .footer-grid {
     grid-template-columns: 1fr;
   }
+
+  .skills-cosmic-grid,
+  .projects-cosmic-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .contact-cosmic-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .writeups-cosmic-list {
+    padding: 0 1rem;
+  }
+
+  .timeline-cosmic-content {
+    padding-left: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -911,5 +1312,33 @@ body {
     flex-direction: column;
     gap: 0.75rem;
     text-align: center;
+  }
+
+  .skills-cosmic-grid,
+  .projects-cosmic-grid,
+  .contact-cosmic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .writeup-cosmic-item {
+    padding: 1.25rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .writeup-cosmic-arrow {
+    align-self: flex-end;
+  }
+
+  .timeline-cosmic::before {
+    left: 1rem;
+  }
+
+  .timeline-cosmic-marker {
+    left: 0.6rem;
+  }
+
+  .timeline-cosmic-content {
+    padding-left: 3rem;
   }
 }

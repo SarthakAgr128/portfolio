@@ -63,56 +63,6 @@
     rafId = requestAnimationFrame(animate);
   }
 
-  // 3D Parallax Dashboard Card
-  function init3DDashboard() {
-    const dashboard = document.getElementById('dashboard-3d');
-    const dashboardGrid = document.querySelector('.dashboard-grid');
-    
-    if (!dashboard || !dashboardGrid) return;
-
-    dashboard.addEventListener('mousemove', (e) => {
-      const rect = dashboard.getBoundingClientRect();
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
-      const rotateY = ((mouseX - centerX) / centerX) * 8;
-      const rotateX = -((mouseY - centerY) / centerY) * 8;
-
-      dashboardGrid.style.transform = `
-        rotateX(${rotateX}deg) 
-        rotateY(${rotateY}deg)
-        scale3d(1.01, 1.01, 1.01)
-      `;
-    });
-
-    dashboard.addEventListener('mouseleave', () => {
-      dashboardGrid.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    });
-  }
-
-  // FAQ Accordion
-  function initFAQAccordion() {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-      const question = item.querySelector('.faq-question');
-      
-      question.addEventListener('click', () => {
-        const isOpen = item.classList.contains('is-open');
-        
-        faqItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.classList.remove('is-open');
-          }
-        });
-        
-        item.classList.toggle('is-open', !isOpen);
-      });
-    });
-  }
-
   // Smooth scroll for navigation
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -136,9 +86,9 @@
     });
   }
 
-  // Scroll reveal animation
+  // Scroll reveal animation for new sections
   function initScrollReveal() {
-    const revealElements = document.querySelectorAll('.bento-card, .faq-item');
+    const revealElements = document.querySelectorAll('.skill-cosmic-card, .project-cosmic-card, .writeup-cosmic-item, .timeline-cosmic-item, .contact-cosmic-card');
     
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -181,8 +131,6 @@
 
   function init() {
     initPortalRings();
-    init3DDashboard();
-    initFAQAccordion();
     initSmoothScroll();
     initScrollReveal();
     initNavScroll();
