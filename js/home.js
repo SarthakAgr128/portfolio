@@ -282,88 +282,141 @@
   function initRabbitHoleSpring() {
     const main = document.querySelector('#main');
     const footer = document.querySelector('.mega-footer');
-    if (!main || !footer) return;
+    const panel = footer?.querySelector('.rabbit-hole-section');
+    const link = panel?.querySelector('a');
+    if (!main || !footer || !panel) return;
 
-    const footerHeight = window.innerHeight * 0.33;
-    let isSpringActive = false;
-    let springProgress = 0;
-    let targetProgress = 0;
-    let lastScrollY = window.scrollY;
-    let scrollAccumulator = 0;
-    const springThreshold = 0.2;
-    const resistanceFactor = 3.5;
+    const cfg = {
+      threshold: 0.2,        // 0-20% is 1:1
+      resistancePower: 2.35, // >1 increases resistance after threshold
+      closeSnap: 0.42,        // hysteresis lower bound
+      openSnap: 0.68,         // hysteresis upper bound
+      settleDelayMs: 130,
+      springStiffness: 260,
+      springDamping: 32
+    };
 
-    function updateSpring() {
-      const docHeight = document.documentElement.scrollHeight;
-      const viewHeight = window.innerHeight;
-      const maxScroll = docHeight - viewHeight;
-      const scrollY = window.scrollY;
-      
-      const distanceFromBottom = maxScroll - scrollY;
-      const revealRatio = 1 - (distanceFromBottom / footerHeight);
-      
-      if (revealRatio > 0 && revealRatio <= 1) {
-        const delta = scrollY - lastScrollY;
-        
-        if (revealRatio < springThreshold) {
-          targetProgress = revealRatio;
-        } else {
-          if (delta > 0) {
-            scrollAccumulator += delta / resistanceFactor;
-            const resistedProgress = springThreshold + (scrollAccumulator / footerHeight);
-            targetProgress = Math.min(resistedProgress, 1);
-          } else if (delta < 0) {
-            scrollAccumulator = Math.max(0, scrollAccumulator + delta);
-            const resistedProgress = springThreshold + (scrollAccumulator / footerHeight);
-            targetProgress = Math.max(resistedProgress, 0);
-          }
-        }
-        
-        springProgress += (targetProgress - springProgress) * 0.15;
-        
-        const translateY = (1 - springProgress) * footerHeight;
-        gsap.set(footer, { y: translateY });
-        
-        const opacity = Math.min(1, springProgress * 1.5);
-        gsap.set(footer.querySelector('.rabbit-hole-section'), { opacity });
-        
-        if (springProgress > 0.5 && !isSpringActive) {
-          isSpringActive = true;
-          footer.classList.add('revealed');
-        } else if (springProgress <= 0.5 && isSpringActive) {
-          isSpringActive = false;
-          footer.classList.remove('revealed');
-        }
-      } else if (revealRatio <= 0) {
-        scrollAccumulator = 0;
-        springProgress = 0;
-        targetProgress = 0;
-        gsap.set(footer, { y: footerHeight });
-        gsap.set(footer.querySelector('.rabbit-hole-section'), { opacity: 0 });
-      }
-      
-      lastScrollY = scrollY;
+    const state = {
+      rawProgress: 0,
+      target: 0,
+      x: 0,
+      v: 0,
+      raf: 0,
+      lastTs: 0,
+      idleTimer: 0
+    };
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const panelHeightPx = () => Math.round(window.innerHeight * 0.33);
+
+    function clamp01(v) {
+      return Math.max(0, Math.min(1, v));
     }
 
-    gsap.set(footer, { y: footerHeight });
-    gsap.set(footer.querySelector('.rabbit-hole-section'), { opacity: 0 });
+    // 0..threshold => linear, threshold..1 => nonlinear resisted curve.
+    function mapWithResistance(raw) {
+      const t = cfg.threshold;
+      if (raw <= t) return raw;
+      const x = (raw - t) / (1 - t);
+      const resisted = Math.pow(x, cfg.resistancePower);
+      return t + (1 - t) * resisted;
+    }
 
-    ScrollTrigger.create({
+    // Critically/near-critically damped spring solver.
+    function tick(ts) {
+      if (!state.lastTs) state.lastTs = ts;
+      const dt = Math.min((ts - state.lastTs) / 1000, 0.032);
+      state.lastTs = ts;
+
+      const k = cfg.springStiffness;
+      const c = cfg.springDamping;
+      const a = -k * (state.x - state.target) - c * state.v;
+      state.v += a * dt;
+      state.x = clamp01(state.x + state.v * dt);
+
+      if (Math.abs(state.v) < 0.0009 && Math.abs(state.target - state.x) < 0.0009) {
+        state.x = state.target;
+        state.v = 0;
+        applyProgress(state.x);
+        state.raf = 0;
+        state.lastTs = 0;
+        return;
+      }
+
+      applyProgress(state.x);
+      state.raf = requestAnimationFrame(tick);
+    }
+
+    function startSpring() {
+      if (!state.raf) state.raf = requestAnimationFrame(tick);
+    }
+
+    function applyProgress(p) {
+      const h = panelHeightPx();
+      const y = (1 - p) * h;
+      const opacity = Math.min(1, p * 1.15);
+      gsap.set(footer, { y });
+      gsap.set(panel, { opacity });
+
+      footer.classList.toggle('revealed', p > 0.5);
+      footer.classList.toggle('is-open', p > 0.96);
+      footer.classList.toggle('is-visible', p > 0.04);
+
+      if (link) {
+        link.tabIndex = p > 0.05 ? 0 : -1;
+      }
+      footer.setAttribute('aria-hidden', p <= 0.02 ? 'true' : 'false');
+    }
+
+    function maybeSettle() {
+      if (prefersReducedMotion) return;
+      if (state.target <= cfg.closeSnap) {
+        state.target = 0;
+      } else if (state.target >= cfg.openSnap) {
+        state.target = 1;
+      } else {
+        return;
+      }
+      startSpring();
+    }
+
+    function onRawProgress(raw) {
+      state.rawProgress = clamp01(raw);
+      state.target = mapWithResistance(state.rawProgress);
+
+      if (prefersReducedMotion) {
+        state.x = state.target;
+        applyProgress(state.x);
+      } else {
+        startSpring();
+      }
+
+      window.clearTimeout(state.idleTimer);
+      state.idleTimer = window.setTimeout(maybeSettle, cfg.settleDelayMs);
+    }
+
+    const trigger = ScrollTrigger.create({
       trigger: main,
       start: 'bottom bottom',
-      end: `bottom+=${footerHeight} bottom`,
-      onUpdate: updateSpring,
+      end: () => `bottom+=${panelHeightPx()} bottom`,
+      scrub: false,
+      onUpdate: (self) => {
+        onRawProgress(self.progress);
+      },
+      onLeave: () => {
+        onRawProgress(1);
+      },
       onLeaveBack: () => {
-        scrollAccumulator = 0;
-        springProgress = 0;
-        gsap.to(footer, { y: footerHeight, duration: 0.3 });
+        onRawProgress(0);
       }
     });
 
-    let rafId;
-    window.addEventListener('scroll', () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateSpring);
+    window.addEventListener('resize', () => {
+      applyProgress(state.x);
+      trigger.refresh();
     }, { passive: true });
+
+    state.x = prefersReducedMotion ? 0 : 0;
+    applyProgress(0);
   }
 })();
