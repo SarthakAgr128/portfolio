@@ -3,49 +3,246 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Page Not Found</title>
-  <meta name="theme-color" content="#050510">
-
+  <title>Error 404 - System Halted</title>
+  <meta name="theme-color" content="#0414a7">
+  <meta name="description" content="Classic blue screen style 404 page.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --bsod-blue: #0414a7;
+      --bsod-light: #e0e2f4;
+      --bsod-grey: #aaaaaa;
+      --bsod-dark: #020b66;
+    }
 
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/theme.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/animations.css">
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% -10%, #1b2fc9 0%, var(--bsod-blue) 40%, var(--bsod-dark) 100%);
+      color: var(--bsod-light);
+      font-family: "VT323", monospace;
+      font-size: 28px;
+      line-height: 1.3;
+      text-shadow: 0 0 1px rgba(224, 226, 244, 0.45);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* Scanlines */
+    body::before {
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.08) 0px,
+        rgba(0, 0, 0, 0.08) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      mix-blend-mode: multiply;
+      opacity: 0.85;
+    }
+
+    /* CRT vignette */
+    body::after {
+      box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.45);
+    }
+
+    .container {
+      width: min(92vw, 900px);
+      padding: 2rem 1.25rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bsod {
+      border: 2px solid rgba(224, 226, 244, 0.4);
+      padding: 1.75rem 1.25rem 2rem;
+      background: rgba(4, 20, 167, 0.25);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+      animation: float-panel 4s ease-in-out infinite;
+    }
+
+    .title {
+      margin: 0 0 1.2rem;
+      text-align: center;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+
+    .neg {
+      color: var(--bsod-blue);
+      text-shadow: none;
+    }
+
+    .bg {
+      background: var(--bsod-grey);
+      padding: 0 0.45em 0.08em;
+      display: inline-block;
+    }
+
+    p {
+      margin: 0.45rem 0;
+    }
+
+    .meta {
+      color: #c5caee;
+      opacity: 0.9;
+    }
+
+    .dump {
+      margin-top: 1rem;
+      padding: 0.8rem 0.9rem;
+      border: 1px dashed rgba(224, 226, 244, 0.5);
+      background: rgba(2, 11, 102, 0.35);
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+    }
+
+    .status {
+      margin-top: 1rem;
+    }
+
+    .status strong {
+      color: #fff;
+      font-weight: 400;
+    }
+
+    .cursor {
+      animation: blink 1s steps(1, end) infinite;
+    }
+
+    .nav {
+      margin-top: 1.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem 0.9rem;
+      align-items: center;
+    }
+
+    .link {
+      color: var(--bsod-light);
+      text-decoration: none;
+      border: 1px solid transparent;
+      padding: 0.05rem 0.35rem 0.12rem;
+      transition: all 120ms linear;
+    }
+
+    .link:hover,
+    .link:focus-visible {
+      background: var(--bsod-grey);
+      color: var(--bsod-blue);
+      border-color: var(--bsod-light);
+      outline: none;
+    }
+
+    .sep {
+      opacity: 0.75;
+    }
+
+    .hint {
+      margin-top: 1.1rem;
+      opacity: 0.85;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes float-panel {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        font-size: 23px;
+      }
+      .bsod {
+        padding: 1.25rem 0.9rem 1.5rem;
+      }
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .sep {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bsod,
+      .cursor {
+        animation: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div aria-hidden="true">
-    <div class="cursor__dot"></div>
-    <div class="cursor__ring"></div>
-  </div>
+  <main class="bsod container" role="main" aria-live="polite">
+    <h1 class="neg title"><span class="bg">Error - 404</span></h1>
+    <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD NOT_FOUND(01) + 00001E36.</p>
+    <p>This was called from 0028:C000F1A0 in VXD ROUTER(05) + 0000A1B0.</p>
+    <p>You can continue safely by choosing one of the options below:</p>
 
-  <div class="gradient-mesh" aria-hidden="true">
-    <div class="blob blob--1"></div>
-    <div class="blob blob--2"></div>
-    <div class="blob blob--3"></div>
-  </div>
-
-  <div class="error-page">
-    <div class="error-page__terminal">
-      <p class="error-page__line">
-        <span class="prompt">$</span> curl -I /page
-      </p>
-      <p class="error-page__line">
-        <span class="err">HTTP/1.1 404 Not Found</span>
-      </p>
-      <p class="error-page__line">
-        <span class="prompt">$</span> echo "well, this is awkward"
-      </p>
-      <div class="error-page__code gradient-text">404</div>
-      <p class="error-page__msg">The packet got lost in transit. It happens to the best of us.</p>
-      <a href="./" class="btn btn--primary magnetic">take me home</a>
+    <div class="dump" aria-hidden="true">
+      <p>*** STOP: 0x00000404 (0x00000000, 0x00000001, 0xD15C0DE, 0x00000000)</p>
+      <p>*** Address F0NT:0000BAD0 BASE at F0NT0000, DateStamp 2026-04-29</p>
     </div>
-  </div>
 
-  <script src="js/effects.js"></script>
+    <p class="status">Collecting debug bytes... <strong id="progress">0</strong>% complete<span class="cursor">_</span></p>
+
+    <nav class="nav" aria-label="Recovery actions">
+      <a href="./" class="link">[ reboot to index ]</a>
+      <span class="sep" aria-hidden="true">|</span>
+      <a href="mailto:agrawalsarthak128@gmail.com?subject=404%20Error%20Report" class="link">[ report to webmaster ]</a>
+      <span class="sep" aria-hidden="true">|</span>
+      <a href="javascript:history.back()" class="link">[ previous page ]</a>
+    </nav>
+
+    <p class="hint">Pressing random keys probably will not help. But it might feel nice.</p>
+  </main>
+
+  <script>
+    (() => {
+      const progress = document.getElementById("progress");
+      if (!progress) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        progress.textContent = "100";
+        return;
+      }
+      let value = 0;
+      const timer = setInterval(() => {
+        value += Math.floor(Math.random() * 14) + 3;
+        if (value >= 100) {
+          value = 100;
+          clearInterval(timer);
+        }
+        progress.textContent = String(value);
+      }, 280);
+    })();
+  </script>
 </body>
 </html>
