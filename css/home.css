@@ -881,11 +881,47 @@ body::before {
   transform: translateY(-2px) scale(1.05);
 }
 
-.rabbit-hole-section.is-active {
-  background: #050505 !important;
+/* Rabbit hole footer section - dark hidden page effect */
+.rabbit-hole-section {
+  text-align: center;
+  padding: 2rem;
+  height: 33vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  will-change: opacity;
 }
-.rabbit-hole-section.is-active .home-section__title {
+
+.rabbit-hole-section .home-section__label {
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+.rabbit-hole-section .home-section__title {
   color: #fff;
+  margin-bottom: 1rem;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.rabbit-hole-section .home-footer__text {
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Spring reveal effect states */
+.mega-footer.revealed .rabbit-hole-section {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: inset 0 0 60px rgba(255, 42, 42, 0.05);
+  }
+  50% {
+    box-shadow: inset 0 0 80px rgba(255, 42, 42, 0.1);
+  }
 }
 
 /* =========================
@@ -954,29 +990,35 @@ body::before {
    ========================= */
 
 .home-footer.mega-footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   z-index: -1;
-  padding: 6rem 0 3rem;
+  padding: 0;
   text-align: center;
-  background: var(--bg-surface-solid);
+  background: #050505;
   border-top: none;
+  height: 33vh;
+  overflow: hidden;
+  will-change: transform;
 }
 
 #main {
   background: var(--bg-primary);
   border-radius: 0 0 32px 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-  margin-bottom: 0; /* Creates space for the sticky footer underneath */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  margin-bottom: 33vh;
+  position: relative;
+  z-index: 1;
 }
 
 .mega-footer__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  justify-content: center;
+  height: 33vh;
 }
 
 .mega-footer__title {

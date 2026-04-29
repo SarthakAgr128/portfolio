@@ -109,13 +109,8 @@
       }
     });
 
-    // Rabbit hole background transition
-    ScrollTrigger.create({
-      trigger: '.rabbit-hole-section',
-      start: 'top 50%',
-      end: 'bottom 50%',
-      toggleClass: 'is-active',
-    });
+    // Rabbit hole spring scroll effect
+    initRabbitHoleSpring();
 
     // Magnetic text
     const magneticTexts = document.querySelectorAll('.magnetic-text');
@@ -282,5 +277,93 @@
         });
       });
     });
+  }
+
+  function initRabbitHoleSpring() {
+    const main = document.querySelector('#main');
+    const footer = document.querySelector('.mega-footer');
+    if (!main || !footer) return;
+
+    const footerHeight = window.innerHeight * 0.33;
+    let isSpringActive = false;
+    let springProgress = 0;
+    let targetProgress = 0;
+    let lastScrollY = window.scrollY;
+    let scrollAccumulator = 0;
+    const springThreshold = 0.2;
+    const resistanceFactor = 3.5;
+
+    function updateSpring() {
+      const docHeight = document.documentElement.scrollHeight;
+      const viewHeight = window.innerHeight;
+      const maxScroll = docHeight - viewHeight;
+      const scrollY = window.scrollY;
+      
+      const distanceFromBottom = maxScroll - scrollY;
+      const revealRatio = 1 - (distanceFromBottom / footerHeight);
+      
+      if (revealRatio > 0 && revealRatio <= 1) {
+        const delta = scrollY - lastScrollY;
+        
+        if (revealRatio < springThreshold) {
+          targetProgress = revealRatio;
+        } else {
+          if (delta > 0) {
+            scrollAccumulator += delta / resistanceFactor;
+            const resistedProgress = springThreshold + (scrollAccumulator / footerHeight);
+            targetProgress = Math.min(resistedProgress, 1);
+          } else if (delta < 0) {
+            scrollAccumulator = Math.max(0, scrollAccumulator + delta);
+            const resistedProgress = springThreshold + (scrollAccumulator / footerHeight);
+            targetProgress = Math.max(resistedProgress, 0);
+          }
+        }
+        
+        springProgress += (targetProgress - springProgress) * 0.15;
+        
+        const translateY = (1 - springProgress) * footerHeight;
+        gsap.set(footer, { y: translateY });
+        
+        const opacity = Math.min(1, springProgress * 1.5);
+        gsap.set(footer.querySelector('.rabbit-hole-section'), { opacity });
+        
+        if (springProgress > 0.5 && !isSpringActive) {
+          isSpringActive = true;
+          footer.classList.add('revealed');
+        } else if (springProgress <= 0.5 && isSpringActive) {
+          isSpringActive = false;
+          footer.classList.remove('revealed');
+        }
+      } else if (revealRatio <= 0) {
+        scrollAccumulator = 0;
+        springProgress = 0;
+        targetProgress = 0;
+        gsap.set(footer, { y: footerHeight });
+        gsap.set(footer.querySelector('.rabbit-hole-section'), { opacity: 0 });
+      }
+      
+      lastScrollY = scrollY;
+    }
+
+    gsap.set(footer, { y: footerHeight });
+    gsap.set(footer.querySelector('.rabbit-hole-section'), { opacity: 0 });
+
+    ScrollTrigger.create({
+      trigger: main,
+      start: 'bottom bottom',
+      end: `bottom+=${footerHeight} bottom`,
+      onUpdate: updateSpring,
+      onLeaveBack: () => {
+        scrollAccumulator = 0;
+        springProgress = 0;
+        gsap.to(footer, { y: footerHeight, duration: 0.3 });
+      }
+    });
+
+    let rafId;
+    window.addEventListener('scroll', () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateSpring);
+    }, { passive: true });
   }
 })();
