@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Disallow: /date/
+Sitemap: https://sarthakagrawal.in/sitemap.xml
